@@ -1,0 +1,131 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Numero de Medidor -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Categoria de Medidor</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_nombreMedidorCategoria"
+            optionLabel="label"
+            optionValue="value"
+            scrollHeight="400px"
+            formControlName="medidorCategoriaId"
+            placeholder="--Selecciona una opción--"
+          ></p-dropdown>
+          <div
+            *ngIf="
+              medidorCategoriaId.invalid &&
+              (medidorCategoriaId.dirty || medidorCategoriaId.touched)
+            "
+          >
+            <span
+              *ngIf="medidorCategoriaId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Numero de Medidor -->
+      <!-- Numero de Medidor -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Numero de Medidor</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="numeroMedidor"
+            placeholder="Ingrese el numero de Medidor"
+            [class.p-invalid]="
+              numeroMedidor.invalid &&
+              (numeroMedidor.dirty || numeroMedidor.touched)
+            "
+          />
+          <div
+            *ngIf="
+              numeroMedidor.invalid &&
+              (numeroMedidor.dirty || numeroMedidor.touched)
+            "
+          >
+            <span
+              *ngIf="numeroMedidor.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Numero de Medidor -->
+      <!-- Descripción -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Descripción</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="descripcion"
+            placeholder="Ingrese el descripción"
+            [class.p-invalid]="
+              descripcion.invalid && (descripcion.dirty || descripcion.touched)
+            "
+          />
+          <div
+            *ngIf="
+              descripcion.invalid && (descripcion.dirty || descripcion.touched)
+            "
+          >
+            <span
+              *ngIf="descripcion.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Descripción -->
+      <!-- Consumo Diario Maximo -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Consumo diario</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            type="number"
+            class="p-inputtext-sm"
+            formControlName="consumoDiarioMaximo"
+            placeholder="Ingrese el consumo diario normal"
+            [class.p-invalid]="
+              consumoDiarioMaximo.invalid &&
+              (consumoDiarioMaximo.dirty || consumoDiarioMaximo.touched)
+            "
+          />
+
+          <div
+            *ngIf="
+              consumoDiarioMaximo.invalid &&
+              (consumoDiarioMaximo.dirty || consumoDiarioMaximo.touched)
+            "
+          >
+            <span
+              *ngIf="consumoDiarioMaximo.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Consumo Diario Maximo -->
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

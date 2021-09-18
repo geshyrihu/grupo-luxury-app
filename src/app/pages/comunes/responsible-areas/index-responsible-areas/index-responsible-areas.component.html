@@ -1,0 +1,66 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<!-- Table PrimeNg -->
+<p-table
+  #dt
+  [(selection)]="data"
+  [autoLayout]="true"
+  [globalFilterFields]="['nameArea']"
+  [paginator]="true"
+  [responsive]="true"
+  [rowHover]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+  [showCurrentPageReport]="true"
+  [value]="data"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Áreas responsables'"
+      (add)="showModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="nameArea">
+        Nombre de area responsable <p-sortIcon field="nameArea"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 10%">Posición</th>
+      <th scope="col" style="width: 10%">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.nameArea }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.position }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            (edit)="
+              showModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+            "
+          ></app-button-edit>
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.nameArea"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

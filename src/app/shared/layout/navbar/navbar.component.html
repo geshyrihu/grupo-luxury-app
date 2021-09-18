@@ -1,0 +1,142 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<!-- Navbar -->
+<nav
+  class="main-header navbar navbar-expand navbar-white navbar-light fixed-top"
+>
+  <!-- Left navbar links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" data-widget="pushmenu" href="#" role="button"
+        ><i class="fas fa-bars"></i
+      ></a>
+    </li>
+    <li
+      class="nav-item d-none d-sm-inline-block"
+      *ngIf="!SupervisionOperativa && !SuperUsuario && !Contador"
+    >
+      <a
+        class="nav-link"
+        [routerLink]="['/']"
+        routerLinkActive="router-link-active"
+        >{{ nameCustomer }}</a
+      >
+    </li>
+    <!-- Componente listado de clientes -->
+
+    <li
+      class="nav-item p-fluid"
+      *ngIf="SupervisionOperativa || SuperUsuario || Contador"
+      style="width: 400px"
+    >
+      <p-dropdown
+        (onChange)="selectCustomer($event.value)"
+        [options]="cb_Customer"
+        [(ngModel)]="customerId"
+        class="p-inputtext-sm"
+        optionLabel="label"
+        optionValue="value"
+        scrollHeight="400px"
+      >
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>
+              <img [src]="urlImg + country.img" style="width: 15px" />
+              {{ country.label }}
+            </div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+
+      <!-- Componente listado de clientes -->
+    </li>
+  </ul>
+
+  <!-- Right navbar links -->
+  <ul class="navbar-nav ml-auto">
+    <!-- Messages Dropdown Menu -->
+
+    <!-- Notifications Dropdown Menu -->
+
+    <li class="nav-item d-none d-sm-inline-block pointer">
+      <a class="nav-link" (click)="showModal()">
+        <!-- <span class="fas fa-user-circle"></span> -->
+        <img
+          [src]="dataInfo.photoPath"
+          class="img-rounded"
+          alt=""
+          width="30px"
+          height="30px"
+        />
+        {{ dataInfo.firstName }}
+        {{ dataInfo.lastName }}
+      </a>
+    </li>
+
+    <!-- Notifications Dropdown Menu -->
+
+    <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-bell"></i>
+        <span class="badge badge-warning navbar-badge">15</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <span class="dropdown-item dropdown-header">15 Notifications</span>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-envelope mr-2"></i> 4 new messages
+          <span class="float-right text-muted text-sm">3 mins</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-users mr-2"></i> 8 friend requests
+          <span class="float-right text-muted text-sm">12 hours</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item">
+          <i class="fas fa-file mr-2"></i> 3 new reports
+          <span class="float-right text-muted text-sm">2 days</span>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item dropdown-footer"
+          >See All Notifications</a
+        >
+      </div>
+    </li>
+    <!-- Notifications Dropdown Menu -->
+
+    <li class="nav-item">
+      <!-- href="/auth/login" -->
+      <a
+        class="nav-link pointer"
+        [routerLink]="['/auth/login']"
+        routerLinkActive="router-link-active"
+      >
+        <span class="pi pi-power-off text-danger"></span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link pointer"
+        data-widget="fullscreen"
+        href="#"
+        role="button"
+      >
+        <i class="fas fa-expand-arrows-alt"></i>
+      </a>
+    </li>
+    <!-- <li class="nav-item">
+      <a
+        class="nav-link"
+        data-widget="control-sidebar"
+        data-slide="true"
+        href="#"
+        role="button"
+      >
+        <i class="fas fa-th-large"></i>
+      </a>
+    </li> -->
+  </ul>
+</nav>
+<!-- /.navbar -->
+<br /><br />

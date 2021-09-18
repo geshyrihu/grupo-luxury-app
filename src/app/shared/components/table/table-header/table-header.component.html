@@ -1,0 +1,44 @@
+<div class="row">
+  <div
+    [ngClass]="{
+      'col-sm-8': showAdd && rolAuth,
+      'col-sm-9': !showAdd || !rolAuth
+    }"
+  >
+    <h4 class="h4">{{ title }}</h4>
+  </div>
+
+  <div class="p-fluid col-sm-3">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search" *ngIf="showSearch"></i>
+      <input
+        *ngIf="showSearch"
+        pInputText
+        type="text"
+        (input)="dt.filterGlobal($event.target.value, 'contains')"
+        placeholder="Ingresa texto para buscar..."
+        class="p-inputtext-sm"
+      />
+      <input
+        *ngIf="isDataView"
+        type="search"
+        pInputText
+        (input)="dt.filter($event.target.value)"
+        placeholder="Ingresa texto para buscar..."
+        class="p-inputtext-sm"
+      />
+    </span>
+  </div>
+
+  <div class="col-sm-1 p-fluid" *ngIf="showAdd && rolAuth">
+    <button
+      pButton
+      type="button"
+      label="Nuevo"
+      icon="pi pi-plus"
+      class="p-button-sm mt-1 m-md-0"
+      (click)="onAdd({})"
+    ></button>
+  </div>
+</div>
+<hr />

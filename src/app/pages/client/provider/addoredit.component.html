@@ -1,0 +1,547 @@
+<form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="h6">Datos de Proveedor</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 p-fluid">
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  <span
+                    *ngIf="
+                      nameProvider?.errors?.required &&
+                      (nameProvider.dirty || nameProvider.touched)
+                    "
+                    class="
+                      p-invalid
+                      text-danger
+                      animate__animated animate__fadeIn
+                    "
+                    >*</span
+                  >
+
+                  Razón Social</label
+                >
+                <input
+                  (keyup)="buscarCoincidencia()"
+                  (click)="buscarCoincidencia()"
+                  (blur)="proveedorCoincidente = []"
+                  [(ngModel)]="valuenNameProvider"
+                  pInputText
+                  formControlName="nameProvider"
+                  class="p-inputtext-sm"
+                  placeholder="Razón Social"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      nameProvider.invalid &&
+                      (nameProvider.dirty || nameProvider.touched)
+                  }"
+                />
+              </div>
+
+              <!-- Razon Social -->
+              <div class="p-field" *ngIf="proveedorCoincidente.length > 0">
+                <div *ngFor="let item of proveedorCoincidente">
+                  <label class="font-weight-normal small text-danger">
+                    {{ item.nameProvider }}
+                    <br />
+                    {{ item.nameComercial }}
+                  </label>
+                </div>
+              </div>
+              <!-- Nombre Comecial -->
+
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  Nombre Comercial</label
+                >
+                <input
+                  (keyup)="buscarCoincidencianNameComercial()"
+                  (click)="buscarCoincidencianNameComercial()"
+                  (blur)="nameComercialCoincidente = []"
+                  [(ngModel)]="valueNameComercialCoincidente"
+                  pInputText
+                  formControlName="nameComercial"
+                  class="p-inputtext-sm"
+                  placeholder="Nombre Comercial"
+                />
+              </div>
+              <!-- Nombre comercial -->
+
+              <div class="p-field" *ngIf="nameComercialCoincidente.length > 0">
+                <div *ngFor="let item of nameComercialCoincidente">
+                  <label class="font-weight-normal small text-danger">
+                    {{ item.nameProvider }}
+                    <br />
+                    {{ item.nameComercial }}
+                  </label>
+                </div>
+              </div>
+              <!-- RFC -->
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  <span
+                    *ngIf="rfc?.errors?.required && (rfc.dirty || rfc.touched)"
+                    class="
+                      p-invalid
+                      text-danger
+                      animate__animated animate__fadeIn
+                    "
+                    >*</span
+                  >
+                  RFC</label
+                >
+                <!-- (click)="onValidarRFC()" -->
+                <p-inputMask
+                  (keyup)="onValidarRFC()"
+                  [(ngModel)]="valueRfc"
+                  mask="****-******?-***"
+                  formControlName="rfc"
+                  type="text"
+                  class="p-inputtext-sm"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      rfc.invalid && (rfc.dirty || rfc.touched)
+                  }"
+                  placeholder="JUMM-420313-?PA9"
+                ></p-inputMask>
+              </div>
+              <!-- RFC -->
+              <!-- Razon Social -->
+              <div class="p-field" *ngIf="rfcCoincidente.length > 0">
+                <div *ngFor="let item of rfcCoincidente">
+                  <label class="font-weight-normal small text-danger">
+                    {{ item.rfc }} Ya hay un registro con este RFC
+                  </label>
+                </div>
+              </div>
+              <!-- Nombre Comecial -->
+
+              <!-- Proveedor Activo -->
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  Tipo de Proveedor</label
+                >
+                <p-dropdown
+                  class="p-inputtext-sm"
+                  [options]="tipoProveedor"
+                  formControlName="customerId"
+                  optionLabel="label"
+                  optionValue="value"
+                >
+                </p-dropdown>
+              </div>
+              <!-- Proveedor Activo -->
+            </div>
+
+            <div class="col-md-4 p-fluid">
+              <!-- Telefono fijo 1 -->
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  <span
+                    *ngIf="
+                      phoneOne?.errors?.required &&
+                      (phoneOne.dirty || phoneOne.touched)
+                    "
+                    class="
+                      p-invalid
+                      text-danger
+                      animate__animated animate__fadeIn
+                    "
+                    >*</span
+                  >
+                  Teléfono fijo 1</label
+                >
+                <p-inputMask
+                  mask="99-9999-9999"
+                  formControlName="phoneOne"
+                  type="text"
+                  class="p-inputtext-sm"
+                  placeholder="99-9999-9999"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      phoneOne?.errors?.required &&
+                      (phoneOne.dirty || phoneOne.touched)
+                  }"
+                ></p-inputMask>
+              </div>
+              <!-- Telefono fijo 1 -->
+              <!-- Telefono fijo 2 -->
+              <div class="p-field">
+                <label class="font-weight-normal small">Teléfono fijo 2</label>
+                <p-inputMask
+                  mask="99-9999-9999"
+                  formControlName="phoneTwo"
+                  type="text"
+                  class="p-inputtext-sm"
+                  placeholder="99-9999-9999"
+                ></p-inputMask>
+              </div>
+              <!-- Telefono fijo 2 -->
+              <!-- Pagina Web -->
+              <div class="p-field">
+                <label class="font-weight-normal small">Página Web</label>
+                <input
+                  pInputText
+                  formControlName="webPage"
+                  class="p-inputtext-sm"
+                  placeholder="Página Web"
+                />
+              </div>
+              <!-- Pagina Web -->
+            </div>
+            <div class="col-md-4 p-fluid">
+              <div class="p-field">
+                <label class="font-weight-normal small">
+                  <span
+                    *ngIf="
+                      address?.errors?.required &&
+                      (address.dirty || address.touched)
+                    "
+                    class="
+                      p-invalid
+                      text-danger
+                      animate__animated animate__fadeIn
+                    "
+                    >*</span
+                  >
+                  Dirección</label
+                >
+                <textarea
+                  pInputTextarea
+                  formControlName="address"
+                  class="p-inputtext-sm"
+                  style="resize: none"
+                  rows="3"
+                  placeholder="Dirección"
+                  [ngClass]="{
+                    'ng-invalid ng-dirty':
+                      address.invalid && (address.dirty || address.touched)
+                  }"
+                ></textarea>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group form-check">
+                    <input
+                      formControlName="sales"
+                      class="form-check-input pointer"
+                      type="checkbox"
+                      id="sales"
+                    />
+                    <label class="form-check-label pointer" for="sales">
+                      Ventas
+                    </label>
+                  </div>
+                  <div class="form-group form-check">
+                    <input
+                      formControlName="repair"
+                      class="form-check-input pointer"
+                      type="checkbox"
+                      id="repair"
+                    />
+                    <label class="form-check-label pointer" for="repair">
+                      Reparación
+                    </label>
+                  </div>
+                </div>
+                <!-- Logo de porveedor -->
+                <div class="col-sm-6">
+                  <app-input-img
+                    (fileSelected)="uploadFile($event)"
+                    [urlImgCurrent]="urlLogo"
+                    [contentHeight]="100"
+                    [contentWidth]="100"
+                  ></app-input-img>
+                </div>
+                <!-- Logo de porveedor -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 p-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="h6">Primer Contacto</h6>
+        </div>
+        <div class="card-body">
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  contactOne?.errors?.required &&
+                  (contactOne.dirty || contactOne.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+
+              Nombre de Contacto 1</label
+            >
+            <input
+              pInputText
+              formControlName="contactOne"
+              class="p-fluid"
+              placeholder="Nombre de Contacto 1"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  contactOne.invalid && (contactOne.dirty || contactOne.touched)
+              }"
+            />
+          </div>
+
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  positionOne?.errors?.required &&
+                  (positionOne.dirty || positionOne.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+              Puesto</label
+            >
+            <input
+              pInputText
+              formControlName="positionOne"
+              class="p-inputtext-sm"
+              placeholder="Puesto"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  positionOne.invalid &&
+                  (positionOne.dirty || positionOne.touched)
+              }"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  cellPhoneOne?.errors?.required &&
+                  (cellPhoneOne.dirty || cellPhoneOne.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >Teléfono Celular</label
+            >
+            <p-inputMask
+              mask="99-9999-9999"
+              formControlName="cellPhoneOne"
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="99-999-9999"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  cellPhoneOne.invalid &&
+                  (cellPhoneOne.dirty || cellPhoneOne.touched)
+              }"
+            ></p-inputMask>
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  emailOne?.errors?.required &&
+                  (emailOne.dirty || emailOne.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+              Correo Electronico</label
+            >
+            <input
+              pInputText
+              formControlName="emailOne"
+              class="p-inputtext-sm"
+              placeholder="Correo Electronico"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  emailOne.invalid && (emailOne.dirty || emailOne.touched)
+              }"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 p-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="h6">Segundo Contacto</h6>
+        </div>
+        <div class="card-body">
+          <div class="p-field">
+            <label class="font-weight-normal small">Nombre de Contacto 2</label>
+            <input
+              pInputText
+              formControlName="contactTwo"
+              class="p-inputtext-sm"
+              placeholder="Nombre de Contacto 2"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">Puesto</label>
+            <input
+              pInputText
+              formControlName="positionTwo"
+              class="p-inputtext-sm"
+              placeholder="Puesto"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">Teléfono Celular</label>
+            <p-inputMask
+              mask="99-9999-9999"
+              formControlName="cellPhoneTwo"
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="99-999-9999"
+            ></p-inputMask>
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">Correo Electronico</label>
+            <input
+              pInputText
+              formControlName="emailTwo"
+              class="p-inputtext-sm"
+              placeholder="Correo Electronico"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Datos de Pago -->
+    <div class="col-md-4 p-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="h6">Datos de Pago</h6>
+        </div>
+        <div class="card-body">
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  nameCheck?.errors?.required &&
+                  (nameCheck.dirty || nameCheck.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+
+              Cheque a Nombre de...</label
+            >
+            <input
+              pInputText
+              formControlName="nameCheck"
+              class="p-inputtext-sm"
+              placeholder="Cheque a Nombre de..."
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  nameCheck.invalid && (nameCheck.dirty || nameCheck.touched)
+              }"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  bankId?.errors?.required && (bankId.dirty || bankId.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+              Banco</label
+            >
+            <p-dropdown
+              class="p-inputtext-sm"
+              [options]="cb_Banks"
+              formControlName="bankId"
+              placeholder="--Selecciona una opción--"
+              optionLabel="label"
+              optionValue="value"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  paymentAccount?.errors?.required &&
+                  (paymentAccount.dirty || paymentAccount.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+              Cuenta/Convenio</label
+            >
+
+            <input
+              pInputText
+              type="text"
+              formControlName="paymentAccount"
+              class="p-inputtext-sm"
+              placeholder="Cuenta/Convenio"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  paymentAccount.invalid &&
+                  (paymentAccount.dirty || paymentAccount.touched)
+              }"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small">
+              <span
+                *ngIf="
+                  interbankCode?.errors?.required &&
+                  (interbankCode.dirty || interbankCode.touched)
+                "
+                class="p-invalid text-danger animate__animated animate__fadeIn"
+                >*</span
+              >
+              Clabe/Referencia</label
+            >
+            <input
+              pInputText
+              type="text"
+              formControlName="interbankCode"
+              class="p-inputtext-sm"
+              placeholder="Clabe/Referencia"
+              [ngClass]="{
+                'ng-invalid ng-dirty':
+                  interbankCode.invalid &&
+                  (interbankCode.dirty || interbankCode.touched)
+              }"
+            />
+          </div>
+          <!-- <div class="p-field">
+            <label class="font-weight-normal small">Convenio</label>
+            <input
+              pInputText
+              type="text"
+              formControlName="convenio"
+              class="p-inputtext-sm"
+              placeholder="Convenio"
+            />
+          </div>
+          <div class="p-field">
+            <label class="font-weight-normal small"> Referencia</label>
+            <input
+              pInputText
+              type="text"
+              formControlName="referencia"
+              class="p-inputtext-sm"
+              placeholder="Referencia"
+            />
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

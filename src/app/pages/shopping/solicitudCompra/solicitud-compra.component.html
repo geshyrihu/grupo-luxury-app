@@ -1,0 +1,238 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-10">
+        <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+          <div class="row p-fluid">
+            <div class="col-sm-3">
+              <span class="font-weight-light small">Folio</span>
+
+              <input
+                disabled
+                type="text"
+                formControlName="folio"
+                pInputText
+                class="p-inputtext-sm"
+              />
+            </div>
+
+            <div class="col-sm-3">
+              <span class="font-weight-light small">Fecha de Solicitud</span>
+              <input
+                disabled
+                type="date"
+                readonly
+                formControlName="fechaSolicitud"
+                pInputText
+                class="p-inputtext-sm"
+              />
+            </div>
+
+            <div class="col-sm-3">
+              <span class="font-weight-light small">Status</span>
+              <input
+                disabled
+                type="text"
+                [value]="form.get('estatus').value | eStatusCompra"
+                readonly
+                pInputText
+                class="p-inputtext-sm"
+                [class.bg-danger]="form.get('estatus').value == 2"
+                [class.bg-success]="form.get('estatus').value == 0"
+                [class.bg-secondary]="form.get('estatus').value == 1"
+              />
+            </div>
+
+            <div class="col-sm-3">
+              <span class="font-weight-light small">Solicita</span>
+              <input
+                type="text"
+                formControlName="solicita"
+                pInputText
+                class="p-inputtext-sm"
+                [class.p-invalid]="
+                  solicita.invalid && (solicita.dirty || solicita.touched)
+                "
+              />
+              <div
+                *ngIf="
+                  solicita?.errors?.required &&
+                  (solicita.dirty || solicita.touched)
+                "
+                class="
+                  p-invalid
+                  text-danger
+                  small
+                  animate__animated animate__fadeIn
+                "
+              >
+                <p>Campo requerido.</p>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <span class="font-weight-light small"
+                >Área equipo o instalación</span
+              >
+              <textarea
+                rows="2"
+                cols="30"
+                formControlName="equipoOInstalacion"
+                class="p-inputtext-sm text-justify"
+                pInputTextarea
+                autoResize="autoResize"
+                [class.p-invalid]="
+                  equipoOInstalacion.invalid &&
+                  (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+                "
+              ></textarea>
+              <div
+                *ngIf="
+                  equipoOInstalacion?.errors?.required &&
+                  (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+                "
+                class="
+                  p-invalid
+                  text-danger
+                  small
+                  animate__animated animate__fadeIn
+                "
+              >
+                <p>Campo requerido.</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <span class="font-weight-light small"
+                >Justificación del gasto</span
+              >
+              <textarea
+                rows="2"
+                cols="30"
+                formControlName="justificacionGasto"
+                class="p-inputtext-sm text-justify"
+                pInputTextarea
+                autoResize="autoResize"
+                [class.p-invalid]="
+                  justificacionGasto.invalid &&
+                  (justificacionGasto.dirty || justificacionGasto.touched)
+                "
+              ></textarea>
+              <div
+                *ngIf="
+                  justificacionGasto?.errors?.required &&
+                  (justificacionGasto.dirty || justificacionGasto.touched)
+                "
+                class="
+                  p-invalid
+                  text-danger
+                  small
+                  animate__animated animate__fadeIn
+                "
+              >
+                <p>Campo requerido.</p>
+              </div>
+            </div>
+            <br />
+            <br />
+
+            <div class="col-sm-12 text-left">
+              <app-button-submit [disabled]="form.invalid"></app-button-submit>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Botones de opciones -->
+      <div class="col-sm-2 border p-fluid">
+        <button
+          [disabled]="id == 0"
+          pButton
+          pRipple
+          (click)="onCuadroComparativo(id)"
+          type="button"
+          icon="fas fa-compress-arrows-alt"
+          label="Cuadro comparativo"
+          class="p-button-secondary p-p-1 mt-1"
+        ></button>
+
+        <!-- (click)="onPdf(id)" -->
+        <button
+          [disabled]="id == 0"
+          pButton
+          pRipple
+          (click)="onPdf(id)"
+          type="button"
+          icon="fas fa-file-pdf"
+          label="Vista para Pdf"
+          class="p-button-secondary p-p-1 mt-1"
+        ></button>
+        <button
+          [disabled]="id == 0"
+          pButton
+          pRipple
+          (click)="
+            addProduct({
+              purchasesolicitaId: id,
+              id: 0
+            })
+          "
+          type="button"
+          icon="fas fa-plus"
+          label="Agregar Productos"
+          class="p-button-secondary p-p-1 mt-1 mb-1"
+        ></button>
+
+        <!-- Cantidad de ordenes relacioneadas -->
+        <div class="row">
+          <div class="col">
+            <button
+              (click)="onAddOrEdit(item.id)"
+              *ngFor="let item of cotizacionesRelacionadas"
+              class="btn btn-sm btn-warning p-m-1"
+            >
+              {{ item.folio }}
+            </button>
+          </div>
+        </div>
+        <!-- Cantidad de ordenes relacioneadas -->
+      </div>
+    </div>
+
+    <!-- Listado de Productos de Solicitud de Compra -->
+    <table class="table table-sm table-striped table-bordered mt-1">
+      <caption></caption>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" style="width: 60%">Producto</th>
+          <th scope="col" style="width: 15%">Cantidad</th>
+          <th scope="col" style="width: 15%">Unidad</th>
+          <th scope="col" style="width: 10%">.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of SolicitudCompraDetalle">
+          <td>{{ item.producto }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>{{ item.unidadMedida }}</td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <app-button-edit
+                (click)="
+                  editProduct({
+                    purchasesolicitaId: id,
+                    id: item.id
+                  })
+                "
+              ></app-button-edit>
+
+              <app-button-delete
+                (OnConfirm)="onDeleteProduct(item)"
+                [nameItem]="item.producto"
+              ></app-button-delete>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <!-- Hidden -->
+  <!-- Fecha de Solicitud -->
+
+  <input
+    hidden
+    pInputText
+    class="p-inputtext-sm"
+    type="date"
+    formControlName="dateRequest"
+  />
+
+  <!-- Fecha de Solicitud -->
+
+  <!-- Folio Reporte -->
+  <p-checkbox
+    hidden
+    [binary]="true"
+    formControlName="folioReporte"
+  ></p-checkbox>
+  <!-- Folio Reporte -->
+
+  <!-- Fecha de término -->
+
+  <input
+    hidden
+    pInputText
+    class="p-inputtext-sm"
+    type="datetime-local"
+    formControlName="dateFinished"
+  />
+
+  <!-- Fecha de término -->
+
+  <!-- Hidden -->
+
+  <div class="row">
+    <div class="col-12 col-md-3 text-center">
+      <!-- Img -->
+      <!-- <label class="font-weight-normal">Foto del Antes</label> -->
+      <app-input-img
+        [title]="'Foto del Antes'"
+        (fileSelected)="uploadFileBefore($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathBefore"
+        [contentHeight]="150"
+        [contentWidth]="250"
+      ></app-input-img>
+      <br />
+      <!-- Img -->
+      <!-- Img -->
+      <!-- <label class="font-weight-normal">Foto del después</label> -->
+      <app-input-img
+        [title]="'Foto del después'"
+        (fileSelected)="uploadFileAfter($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathAfter"
+        [contentHeight]="150"
+        [contentWidth]="250"
+      ></app-input-img>
+      <!-- Img -->
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <!-- Actividad -->
+
+          <div class="form-group">
+            <label class="font-weight-normal">Actividad</label>
+
+            <textarea
+              [disabled]="Colaborador"
+              class="form-control text-justify"
+              formControlName="activity"
+              cols="30"
+              rows="5"
+              style="resize: none"
+              [class.is-invalid]="
+                activity.invalid && (activity.dirty || activity.touched)
+              "
+            ></textarea>
+            <div
+              *ngIf="activity.invalid && (activity.dirty || activity.touched)"
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              <small *ngIf="activity.errors.required"> Campo requerido </small>
+            </div>
+          </div>
+          <!-- Actividad -->
+          <!-- Area Responsable -->
+          <div class="form-group">
+            <label class="font-weight-normal">Area Responsable</label>
+            <select
+              class="form-control"
+              formControlName="responsibleAreaId"
+              [class.is-invalid]="
+                responsibleAreaId.invalid &&
+                (responsibleAreaId.dirty || responsibleAreaId.touched)
+              "
+            >
+              <option value="">--Selecciona una opción--</option>
+              <option
+                *ngFor="let item of cb_responsibleArea"
+                [value]="item.value"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+            <div
+              *ngIf="
+                responsibleAreaId.invalid &&
+                (responsibleAreaId.dirty || responsibleAreaId.touched)
+              "
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              <small *ngIf="responsibleAreaId.errors.required">
+                Campo requerido
+              </small>
+            </div>
+          </div>
+          <!-- Area Responsable -->
+
+          <!-- Responsable -->
+          <div class="form-group">
+            <label class="font-weight-normal">Colaborador Responsable</label>
+
+            <select class="form-control" formControlName="responsable">
+              <option [value]="null">--Selecciona una opción--</option>
+              <option
+                *ngFor="let item of cb_userCustomers"
+                [value]="item.value"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <!-- Responsable -->
+          <!-- Status -->
+          <div class="form-group">
+            <label class="font-weight-normal">Estatus</label>
+            <select class="form-control" formControlName="status">
+              <option *ngFor="let item of cb_status" [value]="item.value">
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <!-- Status -->
+          <!-- Prioridad -->
+          <div class="form-group" [hidden]="Colaborador">
+            <label class="font-weight-normal">Prioridad</label>
+
+            <select class="form-control" formControlName="priority">
+              <option *ngFor="let item of cb_priority" [value]="item.value">
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <!-- Prioridad -->
+        </div>
+        <!-- tercera columna  columna -->
+        <div class="p-col-12 p-md-6" [hidden]="Colaborador">
+          <!-- Fecha de Programación -->
+          <div class="form-group">
+            <label class="font-weight-normal">Fecha de Inicio</label>
+            <div class="input-group date">
+              <input
+                class="form-control datetimepicker-input"
+                type="datetime-local"
+                formControlName="fechaProgamacion"
+              />
+            </div>
+          </div>
+
+          <!-- Fecha de Programación -->
+
+          <!-- Fecha de limite -->
+          <div class="form-group" [hidden]="Colaborador">
+            <label class="font-weight-normal">Fecha Límite</label>
+            <input
+              class="form-control datetimepicker-input"
+              type="datetime-local"
+              formControlName="fechaLimite"
+            />
+          </div>
+          <!-- Fecha de limite -->
+
+          <!-- Solicita -->
+
+          <!-- Solicita -->
+          <!-- Observaciones -->
+          <div class="form-group">
+            <label class="font-weight-normal">Observaciones</label>
+            <textarea
+              formControlName="observations"
+              class="form-control text-justify"
+              cols="30"
+              rows="5"
+              style="resize: none"
+            ></textarea>
+          </div>
+          <!-- Observaciones -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-button-submit
+    [disabled]="this.form.invalid || enviando"
+    [nameLabel]="labelButton"
+  ></app-button-submit>
+</form>
+<br /><br />

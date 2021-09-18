@@ -1,0 +1,43 @@
+<form (submit)="onSubmit()" [formGroup]="form">
+  <div class="row d-flex justify-content-end">
+    <div class="col-sm-5 p-fluid">
+      <p-calendar
+        class="p-inputtext-sm"
+        formControlName="dateStart"
+        dateFormat="dd-MM-yy"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        yearRange="2000:2050"
+        showButtonBar="true"
+        [showTransitionOptions]="'200ms'"
+        [hideTransitionOptions]="'200ms'"
+      >
+      </p-calendar>
+    </div>
+    <div class="col-sm-5 p-fluid">
+      <p-calendar
+        class="p-inputtext-sm"
+        formControlName="dateEnd"
+        dateFormat="dd-MM-yy"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        yearRange="2000:2050"
+        showButtonBar="true"
+        [showTransitionOptions]="'200ms'"
+        [hideTransitionOptions]="'200ms'"
+      ></p-calendar>
+    </div>
+    <div class="col-sm-2 p-fluid">
+      <button
+        pButton
+        pRipple
+        type="button"
+        [disabled]="this.form.invalid"
+        class="p-button-sm p-button-info p-button-outlined p-ml-1"
+        label="Filtrar"
+        icon="fa fa-filter"
+        type="submit"
+      ></button>
+    </div>
+  </div>
+</form>

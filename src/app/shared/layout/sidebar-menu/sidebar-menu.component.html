@@ -1,0 +1,31 @@
+<nav class="mt-2">
+  <ul
+    class="nav nav-pills nav-sidebar flex-column"
+    data-widget="treeview"
+    role="menu"
+    data-accordion="true"
+  >
+    <li class="nav-item" *ngFor="let item of sidebarMenu">
+      <a href="#" class="nav-link" *ngIf="item.visible">
+        <i class="nav-icon" [class]="item.icon"></i>
+        <p>
+          {{ item.label }}
+          <i class="fas fa-angle-left right"></i>
+          <span class="badge badge-info right">{{ item.items.length }}</span>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item" *ngFor="let subItem of item.items">
+          <a
+            [routerLink]="subItem.routerLink"
+            class="nav-link"
+            *ngIf="subItem.visible"
+          >
+            <span class="fas fa-caret-right nav-icon"></span>
+            <p>{{ subItem.label }}</p>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>

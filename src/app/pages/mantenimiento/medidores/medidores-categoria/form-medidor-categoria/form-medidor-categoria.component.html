@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Nombre -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="nombreMedidorCategoria"
+            placeholder="Ingrese el nombre"
+            [class.p-invalid]="
+              nombreMedidorCategoria.invalid &&
+              (nombreMedidorCategoria.dirty || nombreMedidorCategoria.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nombreMedidorCategoria.invalid &&
+              (nombreMedidorCategoria.dirty || nombreMedidorCategoria.touched)
+            "
+          >
+            <span
+              *ngIf="nombreMedidorCategoria.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Nombre -->
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

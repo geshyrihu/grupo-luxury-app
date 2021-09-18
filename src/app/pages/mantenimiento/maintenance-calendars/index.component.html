@@ -1,0 +1,136 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  *ngIf="data"
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="['machinery', 'activity']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Calendario de Mantenimiento'"
+      (add)="
+        showModalAddOrEdit({ id: 0, task: 'create', title: 'Nuevo Registro' })
+      "
+      [dt]="dt"
+      [rolAuth]="SuperUsuario || Mantenimiento || Residente"
+    ></app-table-header>
+    <hr />
+    <!-- Seleccion de meses -->
+    <div class="row">
+      <div class="col-sm-1 p-fluid" *ngFor="let item of months">
+        <button
+          class="btn btn-sm btn-outline-secondary btn-block text-small"
+          [class.active]="item.value == month"
+          (click)="selectMonth(item.value)"
+        >
+          {{ item.label }}
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="machinery.nameMachinery">
+        Nombre
+        <p-sortIcon field="machinery.nameMachinery"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="activity">
+        Actividad
+        <p-sortIcon field="activity"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="provider">
+        Proveedor
+        <p-sortIcon field="provider"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="recurrence">
+        Recurrencia
+        <p-sortIcon field="recurrence"></p-sortIcon>
+      </th>
+      <th scope="col">Mes</th>
+
+      <th
+        *ngIf="SuperUsuario || Mantenimiento || Residente"
+        scope="col"
+        style="width: 10%"
+      >
+        Opciones
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small> {{ item.machinery }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.activity }} </small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.provider }} </small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.recurrence | eRecurrence }} </small>
+      </td>
+
+      <td class="p-column-title">
+        <small>{{ item.month | eMonth }} </small>
+      </td>
+      <td
+        class="p-column-title"
+        *ngIf="SuperUsuario || Mantenimiento || Residente"
+      >
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            (edit)="
+              showModalAddOrEdit({
+                idMachinery: item.id,
+                id: item.id,
+                task: 'edit',
+                header: 'Editar regitro ' + item.id
+              })
+            "
+          ></app-button-edit>
+
+          <button
+            (click)="
+              showModalAddOrEdit({
+                idMachinery: item.id,
+                id: item.id,
+                task: 'copy',
+                header: 'Duplicar servicio'
+              })
+            "
+            class="btn btn-sm btn-default m-1"
+            pTooltip="Duplicar Servicio"
+            tooltipPosition="top"
+          >
+            <i class="far fa-copy text-dark"></i>
+          </button>
+          <!-- Duplicar Servicio -->
+
+          <!-- Borrar -->
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.name"
+          ></app-button-delete>
+          <!-- Borrar -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>

@@ -1,0 +1,72 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<p-dataView
+  #dv
+  [value]="data"
+  [paginator]="true"
+  [rows]="30"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  filterBy="nombreCuadrante"
+>
+  <ng-template pTemplate="header">
+    <div class="alert alert-info" role="alert">
+      <div class="row">
+        <div class="col-sm-8">
+          <h4 class="alert-heading h4">Cuestionarios</h4>
+        </div>
+        <div class="col-sm-3 p-fluid">
+          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+            <i class="pi pi-search"></i>
+            <input
+              type="search"
+              pInputText
+              placeholder="Buscar...."
+              (input)="dv.filter($event.target.value)"
+              class="p-inputtext-sm"
+            />
+          </span>
+        </div>
+        <div class="col-sm-1 p-fluid">
+          <p-button
+            label="Nuevo"
+            icon="fas fa-plus"
+            styleClass="p-button-sm"
+            type="button"
+            (click)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+          >
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template let-item pTemplate="listItem">
+    <div class="p-col-12 p-md-3">
+      <div class="card">
+        <div class="card-body text-center pointer" (click)="irPreguntas(item.id)" >
+          <h6 class="card-subtitle mb-2 text-muted">
+            {{ item.profession }}
+          </h6>
+          <p class="card-text">
+            {{ item.nivelCuestionario }}
+          </p>
+        </div>
+
+        <div
+          class="card-footer"
+          *ngIf="authService.isMantenimiento || authService.isResidente"
+        >
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="
+                onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+              "
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.shortName"
+            ></app-button-delete>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dataView>

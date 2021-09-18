@@ -1,0 +1,77 @@
+<div class="container">
+  <app-report-header></app-report-header>
+  <h6 class="h6">Reporte semanal de llamados en administración</h6>
+  <div class="row">
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th scope="col" style="width: 7%" class="text-small">Id</th>
+          <th scope="col" style="width: 7%" class="text-small">Fecha</th>
+          <th scope="col" style="width: 10%" class="text-small">Depto.</th>
+          <th scope="col" style="width: 20%" class="text-small">Servicio</th>
+          <th scope="col" style="width: 10%" class="text-small">Solicita</th>
+          <th scope="col" style="width: 10%" class="text-small">Área</th>
+          <th scope="col" style="width: 12%" class="text-small">Responsable</th>
+          <th scope="col" style="width: 10%" class="text-small">Estatus</th>
+          <th scope="col" style="width: 20%" class="text-small">
+            Observaciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td>
+            <small>
+              {{ item.id }}
+            </small>
+          </td>
+          <td>
+            <small>
+              {{ item.dateRequest | date }}
+            </small>
+          </td>
+          <td>
+            <small>
+              {{ item.directoryCondominium }}
+            </small>
+          </td>
+          <td class="text-justify">
+            <small>
+              {{ item.requestService }}
+            </small>
+          </td>
+          <td>
+            <small>
+              {{ item.request | eRequest }}
+            </small>
+          </td>
+          <td>
+            <small>
+              {{ item.responsibleArea }}
+            </small>
+          </td>
+          <td>
+            <small>
+              {{ item.employee }}
+            </small>
+          </td>
+          <td>
+            <span
+              class="p-tag"
+              [class.p-tag-danger]="item.status == 0"
+              [class.p-tag-success]="item.status == 1"
+              [class.p-tag-info]="item.status == 2"
+            >
+              {{ item.status | eStatus }}</span
+            >
+          </td>
+          <td class="text-justify">
+            <small>
+              {{ item.observations }}
+            </small>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

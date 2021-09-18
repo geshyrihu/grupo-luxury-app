@@ -1,0 +1,24 @@
+<!-- Widget: user widget style 2 -->
+<div
+  *ngIf="user !== undefined"
+  class="card card-outline card-widget widget-user-2 shadow-sm"
+  [ngClass]="{ 'card-danger': !user.active, 'card-success': user.active }"
+>
+  <!-- Add the bg color to the header using any of the bg-* classes -->
+  <div class="widget-user-header bg-warning">
+    <div class="widget-user-image">
+      <img class="img-circle elevation-2" [src]="urlImage" alt="no-img" />
+    </div>
+    <!-- /.widget-user-image -->
+    <h3 class="widget-user-username">
+      {{ user.firstName }} {{ user.lastName }}
+    </h3>
+    <h5 class="widget-user-desc">{{ user.profession }}</h5>
+    <hr />
+    <h5 class="lead widget-user-desc">{{ user.email }}</h5>
+    <h5 class="lead widget-user-desc">{{ user.birth | date: "longDate" }}</h5>
+    <h5 class="lead widget-user-desc">{{ user.phoneNumber }}</h5>
+  </div>
+</div>
+
+<!-- /.widget-user -->

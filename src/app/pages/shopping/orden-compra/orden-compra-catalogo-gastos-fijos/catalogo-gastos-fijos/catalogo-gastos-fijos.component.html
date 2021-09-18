@@ -1,0 +1,132 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<!-- Table PrimeNg -->
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [(selection)]="data"
+    [autoLayout]="true"
+    [globalFilterFields]="[
+      'equipoOInstalacion',
+      'producto.producto',
+      'provider'
+    ]"
+    [paginator]="true"
+    [responsive]="true"
+    [rowHover]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Catalogo de gastos fijos'"
+        (add)="onModal({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+        [rolAuth]="Asistente || Residente || SuperUsuario"
+      ></app-table-header>
+      <div class="row" *ngIf="Asistente || Residente || SuperUsuario">
+        <div class="col text-right">
+          <label class="font-weight-normal font-italic"
+            >Fecha de solicitud:</label
+          >
+          <input
+            type="date"
+            [(ngModel)]="fechaSolicitud"
+            pInputText
+            class="p-inputtext-sm m-2"
+          />
+          <button
+            (click)="createOrdenesCompra()"
+            pButton
+            class="p-button-sm"
+            label="Generar Ordenes de Compra"
+            class="p-m-2"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 10%">
+          <small>Seleccionar</small>
+        </th>
+        <th scope="col" pSortableColumn="code" style="width: 20%">
+          <small>Encabezado</small> <p-sortIcon field="code"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="shortName" style="width: 15%">
+          <small>Datos de pago</small>
+          <p-sortIcon field="shortName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="largeName" style="width: 30%">
+          <small>Producto o Servicio</small
+          ><p-sortIcon field="largeName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="largeName" style="width: 30%">
+          <small>Partida Presupuestal</small
+          ><p-sortIcon field="largeName"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 5%"><small>Opciones</small></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td>
+          <small>
+            <div class="p-field-checkbox text-center">
+              <p-checkbox
+                binary="true"
+                [(ngModel)]="item.crearOrdenCompra"
+                inputId="binary"
+                (onChange)="crearOrder(item.id, $event.checked)"
+              ></p-checkbox>
+            </div>
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>{{ item.equipoOInstalacion }} </small><br />
+          <small>{{ item.justificacionGasto }} </small>
+        </td>
+        <td class="p-column-title">
+          <small>Uso de CFDI: {{ item.usoCFDI }} </small><br />
+          <small>Metodo de Pago: {{ item.metodoDePago }} </small><br />
+          <small>Forma de pago: {{ item.formaPago }} </small>
+        </td>
+        <td class="p-column-title">
+          <div *ngFor="let item3 of item.producto">
+            <small>{{ item3.producto }} </small><br />
+          </div>
+        </td>
+        <td class="p-column-title">
+          <div *ngFor="let item2 of item.presupuesto">
+            <small> {{ item2.cedula }} </small><br />
+          </div>
+        </td>
+
+        <!-- Opciones -->
+        <td
+          class="p-column-title"
+          *ngIf="Asistente || Residente || SuperUsuario"
+        >
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="onModal({ id: item.id, title: 'Editar Registro' })"
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.shortName"
+            ></app-button-delete>
+          </div>
+        </td>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Table PrimeNg -->

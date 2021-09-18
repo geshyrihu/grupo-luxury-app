@@ -1,0 +1,195 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="row">
+    <div class="col-sm-3">
+      <!-- Img -->
+      <label class="font-weight-normal">Foto del Antes</label>
+      <app-input-img
+        (fileSelected)="uploadFileBefore($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathBefore"
+        [contentHeight]="150"
+        [contentWidth]="250"
+      ></app-input-img>
+
+      <!-- Img -->
+      <!-- Img -->
+      <label class="font-weight-normal">Foto del después</label>
+      <app-input-img
+        (fileSelected)="uploadFileAfter($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathAfter"
+        [contentHeight]="150"
+        [contentWidth]="250"
+      ></app-input-img>
+      <!-- Img -->
+    </div>
+    <div class="col-sm-9">
+      <div class="row">
+        <div class="col-sm-6">
+          <!-- Customers -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Cliente</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_customer"
+                formControlName="customerId"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [class.p-invalid]="
+                  customerId.invalid && (customerId.dirty || customerId.touched)
+                "
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  customerId.invalid && (customerId.dirty || customerId.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="customerId.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Customers -->
+          <!-- Fecha de Solicitud -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Fecha de solicitud</label>
+              <input
+                pInputText
+                class="p-inputtext-sm"
+                type="date"
+                disabled
+                formControlName="dateRequest"
+                [class.p-invalid]="
+                  dateRequest.invalid &&
+                  (dateRequest.dirty || dateRequest.touched)
+                "
+              />
+              <div
+                *ngIf="
+                  dateRequest.invalid &&
+                  (dateRequest.dirty || dateRequest.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="dateRequest.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Fecha de Solicitud -->
+          <!-- Responsable -->
+          <div class="p-fluid" hidden>
+            <div class="p-field">
+              <label class="font-weight-normal">Responsable</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_responsibleArea"
+                formControlName="responsibleAreaId"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <!-- Responsable -->
+          <!-- Status -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Estatus</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_status"
+                formControlName="status"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <!-- Status -->
+          <!-- Actividad -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Actividad</label>
+              <textarea
+                pInputTextarea
+                class="p-inputtext-sm text-justify"
+                formControlName="activity"
+                cols="30"
+                rows="5"
+                style="resize: none"
+                [class.p-invalid]="
+                  activity.invalid && (activity.dirty || activity.touched)
+                "
+              ></textarea>
+              <div
+                *ngIf="activity.invalid && (activity.dirty || activity.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="activity.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Actividad -->
+        <!-- tercera columna  columna -->
+        <div class="col-sm-6">
+          <!-- Fecha de término -->
+          <div class="p-fluid" hidden>
+            <div class="p-field">
+              <label class="font-weight-normal">Fecha de termino</label>
+              <input
+                pInputText
+                class="p-inputtext-sm"
+                type="datetime-local"
+                formControlName="dateFinished"
+              />
+            </div>
+          </div>
+          <!-- Fecha de término -->
+          <!-- Prioridad -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Prioridad</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_priority"
+                formControlName="priority"
+                optionLabel="label"
+                optionValue="value"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <!-- Prioridad -->
+
+          <!-- Observaciones -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Observaciones</label>
+              <textarea
+                pInputTextarea
+                formControlName="observations"
+                class="p-inputtext-sm p-text-justify"
+                cols="30"
+                rows="5"
+                style="resize: none"
+              ></textarea>
+            </div>
+          </div>
+          <!-- Observaciones -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

@@ -1,0 +1,10 @@
+
+
+
+
+
+
+
+//Aplicaciones en tiempo real
+npm install @aspnet/signalr
+https://www.npmjs.com/package/@aspnet/signalr

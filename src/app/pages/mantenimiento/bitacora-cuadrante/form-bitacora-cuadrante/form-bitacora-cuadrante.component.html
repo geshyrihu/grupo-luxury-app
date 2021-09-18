@@ -1,0 +1,46 @@
+<div class="p-card">
+  <div class="p-card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Código -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre de Cuadrante</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="nombreCuadrante"
+            placeholder="Nombre de Cuadrante"
+            [class.p-invalid]="
+              nombreCuadrante.invalid &&
+              (nombreCuadrante.dirty || nombreCuadrante.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nombreCuadrante.invalid &&
+              (nombreCuadrante.dirty || nombreCuadrante.touched)
+            "
+          >
+            <span
+              *ngIf="nombreCuadrante.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Código -->
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

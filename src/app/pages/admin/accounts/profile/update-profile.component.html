@@ -1,0 +1,330 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link active"
+      id="home-tab"
+      data-toggle="tab"
+      href="#home"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      >Datos de Usuario</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      id="profile-tab"
+      data-toggle="tab"
+      href="#profile"
+      role="tab"
+      aria-controls="profile"
+      aria-selected="false"
+      >Cambiar contraseña</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      id="profile-tab"
+      data-toggle="tab"
+      href="#imgUpload"
+      role="tab"
+      aria-controls="profile"
+      aria-selected="false"
+      >Actualizar Foto</a
+    >
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div
+    class="tab-pane fade show active"
+    id="home"
+    role="tabpanel"
+    aria-labelledby="home-tab"
+  >
+    <div class="card">
+      <div class="card-body">
+        <form
+          autocomplete="off"
+          [formGroup]="formUpdateProfile"
+          (ngSubmit)="updateProfile()"
+        >
+          <!-- Input Email -->
+
+          <div class="form-group row">
+            <label class="font-weight-normal col-sm-3">Email</label>
+            <div class="col-sm-9 p-fluid">
+              <input
+                readonly="readonly"
+                disabled
+                class="p-inputtext-sm"
+                formControlName="email"
+                pInputText
+              />
+            </div>
+          </div>
+          <!-- Input Nombre -->
+          <div class="form-group row">
+            <label class="font-weight-normal col-sm-3">Nombre</label>
+            <div class="col-sm-9 p-fluid">
+              <input
+                placeholder="Ingresa tu Nombre"
+                class="p-inputtext-sm"
+                formControlName="firstName"
+                [class.is-invalid]="itemInvalid('firstName')"
+                pInputText
+              />
+              <span
+                *ngIf="itemInvalid('firstName')"
+                class="text-danger small animate__animated animate__fadeIn"
+                >El campo nombre es reqerido.</span
+              >
+            </div>
+          </div>
+          <!-- Input LastName -->
+          <div class="form-group row">
+            <label class="font-weight-normal col-sm-3">Apellidos</label>
+
+            <div class="col-sm-9 p-fluid">
+              <input
+                class="p-inputtext-sm"
+                placeholder="Ingresa tus Apellidos"
+                formControlName="lastName"
+                [class.is-invalid]="itemInvalid('lastName')"
+                pInputText
+              />
+              <span
+                *ngIf="itemInvalid('lastName')"
+                class="text-danger small animate__animated animate__fadeIn"
+                >El campo apellidos es reqerido.</span
+              >
+            </div>
+          </div>
+
+          <!-- Input CellPhone -->
+          <div class="form-group row">
+            <label class="font-weight-normal col-sm-3">Télefono</label>
+            <div class="col-sm-9 p-fluid">
+              <p-inputMask
+                formControlName="phoneNumber"
+                mask="99-99999999"
+                placeholder="99-99999999"
+                class="p-inputtext-sm"
+                [class.p-invalid]="itemInvalid('phoneNumber')"
+              ></p-inputMask>
+              <span
+                *ngIf="itemInvalid('phoneNumber')"
+                class="text-danger small animate__animated animate__fadeIn"
+                >El campo télefono es reqerido.</span
+              >
+            </div>
+          </div>
+
+          <!-- Input Birt -->
+          <div class="form-group row">
+            <label class="font-weight-normal col-sm-3">Cumpleaños</label>
+            <div class="col-sm-9 p-fluid">
+              <input
+                class="p-inputtext-sm"
+                pInputText
+                type="date"
+                formControlName="birth"
+                [class.is-invalid]="itemInvalid('birth')"
+              />
+              <span
+                *ngIf="itemInvalid('birth')"
+                class="text-danger small animate__animated animate__fadeIn"
+                >El campo cumpleaños es reqerido.</span
+              >
+            </div>
+          </div>
+
+          <hr />
+          <app-button-submit
+            [disabled]="formUpdateProfile.invalid"
+          ></app-button-submit>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="profile"
+    role="tabpanel"
+    aria-labelledby="profile-tab"
+  >
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            <p class="text-danger">{{ errorMessage }}</p>
+          </div>
+          <form
+            class="mt-2"
+            autocomplete="off"
+            [formGroup]="formUpdatePassword"
+            (ngSubmit)="updatePassword()"
+          >
+            <!-- Contraseña Actual -->
+            <div class="form-group row">
+              <label class="col-form-label font-weight-normal col-sm-4"
+                >Contraseña actual</label
+              >
+              <div class="col-sm-8 p-fluid">
+                <input
+                  type="password"
+                  formControlName="currentPassword"
+                  class="p-inputtext-sm"
+                  pInputText
+                  [class.p-invalid]="
+                    currentPassword.invalid &&
+                    (currentPassword.dirty || currentPassword.touched)
+                  "
+                />
+                <div
+                  *ngIf="
+                    currentPassword.invalid &&
+                    (currentPassword.dirty || currentPassword.touched)
+                  "
+                  class="text-danger small animate__animated animate__fadeIn"
+                >
+                  <div *ngIf="currentPassword.errors.required">
+                    El password es requerido
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Contraseña Actual -->
+            <!-- Nueva Contraseña -->
+            <div class="form-group row">
+              <label class="col-form-label font-weight-normal col-sm-4"
+                >Nueva Contraseña</label
+              >
+              <div class="col-sm-8 p-fluid">
+                <input
+                  type="password"
+                  formControlName="newPassword"
+                  class="p-inputtext-sm"
+                  pInputText
+                  [class.p-invalid]="
+                    newPassword.invalid &&
+                    (newPassword.dirty || newPassword.touched)
+                  "
+                />
+                <div
+                  *ngIf="
+                    newPassword.invalid &&
+                    (newPassword.dirty || newPassword.touched)
+                  "
+                  class="text-danger small animate__animated animate__fadeIn"
+                >
+                  <div *ngIf="newPassword.errors.required">
+                    El password es requerido
+                  </div>
+                  <div *ngIf="newPassword.errors.passwordValidation">
+                    {{ newPassword.errors.passwordValidation.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Nueva Contraseña -->
+
+            <!-- Confirmar contraseña -->
+            <div class="form-group row">
+              <label class="col-form-label font-weight-normal col-sm-4"
+                >Confirmar Contraseña</label
+              >
+              <div class="col-sm-8 p-fluid">
+                <input
+                  type="password"
+                  formControlName="confirm"
+                  class="p-inputtext-sm"
+                  pInputText
+                  [class.p-invalid]="
+                    confirm.invalid && (confirm.dirty || confirm.touched)
+                  "
+                />
+                <small
+                  *ngIf="passwordNotValid()"
+                  class="text-danger small animate__animated animate__fadeIn"
+                  >La contraseña y la contraseña de confirmación no
+                  coinciden.</small
+                >
+              </div>
+            </div>
+            <!-- Confirmar contraseña -->
+            <!-- Submit -->
+
+            <app-button-submit
+              [disabled]="formUpdatePassword.invalid"
+            ></app-button-submit>
+            <!-- Submit -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="tab-pane fade"
+    id="imgUpload"
+    role="tabpanel"
+    aria-labelledby="profile-tab"
+  >
+    <!-- Cambio de Imagen -->
+    <div class="card">
+      <div class="card-body">
+        <div (click)="inputImg.click()">
+          <div class="card-image text-center">
+            <img
+              *ngIf="!imgUpload"
+              [src]="infoUserAuthDto.photoPath"
+              class="img-avatar img-thumbnail"
+              alt=""
+            />
+            <img
+              *ngIf="imgUpload"
+              [src]="imgTemp"
+              class="img-avatar img-thumbnail"
+              alt=""
+            />
+          </div>
+          <div class="input-group mb-3">
+            <div class="custom-file">
+              <input
+                class="custom-file-input display-none"
+                type="file"
+                id="file"
+                #inputImg
+                aria-describedby="file"
+                (change)="changeImg($event.target.files[0])"
+                accept="image/png, .jpeg, .jpg"
+                class="custom-file-input"
+              />
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="d-flex justify-content-end">
+          <!-- uploadImg -->
+          <p-button
+            type="button"
+            (click)="uploadImg()"
+            [disabled]="!imgUpload"
+            label="Guardar cambios"
+            icon="pi pi-check"
+            iconPos="right"
+            styleClass="p-button-sm"
+          ></p-button>
+          <!-- uploadImg -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .img-avatar {
+    height: 200px;
+    width: 200px;
+  }
+</style>

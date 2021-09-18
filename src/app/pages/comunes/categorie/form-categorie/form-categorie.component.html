@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input class="p-inputtext-sm" pInputText formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            pInputText
+            formControlName="nameCotegory"
+            [class.p-invalid]="
+              nameCotegory.invalid &&
+              (nameCotegory.dirty || nameCotegory.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nameCotegory?.errors?.required &&
+              (nameCotegory.dirty || nameCotegory.touched)
+            "
+            class="p-invalid text-danger small animate__animated animate__fadeIn"
+          >
+            <p>Campo categoria requerido.</p>
+          </div>
+
+          <div
+            *ngIf="nameCotegory?.errors?.minlength"
+            class="p-invalid text-danger small animate__animated animate__fadeIn"
+          >
+            <p>Minimo 3 caracteres.</p>
+          </div>
+
+          <div
+            *ngIf="nameCotegory?.errors?.maxlength"
+            class="p-invalid text-danger small animate__animated animate__fadeIn"
+          >
+            <p>Maximo 20 caracteress.</p>
+          </div>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

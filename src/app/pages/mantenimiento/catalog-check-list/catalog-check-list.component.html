@@ -1,0 +1,76 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [(selection)]="data"
+    [autoLayout]="true"
+    [globalFilterFields]="['category', 'description']"
+    [paginator]="true"
+    [responsive]="true"
+    [rowHover]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Listado de Catalogo Check List'"
+        (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 25%" scope="col" pSortableColumn="category">
+          Categoria <p-sortIcon field="category"></p-sortIcon>
+        </th>
+        <th style="width: 70%" scope="col" pSortableColumn="description">
+          Descripción
+          <p-sortIcon field="description"></p-sortIcon>
+        </th>
+
+        <th scope="col" style="width: 5%">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title">
+          <small>
+            {{ item.category }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.description }}
+          </small>
+        </td>
+
+        <!-- Opciones -->
+        <td class="p-column-title">
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="
+                onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+              "
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.shortName"
+            ></app-button-delete>
+          </div>
+        </td>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Table PrimeNg -->

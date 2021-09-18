@@ -1,0 +1,565 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div class="card" *ngIf="data !== undefined">
+  <p-table
+    [value]="data"
+    #dt
+    [responsive]="true"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+    [rows]="50"
+    [paginator]="true"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 500]"
+    [globalFilterFields]="[
+      ['categories.nameCotegory'],
+      'nameComercial',
+      'nameProvider',
+      'address',
+      'user',
+      'rfc'
+    ]"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Listado de Proveedores'"
+        (add)="showModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+        [rolAuth]="Asistente || Mantenimiento || Residente || SuperUsuario"
+      ></app-table-header>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <div class="row p-2">
+        <div class="col-auto">
+          <button
+            pSortableColumn="nameProvider"
+            class="btn btn-sm btn-outline-info"
+          >
+            Nombre Proveedor<p-sortIcon field="nameProvider"></p-sortIcon>
+          </button>
+        </div>
+        <div class="col-auto">
+          <button pSortableColumn="user" class="btn btn-sm btn-outline-info">
+            Cargado por<p-sortIcon field="user"></p-sortIcon>
+          </button>
+        </div>
+        <div class="col-auto">
+          <button pSortableColumn="rfc" class="btn btn-sm btn-outline-info">
+            RFC
+            <p-sortIcon field="rfc"></p-sortIcon>
+          </button>
+        </div>
+
+        <div class="col-auto">
+          <select
+            class="custom-select custom-select-sm"
+            (change)="buscarPorCategoria()"
+            [(ngModel)]="categoriaId"
+          >
+            <option [value]="categoriaId" selected>
+              Buscar por categoria...
+            </option>
+            <option [value]="item.value" *ngFor="let item of cb_categorias">
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn btn-sm btn-outline-info"
+            (click)="onLoadData(true)"
+          >
+            Mostrar todos
+          </button>
+        </div>
+        <div class="col-auto">
+          <button
+            *ngIf="stateProvider"
+            class="btn btn-sm btn-outline-danger"
+            (click)="onLoadData(false)"
+          >
+            Inactivos
+          </button>
+          <button
+            *ngIf="!stateProvider"
+            class="btn btn-sm btn-outline-success"
+            (click)="onLoadData(true)"
+          >
+            Activos
+          </button>
+          <!-- Borrar este boton -->
+          <!-- <button
+            *ngIf="SuperUsuario"
+            class="btn btn-sm btn-outline-warning"
+            (click)="activarProveedores()"
+          >
+            Activos
+          </button> -->
+          <!-- Borrar este boton -->
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <div *ngIf="data" class="row">
+            <div class="card card-info card-outline">
+              <div class="card-body">
+                <div class="col-12">
+                  <div
+                    class="row"
+                    *ngIf="item.qualificationProvider.length > 0"
+                  >
+                    <div class="col-sm-2 p-1 mr-5">
+                      <small class="text-black-50">Servicio</small>
+                      <p-rating
+                        [ngModel]="item.servicio"
+                        readonly="true"
+                        [cancel]="false"
+                        stars="5"
+                      ></p-rating>
+                    </div>
+                    <div class="col-sm-2 p-1 mr-5">
+                      <small class="text-black-50">Precio</small>
+                      <p-rating
+                        [ngModel]="item.precio"
+                        readonly="true"
+                        [cancel]="false"
+                        stars="5"
+                      ></p-rating>
+                    </div>
+                    <div class="col-sm-2 p-1 mr-5">
+                      <small class="text-black-50">Entrega</small>
+                      <p-rating
+                        [ngModel]="item.entrega"
+                        readonly="true"
+                        [cancel]="false"
+                        stars="5"
+                      ></p-rating>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-1">
+                      <img
+                        [src]="url_img + item.pathPhoto"
+                        alt="noImg"
+                        class="img-thumbnail img-fluid"
+                      />
+                    </div>
+                    <div class="col-sm-11">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Proveedor</h5>
+                              <br />
+                              <hr />
+                              <table class="table table-sm table-light">
+                                <tbody>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Razon Social:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.nameProvider }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Nombre Comercial:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.nameComercial }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Dirección:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.address }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Web:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.webPage }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      RFC:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.rfc }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Télefonos:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.phoneOne }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    ></td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.phoneTwo }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Ventas:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      <i
+                                        *ngIf="item.sales"
+                                        class="fas fa-check text-success"
+                                      ></i>
+                                      <i
+                                        *ngIf="!item.sales"
+                                        class="fas fa-times text-danger"
+                                      ></i>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Reparación:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      <i
+                                        *ngIf="item.repair"
+                                        class="fas fa-check text-success"
+                                      ></i>
+                                      <i
+                                        *ngIf="!item.repair"
+                                        class="fas fa-times text-danger"
+                                      ></i>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Contactos</h5>
+                              <br />
+                              <hr />
+                              <table class="table table-sm table-light">
+                                <tbody>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Contacto:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.contactOne }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Puesto:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.positionOne }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Télefono:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.cellPhoneOne }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Email:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.emailOne }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <table
+                                class="table table-sm table-light"
+                                *ngIf="item.contactTwo !== ''"
+                              >
+                                <tbody>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Contacto:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.contactTwo }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Puesto:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.positionTwo }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Télefono:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.cellPhoneTwo }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Email:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.emailTwo }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Datos Bancarios</h5>
+                              <br />
+                              <hr />
+                              <table class="table table-sm table-light">
+                                <tbody>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Pago a nombre:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.nameCheck }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Banco:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.bank }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Cuenta/Convenio:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.paymentAccount }}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td
+                                      class="small font-weight-bold"
+                                      style="width: 35%"
+                                    >
+                                      Clabe/Referencia:
+                                    </td>
+                                    <td class="small" style="width: 65%">
+                                      {{ item.interbankCode }}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="item.categories">
+                    <div *ngFor="let categoria of item.categories">
+                      <p-tag
+                        styleClass="p-mr-2"
+                        [value]="categoria.nameCotegory"
+                      ></p-tag>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer d-flex">
+                  <small>
+                    {{ item.user }}
+                  </small>
+
+                  <!-- Editar -->
+
+                  <!-- *ngIf="Asistente || Mantenimiento || Residente || SuperUsuario" -->
+                  <app-button-edit
+                    *ngIf="
+                      SuperUsuario ||
+                      SupervisionOperativa ||
+                      item.idUser === idUser
+                    "
+                    (edit)="
+                      showModalAddOrEdit({
+                        id: item.id,
+                        title: 'Editar Registro'
+                      })
+                    "
+                  ></app-button-edit>
+                  <!-- Editar -->
+                  <!-- Borrar -->
+                  <app-button-delete
+                    *ngIf="this.SuperUsuario"
+                    (OnConfirm)="onDelete(item)"
+                    [nameItem]="item.name"
+                  ></app-button-delete>
+                  <!-- Borrar -->
+
+                  <!-- Categorias -->
+                  <p-button
+                    *ngIf="
+                      SuperUsuario ||
+                      SupervisionOperativa ||
+                      item.idUser === idUser
+                    "
+                    pTooltip="Categorias"
+                    tooltipPosition="left"
+                    styleClass="p-button-sm text-white-50 ml-1 p-button-info"
+                    icon="fas fa-align-left"
+                    (click)="AddCategory(item.id)"
+                  >
+                  </p-button>
+                  <p-button
+                    pTooltip="Calificar"
+                    tooltipPosition="left"
+                    styleClass="p-button-sm text-white-50 ml-1 p-button-help"
+                    icon="fas fa-star-half-alt"
+                    (click)="
+                      showModalCalificarProveedor({
+                        providerId: item.id,
+                        nameProvider: item.nameComercial
+                      })
+                    "
+                  >
+                  </p-button>
+
+                  <!-- Categorias -->
+
+                  <!-- Activar o desactivar Proveedor -->
+                  <p-button
+                    *ngIf="!item.activo && SuperUsuario"
+                    pTooltip="Activar"
+                    tooltipPosition="left"
+                    styleClass="p-button-sm text-white-50 ml-1 p-button-danger"
+                    icon="fas fa-lock"
+                    (click)="
+                      onActivateProvider({
+                        providerId: item.id,
+                        state: !item.activo
+                      })
+                    "
+                  >
+                  </p-button>
+                  <p-button
+                    *ngIf="item.activo && SuperUsuario"
+                    pTooltip="Desactivar"
+                    tooltipPosition="left"
+                    styleClass="p-button-sm text-white-50 ml-1 p-button-success"
+                    icon="fas fa-lock-open"
+                    (click)="
+                      onActivateProvider({
+                        providerId: item.id,
+                        state: !item.activo
+                      })
+                    "
+                  >
+                  </p-button>
+                  <!-- Activar o desactivar Proveedor -->
+                  <!-- Coincidencias -->
+                  <button
+                    *ngIf="
+                      Asistente || Mantenimiento || Residente || SuperUsuario
+                    "
+                    class="btn btn-sm m-1 m-1"
+                    (click)="coincidencias(item.id)"
+                  >
+                    Buscar uso
+                  </button>
+                  <!-- Coincidencias -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div *ngIf="data.length === 0" class="alert alert-default-danger">
+  <h4 class="h4">Sin resultados</h4>
+</div>

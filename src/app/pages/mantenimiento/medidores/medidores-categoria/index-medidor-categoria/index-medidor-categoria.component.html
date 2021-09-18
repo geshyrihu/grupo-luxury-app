@@ -1,0 +1,64 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="['nombreCategoriaMedidor']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Categoria de Medidores'"
+      (add)="showModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="code">
+        Nombre categoria <p-sortIcon field="code"></p-sortIcon>
+      </th>
+
+      <th scope="col" style="width: 5%">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.nombreMedidorCategoria }}
+        </small>
+      </td>
+
+      <!-- Opciones -->
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            (edit)="
+              showModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+            "
+          ></app-button-edit>
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.shortName"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

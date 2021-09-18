@@ -1,0 +1,404 @@
+<div *ngIf="!Colaborador">
+  <div class="card card-outline animate__animated animate__fadeIn">
+    <div class="card-header">
+      <h4 class="h4">Resumen de Operación</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-3 p-1">
+          <input
+            type="date"
+            class="form-control"
+            (change)="onLoadData()"
+            [(ngModel)]="fechaInicial"
+          />
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-3 p-1">
+          <input
+            type="date"
+            class="form-control"
+            (change)="onLoadData()"
+            [(ngModel)]="fechaFinal"
+          />
+        </div>
+        <div class="offset-lg-3 col-sm-12 col-md-6 col-lg-3">
+          <a
+            href="https://calendly.com/luxurybuilding-meeting/junta-comite-de-vigilancia?month=2021-04"
+            target="_blank"
+            class="bg-warning pointer form-control"
+          >
+            <i class="far fa-calendar-alt"></i> Agenda la fecha de tu junta de
+            comité
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div class="col-xl-6 col-12">
+        <div class="row">
+          <!-- Ordenes de Compra -->
+          <div class="col-sm-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">Ordenes de Compra</h2>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table
+                  class="
+                    table
+                    table-sm
+                    table-striped
+                    table-valign-middle
+                    table-bordered
+                  "
+                >
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 20%">Fecha</th>
+                      <th class="text-center" style="width: 20%">Totales</th>
+                      <th class="text-center" style="width: 20%">Pendientes</th>
+                      <th class="text-center" style="width: 20%">
+                        Autorizadas
+                      </th>
+                      <th class="text-center" style="width: 20%">Denegadas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of ordeneCompra">
+                      <td class="p">
+                        {{ item.fecha.mes | eMonth }} - {{ item.fecha.year }}
+                      </td>
+                      <td class="text-center text-info">{{ item.total }}</td>
+                      <td class="text-center text-danger">
+                        {{ item.pendientes }}
+                      </td>
+                      <td class="text-center text-success">
+                        {{ item.autorizado }}
+                      </td>
+                      <td class="text-center text-dark">{{ item.denegado }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ordenes de Compra -->
+          <!-- Mantenimientos preventivos -->
+          <div class="col-sm-12">
+            <app-dashboard-orden-servicio
+              [customerId]="customerSelectService.customerId"
+              [fechaInicial]="fechaInicial"
+              [fechaFinal]="fechaFinal"
+            ></app-dashboard-orden-servicio>
+          </div>
+
+          <!-- Mantenimientos preventivos -->
+
+          <!-- Minutas -->
+          <div class="col-sm-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">Minutas</h2>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 20%">Fecha</th>
+                      <th class="text-center" style="width: 20%">
+                        Tipo de Junta
+                      </th>
+                      <th class="text-center" style="width: 20%">Pendientes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of minuta">
+                      <td class="p">
+                        {{ item.minuta.mes | eMonth }} - {{ item.minuta.year }}
+                      </td>
+                      <td class="text-center text-info">
+                        {{ item.minuta.tipo | eeTypeMeeting }}
+                      </td>
+                      <td class="text-center text-danger">
+                        {{ item.totalPendientes }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Minutas -->
+          <!-- Reportes de Llamados -->
+          <div class="col-sm-12">
+            <div *ngIf="loading">
+              <img [src]="loading" alt="" />
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">Reporte de Llamados</h2>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 20%">Fecha</th>
+                      <th class="text-center" style="width: 20%">Totales</th>
+                      <th class="text-center" style="width: 20%">Pendientes</th>
+                      <th class="text-center" style="width: 20%">Terminados</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of callAdmin">
+                      <td class="p">
+                        {{ item.callAdmin.mes | eMonth }} -
+                        {{ item.callAdmin.year }}
+                      </td>
+                      <td class="text-center text-info">{{ item.total }}</td>
+                      <td class="text-center text-danger">
+                        {{ item.pendientes }}
+                      </td>
+                      <td class="text-center text-success">
+                        {{ item.terminados }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Reportes de Llamados -->
+        </div>
+      </div>
+      <div class="col-xl-6 col-12">
+        <div class="row">
+          <!-- quien cargo Reportes de operación -->
+          <div class="col-sm-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">Reportes de Operación</h2>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div
+                    class="text-center col-sm-3"
+                    *ngFor="let item of userCargaReport"
+                  >
+                    <div class="card">
+                      <div class="card-body">
+                        <p class="font-normal">
+                          {{ item.user.name }} {{ item.user.lastName }}
+                        </p>
+
+                        <p-avatar
+                          [image]="url_User + item.user.photoPath"
+                          pBadge
+                          [value]="item.total"
+                          size="xlarge"
+                        ></p-avatar>
+                        <p class="font-normal">
+                          {{ item.user.profession }}
+                        </p>
+                        <br />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="card card-primary card-outline">
+                  <div class="card-header border-0">
+                    <div class="alert alert-default-light">
+                      <h2 class="card-title">Reportes de Operación</h2>
+                    </div>
+                    <div class="card-tools"></div>
+                  </div>
+                  <div class="card-body table-responsive p-0">
+                    <table class="table table-striped table-valign-middle">
+                      <thead>
+                        <tr>
+                          <th class="text-center" style="width: 25%">
+                            Responsable
+                          </th>
+                          <th class="text-center" style="width: 25%">
+                            Total de pendientes
+                          </th>
+                          <th class="text-center" style="width: 25%">
+                            Terminados
+                          </th>
+                          <th class="text-center" style="width: 25%">
+                            Denegados
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of reportesOperacion">
+                          <td class="p">
+                            {{ item.responsable }}
+                          </td>
+                          <td class="text-center text-danger">
+                            {{ item.pendiente }}
+                          </td>
+                          <td class="text-center text-success">
+                            {{ item.terminado }}
+                          </td>
+                          <td class="text-center text-black-50">
+                            {{ item.noAutorizado }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reportes de operación -->
+          <!-- Herramientas -->
+          <div class="col-sm-12" *ngIf="tool.length > 0">
+            <div *ngIf="loading">
+              <img [src]="loading" alt="" />
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">
+                    Herramientas <span>{{ tool[0].totalGeneral }}</span>
+                  </h2>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 40%">Categoria</th>
+                      <th class="text-center" style="width: 20%">Total</th>
+                      <th class="text-center" style="width: 20%">Activas</th>
+                      <th class="text-center" style="width: 20%">Inactivas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tool">
+                      <td class="p">
+                        {{ item.tool.categoria }}
+                      </td>
+                      <td class="text-center text-info">{{ item.total }}</td>
+                      <td class="text-center text-success">
+                        {{ item.activas }}
+                      </td>
+                      <td class="text-center text-danger">
+                        {{ item.inactivas }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Herramientas -->
+          <!-- Maquianrias -->
+          <div class="col-sm-12" *ngIf="machinery.length > 0">
+            <div *ngIf="loading">
+              <img [src]="loading" alt="" />
+            </div>
+            <div class="card card-primary card-outline">
+              <div class="card-header border-0">
+                <div class="alert alert-default-light">
+                  <h2 class="card-title">
+                    Equipos e Instalaciones
+                    <span>{{ machinery[0].totalGeneral }}</span>
+                  </h2>
+                </div>
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 40%">Categoria</th>
+                      <th class="text-center" style="width: 20%">Total</th>
+                      <th class="text-center" style="width: 20%">Activas</th>
+                      <th class="text-center" style="width: 20%">Inactivas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of machinery">
+                      <td class="p">
+                        {{ item.machinery.categoria }}
+                      </td>
+                      <td class="text-center text-info">{{ item.total }}</td>
+                      <td class="text-center text-success">
+                        {{ item.activas }}
+                      </td>
+                      <td class="text-center text-danger">
+                        {{ item.inactivas }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Maquianrias -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center" *ngIf="Colaborador">
+  <section>
+    <div class="container">
+      <header class="text-center mb-40">
+        <h1 class="fw-300">GRUPO LUXURY BUILDING</h1>
+        <h2 class="fw-300 letter-spacing-1 fs-13">
+          <span>NO ES UNA OPCIÓN, ES LA SOLUCIÓN</span>
+        </h2>
+      </header>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <img
+            style="
+              margin: auto;
+              display: block;
+              display: flex;
+              justify-content: center;
+              width: 100%;
+            "
+            [src]="url_Img + 'panel.jpg'"
+            alt="support"
+          />
+          <br />
+          <p style="text-align: justify">
+            En <strong>Grupo Luxury Building</strong> nuestro principal objetivo
+            es la
+            <strong>satisfacción y tranquilidad de nuestros clientes</strong> ya
+            que entendemos que
+            <strong
+              >la administración de un inmueble es una tarea complicada</strong
+            >, en muchos casos una mala administración podría representar el
+            fracaso de su gestión y restar valor a su patrimonio.
+          </p>
+          <p style="text-align: justify">
+            En <strong>Grupo Luxury Building</strong> somos expertos en el ramo
+            y lo demostramos confirmando <strong>clientes satisfechos</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

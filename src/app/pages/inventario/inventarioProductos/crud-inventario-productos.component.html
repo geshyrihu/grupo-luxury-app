@@ -1,0 +1,97 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row" hidden>
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input class="p-inputtext-sm" pInputText formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Productos -->
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Producto</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            [disabled]="id"
+            class="p-inputtext-sm"
+            [options]="cb_products"
+            formControlName="productoId"
+            optionLabel="nombreProducto"
+            optionValue="productoId"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <!-- Productos -->
+      <!-- Existencias -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Existencia</label>
+        <div class="col-sm-9 p-fluid">
+          <p-inputNumber
+            mode="decimal"
+            [min]="0"
+            class="p-inputtext-sm"
+            formControlName="existencia"
+          >
+          </p-inputNumber>
+        </div>
+      </div>
+      <!-- Existencias -->
+      <!-- Unidades -->
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Unidad</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_measurementUnits"
+            formControlName="unidadDeMedidaId"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <!-- Unidades -->
+      <!-- StokMax -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Stock Maximo</label>
+
+        <div class="col-sm-9 p-fluid">
+          <p-inputNumber
+            [min]="0"
+            mode="decimal"
+            [minFractionDigits]="2"
+            class="p-inputtext-sm"
+            formControlName="stockMax"
+            [(ngModel)]="stokMaximo"
+          >
+          </p-inputNumber>
+        </div>
+      </div>
+      <!-- StokMax -->
+      <!-- StokMin -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Stock Minimo</label>
+        <div class="col-sm-9 p-fluid">
+          <p-inputNumber
+            [min]="0"
+            [max]="stokMaximo"
+            mode="decimal"
+            [minFractionDigits]="2"
+            class="p-inputtext-sm"
+            formControlName="stockMin"
+          >
+          </p-inputNumber>
+        </div>
+      </div>
+      <!-- StokMin -->
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

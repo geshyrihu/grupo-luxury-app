@@ -1,0 +1,201 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="submit()" [formGroup]="form">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="p-fluid" hidden>
+            <div class="p-field">
+              <label class="font-weight-normal">Id</label>
+              <input pInputText formControlName="id" class="p-inputtext-sm" />
+            </div>
+          </div>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Equipo o Instalación</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_Machinery"
+                formControlName="machineryId"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  machineryId.invalid &&
+                  (machineryId.dirty || machineryId.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="machineryId.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Recurrencia</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_recurrencia"
+                formControlName="recurrence"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  recurrence.invalid && (recurrence.dirty || recurrence.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="recurrence.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Proveedor</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_Providers"
+                formControlName="providerId"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  providerId.invalid && (providerId.dirty || providerId.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="providerId.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Actividad</label>
+              <textarea
+                pInputTextarea
+                formControlName="activity"
+                rows="5"
+                cols="30"
+                autoResize="autoResize"
+                class="p-inputtext-sm text-justify"
+                [class.p-invalid]="
+                  activity.invalid && (activity.dirty || activity.touched)
+                "
+              ></textarea>
+              <div
+                *ngIf="activity.invalid && (activity.dirty || activity.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="activity.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Día Sugerido</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_day"
+                formControlName="day"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+              >
+              </p-dropdown>
+              <div
+                *ngIf="day.invalid && (day.dirty || day.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="day.errors.required"> Campo requerido </small>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-fluid">
+            <div class="p-field">
+              <label asp-for="Month" class="font-weight-normal"> Mes</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_month"
+                formControlName="month"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [showClear]="true"
+              >
+              </p-dropdown>
+
+              <div
+                *ngIf="month.invalid && (month.dirty || month.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="month.errors.required"> Campo requerido </small>
+              </div>
+            </div>
+          </div>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Precio</label>
+              <p-inputNumber
+                formControlName="price"
+                inputId="currency-es"
+                mode="currency"
+                currency="MXN"
+                locale="en-ES"
+                class="p-inputtext-sm"
+                [class.p-invalid]="
+                  price.invalid && (price.dirty || price.touched)
+                "
+              >
+              </p-inputNumber>
+              <div
+                *ngIf="price.invalid && (price.dirty || price.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="price.errors.required"> Campo requerido </small>
+              </div>
+            </div>
+          </div>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Observaciones</label>
+              <textarea
+                pInputTextarea
+                formControlName="observation"
+                rows="5"
+                cols="30"
+                autoResize="autoResize"
+                class="p-inputtext-sm text-justify"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

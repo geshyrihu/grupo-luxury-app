@@ -1,0 +1,208 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="[
+    'dateRequest',
+    'directoryCondominium',
+    'request.label',
+    'responsibleArea',
+    'employee',
+    'status.label',
+    'id'
+  ]"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Llamados en Administración'"
+      (add)="showModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+    <br />
+    <div class="row">
+      <div class="col-sm-5"></div>
+
+      <div class="col-sm-6">
+        <!-- Componente filtro de llamados -->
+        <app-form-filter (OnSubmit)="onSubmit($event)"></app-form-filter>
+        <!-- Componente filtro de llamados -->
+      </div>
+      <div class="col-sm-1">
+        <app-button-create-report
+          (OnSubmit)="generetePDF($event)"
+        ></app-button-create-report>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" style="width: 7%" class="text-small" pSortableColumn="id">
+        Id
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 7%"
+        class="text-small"
+        pSortableColumn="dateRequest"
+      >
+        Fecha
+        <p-sortIcon field="dateRequest"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="directoryCondominium"
+      >
+        Depto.
+        <p-sortIcon field="directoryCondominium"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 20%"
+        class="text-small"
+        pSortableColumn="requestService"
+      >
+        Servicio
+        <p-sortIcon field="requestService"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="request"
+      >
+        Solicita
+        <p-sortIcon field="request"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="responsibleArea"
+      >
+        Área
+        <p-sortIcon field="responsibleArea"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 12%"
+        class="text-small"
+        pSortableColumn="employee"
+      >
+        Responsable
+        <p-sortIcon field="employee"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="status"
+      >
+        Estatus
+        <p-sortIcon field="status"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 20%"
+        class="text-small"
+        pSortableColumn="observations"
+      >
+        Observaciones
+        <p-sortIcon field="observations"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 5%" class="text-small">.</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td>
+        <small>
+          {{ item.id }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.dateRequest | date }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.directoryCondominium }}
+        </small>
+      </td>
+      <td class="text-justify">
+        <small>
+          {{ item.requestService }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.request | eRequest }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.responsibleArea }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.employee }}
+        </small>
+      </td>
+      <td>
+        <span
+          class="p-tag"
+          [class.p-tag-danger]="item.status == 0"
+          [class.p-tag-success]="item.status == 1"
+          [class.p-tag-info]="item.status == 2"
+        >
+          {{ item.status | eStatus }}</span
+        >
+      </td>
+      <td class="text-justify">
+        <small>
+          {{ item.observations }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <!-- Componente editar registro -->
+          <app-button-edit
+            (edit)="
+              showModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+            "
+          ></app-button-edit>
+          <!-- Componente editar registro -->
+          <!-- Componente eliminar registro -->
+          <app-button-delete
+            *ngIf="Residente || SuperUsuario"
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.id"
+          ></app-button-delete>
+          <!-- Componente eliminar registro -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

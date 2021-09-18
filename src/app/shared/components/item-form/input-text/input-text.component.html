@@ -1,0 +1,19 @@
+<div class="form-group row">
+  <label class="font-weight-normal col-sm-3 small">{{ label }}</label>
+  <div class="col-sm-9 p-fluid">
+    <input
+      pInputText
+      class="p-inputtext-sm"
+      [placeholder]="placeholder"
+      [formControlName]="formControlName"
+    />
+    <!-- <div *ngIf="largeName.invalid && (largeName.dirty || largeName.touched)">
+      <span class="text-danger small animate__animated animate__fadeIn"
+        >El campo Razón social es reqerido.</span
+      >
+    </div> -->
+  </div>
+</div>
+<!-- [class.p-invalid]="
+largeName.invalid && (largeName.dirty || largeName.touched)
+" -->

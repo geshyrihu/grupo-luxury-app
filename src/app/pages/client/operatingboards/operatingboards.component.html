@@ -1,0 +1,172 @@
+<div class="alert alert-info" role="alert">
+  <div class="row">
+    <div class="col-sm-4">
+      <h5 class="alert-heading">Juntas de Revision operativas</h5>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group row">
+        <select class="form-control form-control-sm col-11">
+          <option value="">Selecciona un cliente</option>
+          <option *ngFor="let item of dataCustomers" [value]="item.id">{{
+            item.value
+          }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-3">
+      <h6>Duración: {{ timeTotal }} minutos</h6>
+    </div>
+    <div class="col-1">
+      <button
+        [routerLink]="['/listperatingboards']"
+        class="btn btn-sm btn-primary btn-block"
+      >
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+  </div>
+  <hr />
+</div>
+
+<table class="table table-sm table-borderless" style="width: 100%;">
+  <thead class="thead-dark">
+    <tr>
+      <th style="width: 20%;">Mantenimiento</th>
+      <th style="width: 20%;">Operación</th>
+      <th style="width: 20%;">Contabilidad</th>
+      <th style="width: 20%;">RH</th>
+      <th style="width: 20%;">Legal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- Mantenmiento -->
+      <td>
+        <div class="form-row p-2">
+          <select
+            (click)="sumar()"
+            [(ngModel)]="timeMtto"
+            class="form-control form-control-sm"
+          >
+            <option [value]="0">Seleccione tiempo</option>
+            <option [value]="item.valor" *ngFor="let item of times">{{
+              item.valor
+            }}</option>
+          </select>
+        </div>
+        <div
+          class="card p-1"
+          *ngFor="let item of dataMtto"
+          (click)="item.color = !item.color"
+          [class.bg-success]="item.color"
+        >
+          <p class="text-justify small">
+            {{ item.affair }}
+          </p>
+        </div>
+      </td>
+      <!-- Operación -->
+
+      <td>
+        <div class="form-row p-2">
+          <select
+            (click)="sumar()"
+            [(ngModel)]="timeOperacion"
+            class="form-control form-control-sm"
+          >
+            <option [value]="0">Seleccione tiempo</option>
+            <option [value]="item.valor" *ngFor="let item of times">{{
+              item.valor
+            }}</option>
+          </select>
+        </div>
+        <div
+          class="card p-1"
+          *ngFor="let item of dataOperacion"
+          (click)="item.color = !item.color"
+          [class.bg-success]="item.color"
+        >
+          <p class="text-justify small">
+            {{ item.affair }}
+          </p>
+        </div>
+      </td>
+
+      <!-- Contabilidad -->
+
+      <td>
+        <div class="form-row p-2">
+          <select
+            (click)="sumar()"
+            [(ngModel)]="timeContabilidad"
+            class="form-control form-control-sm"
+          >
+            <option [value]="0">Seleccione tiempo</option>
+            <option [value]="item.valor" *ngFor="let item of times">{{
+              item.valor
+            }}</option>
+          </select>
+        </div>
+        <div
+          class="card p-1"
+          *ngFor="let item of dataContabilidad"
+          (click)="item.color = !item.color"
+          [class.bg-success]="item.color"
+        >
+          <p class="text-justify small">
+            {{ item.affair }}
+          </p>
+        </div>
+      </td>
+      <td>
+        <div class="form-row p-2">
+          <select
+            (click)="sumar()"
+            [(ngModel)]="timeRRHH"
+            class="form-control form-control-sm"
+          >
+            <option [value]="0">Seleccione tiempo</option>
+            <option [value]="item.valor" *ngFor="let item of times">{{
+              item.valor
+            }}</option>
+          </select>
+        </div>
+        <div
+          class="card p-1"
+          *ngFor="let item of dataRRHH"
+          (click)="item.color = !item.color"
+          [class.bg-success]="item.color"
+        >
+          <p class="text-justify small">
+            {{ item.affair }}
+          </p>
+        </div>
+      </td>
+      <td>
+        <div class="form-row p-2">
+          <select
+            (click)="sumar()"
+            [(ngModel)]="timeLegal"
+            class="form-control form-control-sm"
+          >
+            <option [value]="0">Seleccione tiempo</option>
+            <option [value]="item.valor" *ngFor="let item of times">{{
+              item.valor
+            }}</option>
+          </select>
+        </div>
+        <div
+          class="card p-1"
+          *ngFor="let item of dataLegal"
+          (click)="item.color = !item.color"
+          [class.bg-success]="item.color"
+        >
+          <p class="text-justify small">
+            {{ item.affair }}
+          </p>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

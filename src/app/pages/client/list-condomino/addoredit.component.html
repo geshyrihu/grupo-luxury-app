@@ -1,0 +1,116 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="form-group row">
+    <label class="font-weight-normal small col-sm-4">Id</label>
+    <div class="col-sm-8 p-fluid">
+      <input pInputText formControlName="id" class="p-inputtext-sm" />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="font-weight-normal small col-sm-4">Habitante</label>
+    <div class="col-sm-8 p-fluid">
+      <p-dropdown
+        placeholder="--Seleciona una opción--"
+        [options]="cb_Habitant"
+        formControlName="habitant"
+        optionLabel="label"
+        optionValue="value"
+        class="p-inputtext-sm"
+      ></p-dropdown>
+      <div
+        *ngIf="habitant.invalid && (habitant.dirty || habitant.touched)"
+        class="text-danger small animate__animated animate__fadeIn"
+      ></div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="font-weight-normal small col-sm-4"
+      >Nombre del Condómino</label
+    >
+    <div class="col-sm-8 p-fluid">
+      <input
+        formControlName="nameDirectoryCondominium"
+        class="p-inputtext-sm"
+        pInputText
+        [class.p-invalid]="
+          nameDirectoryCondominium.invalid &&
+          (nameDirectoryCondominium.dirty || nameDirectoryCondominium.touched)
+        "
+      />
+      <div
+        *ngIf="
+          nameDirectoryCondominium.invalid &&
+          (nameDirectoryCondominium.dirty || nameDirectoryCondominium.touched)
+        "
+        class="text-danger small animate__animated animate__fadeIn"
+      ></div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="font-weight-normal small col-sm-4">Extesión</label>
+    <div class="col-sm-8 p-fluid">
+      <input formControlName="extencion" class="p-inputtext-sm" pInputText />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="font-weight-normal col-sm-4 small">Télefono fijo</label>
+    <div class="col-sm-8 p-fluid">
+      <p-inputMask
+        mask="99-9999-9999"
+        formControlName="fixedPhone"
+        type="text"
+        class="p-inputtext-sm"
+        placeholder="99-9999-9999"
+      ></p-inputMask>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="font-weight-normal col-sm-4 small">Télefono celular</label>
+    <div class="col-sm-8 p-fluid">
+      <p-inputMask
+        mask="99-9999-9999"
+        formControlName="cellPhone"
+        type="text"
+        class="p-inputtext-sm"
+        [class.p-invalid]="
+          cellPhone.invalid && (cellPhone.dirty || cellPhone.touched)
+        "
+        placeholder="99-9999-9999"
+      ></p-inputMask>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="font-weight-normal col-sm-4 small">Correo electrónico</label>
+    <div class="col-sm-8 p-fluid">
+      <input
+        pInputText
+        formControlName="mail"
+        class="p-inputtext-sm"
+        type="text"
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="font-weight-normal col-sm-4 small">Departamento</label>
+    <div class="col-sm-8 p-fluid">
+      <p-dropdown
+        placeholder="--Seleciona una opción--"
+        [options]="cb_DirectoryCondominium"
+        formControlName="directoryCondominiumId"
+        optionLabel="label"
+        optionValue="value"
+        class="p-inputtext-sm"
+      ></p-dropdown>
+
+      <div
+        *ngIf="
+          directoryCondominiumId.invalid &&
+          (directoryCondominiumId.dirty || directoryCondominiumId.touched)
+        "
+        class="text-danger small animate__animated animate__fadeIn"
+      ></div>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

@@ -1,0 +1,85 @@
+<div class="alert alert-info" role="alert">
+  <h1 class="alert-heading">Jefe de Mantenimiento!</h1>
+
+  <hr />
+  <div class="row">
+    <div class="text-left col-sm-3"></div>
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6">
+      <div class="row d-flex flex-row-reverse bd-highlight">
+        <div class="col-sm-3" *ngIf="!mostrar">
+          <button
+            (click)="ToReturnAction()"
+            class="btn btn-sm btn-danger btn-block"
+            [routerLink]="['/manual/mantenimiento']"
+          >
+            <i class="fas fa-long-arrow-alt-left ml-2"></i>
+            Inicio
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mostrar">
+  <div class="row">
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['position']" (click)="mostrar = !mostrar">
+        <div class="card bg-primary shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/01.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['orderandcleanliness']" (click)="mostrar = !mostrar">
+        <div class="card text-white bg-success shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/02.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['workplan']" (click)="mostrar = !mostrar">
+        <div class="card text-white bg-danger shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/03.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['equipment']" (click)="mostrar = !mostrar">
+        <div class="card text-white bg-warning shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/04.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['customersupport']" (click)="mostrar = !mostrar">
+        <div class="card text-white bg-secondary shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/05.png"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

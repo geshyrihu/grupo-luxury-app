@@ -1,0 +1,147 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="['fullName', 'userName', 'profession', 'customer']"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [showAdd]="false"
+      [title]="'Listado de Cuentas de usuario ' + title"
+      [dt]="dt"
+    ></app-table-header>
+
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <p-selectButton
+          [options]="stateOptions"
+          [(ngModel)]="state"
+          optionLabel="label"
+          optionValue="value"
+          (click)="onLoadData()"
+        ></p-selectButton>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col">Foto</th>
+      <th scope="col" pSortableColumn="fullName">
+        Nombre <p-sortIcon field="fullName"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="userName">
+        Correo
+        <p-sortIcon field="userName"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="customer">
+        Cliente<p-sortIcon field="customer"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="profession">
+        Profesión<p-sortIcon field="profession"></p-sortIcon>
+      </th>
+
+      <th scope="col" style="width: 10%">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td
+        class="p-column-title pointer text-center"
+        (click)="onUserCard(item.id)"
+      >
+        <p-avatar
+          [image]="url + item.photoPath"
+          styleClass="p-mr-2"
+          size="xlarge"
+        ></p-avatar>
+      </td>
+      <td class="p-column-title">
+        <span class="small">
+          {{ item.fullName }}
+        </span>
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.userName | slice: 0:35
+          }}{{ item.userName.length > 35 ? "..." : "" }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <!-- Cliente -->
+        <select
+          class="form-control form-control-sm"
+          [(ngModel)]="item.customerId"
+          (change)="updateCustomer(item.id, item.customerId)"
+        >
+          <option *ngFor="let item of cb_Customer" [value]="item.value">
+            {{ item.label }}
+          </option>
+        </select>
+        <!--End Cliente -->
+      </td>
+      <td class="p-column-title">
+        <small>
+          <select
+            class="form-control form-control-sm"
+            [(ngModel)]="item.professionId"
+            (change)="updateProfession(item.id, item.professionId)"
+          >
+            <option *ngFor="let item of cb_Profession" [value]="item.value">
+              {{ item.label }}
+            </option>
+          </select>
+        </small>
+      </td>
+
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <!-- Bloqueo de Usuario -->
+          <p-button
+            *ngIf="item.active"
+            icon="pi pi-unlock"
+            styleClass="p-button-sm text-white-50 p-mr-1  p-button-success"
+            (click)="toBlock(item.id)"
+          >
+          </p-button>
+
+          <p-button
+            *ngIf="!item.active"
+            icon="pi pi-lock"
+            styleClass="p-button-sm text-white-50 p-mr-1  p-button-danger"
+            (click)="toUnlock(item.id)"
+          >
+          </p-button>
+          <!-- Bloqueo de Usuario -->
+
+          <!-- Editar Role -->
+          <app-button-roles
+            (editarRole)="modalRole(item.id)"
+          ></app-button-roles>
+          <!-- Editar Role -->
+
+          <!-- Borrar -->
+          <app-button-delete
+            (OnConfirm)="delete(item.id)"
+            [nameItem]="item.userName"
+          ></app-button-delete>
+
+          <!-- Borrar -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>

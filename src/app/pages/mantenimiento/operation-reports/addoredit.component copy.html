@@ -1,0 +1,254 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <!-- Hidden -->
+  <!-- Fecha de Solicitud -->
+  <div class="p-fluid" hidden>
+    <div class="p-field">
+      <label class="font-weight-normal">Fecha de solicitud</label>
+      <input
+        [disabled]="!this.isInRoleMantenimiento || this.SuperUsuario"
+        pInputText
+        class="p-inputtext-sm"
+        type="date"
+        formControlName="dateRequest"
+        [class.p-invalid]="
+          dateRequest.invalid && (dateRequest.dirty || dateRequest.touched)
+        "
+      />
+      <div
+        *ngIf="
+          dateRequest.invalid && (dateRequest.dirty || dateRequest.touched)
+        "
+        class="text-danger small animate__animated animate__fadeIn"
+      >
+        <small *ngIf="dateRequest.errors.required"> Campo requerido </small>
+      </div>
+    </div>
+  </div>
+  <!-- Fecha de Solicitud -->
+  <!-- Folio Reporte -->
+  <p-checkbox
+    hidden
+    [binary]="true"
+    formControlName="folioReporte"
+  ></p-checkbox>
+  <!-- Folio Reporte -->
+  <!-- Hidden -->
+
+  <div class="p-grid">
+    <div class="p-col-12 p-md-3 p-text-center">
+      <!-- Img -->
+      <!-- <label class="font-weight-normal">Foto del Antes</label> -->
+      <app-input-img-report
+        [title]="'Foto del Antes'"
+        (fileSelected)="uploadFileBefore($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathBefore"
+      ></app-input-img-report>
+      <br />
+      <!-- Img -->
+      <!-- Img -->
+      <!-- <label class="font-weight-normal">Foto del después</label> -->
+      <app-input-img-report
+        [title]="'Foto del después'"
+        (fileSelected)="uploadFileAfter($event)"
+        [urlImgCurrent]="urlBaseImg + model?.photoPathAfter"
+      ></app-input-img-report>
+      <!-- Img -->
+    </div>
+    <div class="p-col-12 p-md-9">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <!-- Actividad -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Actividad</label>
+
+              <textarea
+                [disabled]="Colaborador"
+                pInputTextarea
+                class="p-inputtext-sm text-justify"
+                formControlName="activity"
+                cols="30"
+                rows="5"
+                style="resize: none"
+                [class.p-invalid]="
+                  activity.invalid && (activity.dirty || activity.touched)
+                "
+              ></textarea>
+              <div
+                *ngIf="activity.invalid && (activity.dirty || activity.touched)"
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="activity.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Actividad -->
+          <!-- Area Responsable -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Area Responsable</label>
+              <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_responsibleArea"
+                formControlName="responsibleAreaId"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [class.p-invalid]="
+                  responsibleAreaId.invalid &&
+                  (responsibleAreaId.dirty || responsibleAreaId.touched)
+                "
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  responsibleAreaId.invalid &&
+                  (responsibleAreaId.dirty || responsibleAreaId.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="responsibleAreaId.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Area Responsable -->
+
+          <!-- Responsable -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Colaborador Responsable</label>
+              <p-dropdown
+                [disabled]="Colaborador"
+                class="p-inputtext-sm"
+                [options]="cb_userCustomers"
+                formControlName="responsable"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+                [class.p-invalid]="
+                  responsable.invalid &&
+                  (responsable.dirty || responsable.touched)
+                "
+              >
+              </p-dropdown>
+              <div
+                *ngIf="
+                  responsable.invalid &&
+                  (responsable.dirty || responsable.touched)
+                "
+                class="text-danger small animate__animated animate__fadeIn"
+              >
+                <small *ngIf="responsable.errors.required">
+                  Campo requerido
+                </small>
+              </div>
+            </div>
+          </div>
+          <!-- Responsable -->
+          <!-- Status -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Estatus</label>
+              <!-- <p-dropdown
+                class="p-inputtext-sm"
+                [options]="cb_status"
+                formControlName="status"
+                placeholder="--Selecciona una opción--"
+                optionLabel="label"
+                optionValue="value"
+              >
+              </p-dropdown> -->
+            </div>
+          </div>
+          <!-- Status -->
+          <!-- Prioridad -->
+          <div class="p-fluid" [hidden]="Colaborador">
+            <div class="p-field">
+              <label class="font-weight-normal">Prioridad</label>
+              <p-dropdown
+                [disabled]="Colaborador"
+                class="p-inputtext-sm"
+                [options]="cb_priority"
+                formControlName="priority"
+                optionLabel="label"
+                optionValue="value"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <!-- Prioridad -->
+        </div>
+        <!-- tercera columna  columna -->
+        <div class="p-col-12 p-md-6" [hidden]="Colaborador">
+          <!-- Fecha de Programación -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Fecha de Inicio</label>
+              <input
+                pInputText
+                class="p-inputtext-sm"
+                type="datetime-local"
+                formControlName="fechaProgamacion"
+              />
+            </div>
+          </div>
+          <!-- Fecha de Programación -->
+
+          <!-- Fecha de limite -->
+          <div class="p-fluid" [hidden]="Colaborador">
+            <div class="p-field">
+              <label class="font-weight-normal">Fecha Límite</label>
+              <input
+                pInputText
+                class="p-inputtext-sm"
+                type="datetime-local"
+                formControlName="fechaLimite"
+              />
+            </div>
+          </div>
+          <!-- Fecha de limite -->
+
+          <!-- Fecha de término -->
+
+          <input
+            hidden
+            pInputText
+            class="p-inputtext-sm"
+            type="datetime-local"
+            formControlName="dateFinished"
+          />
+
+          <!-- Fecha de término -->
+
+          <!-- Solicita -->
+
+          <!-- Solicita -->
+          <!-- Observaciones -->
+          <div class="p-fluid">
+            <div class="p-field">
+              <label class="font-weight-normal">Observaciones</label>
+              <textarea
+                pInputTextarea
+                formControlName="observations"
+                class="p-inputtext-sm p-text-justify"
+                cols="30"
+                rows="5"
+                style="resize: none"
+              ></textarea>
+            </div>
+          </div>
+          <!-- Observaciones -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-button-submit
+    [disabled]="this.form.invalid || enviando"
+    [nameLabel]="labelButton"
+  ></app-button-submit>
+</form>
+<br /><br />

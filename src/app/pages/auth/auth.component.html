@@ -1,0 +1,55 @@
+<div class="container">
+  <!-- Logo -->
+  <div class="row mt-2">
+    <div class="col-12 d-flex justify-content-center">
+      <img
+        alt="Img"
+        style="width: 116; height: 82px"
+        [src]="url_Img + 'logo.png'"
+      />
+    </div>
+  </div>
+  <!-- Logo -->
+
+  <div class="row mt-5">
+    <div class="col-lg-8 d-none d-lg-block">
+      <p-carousel
+        [value]="data"
+        styleClass="custom-carousel"
+        [numVisible]="1"
+        [numScroll]="1"
+        [circular]="true"
+        [autoplayInterval]="3000"
+      >
+        <ng-template let-product pTemplate="item">
+          <div class="product-item">
+            <div class="product-item-content">
+              <div class="p-mb-3">
+                <img
+                  [src]="url_Img + product.img"
+                  [alt]="product.customer.nameCustomer"
+                  class="product-image"
+                />
+              </div>
+              <div>
+                <h4 class="p-mb-1">{{ product.customer.nameCustomer }}</h4>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+    <div class="col-lg-4">
+      <!-- Router Outlet -->
+      <router-outlet></router-outlet>
+      <!-- Router Outlet -->
+    </div>
+  </div>
+</div>
+<footer class="footer d-none d-sm-inline-block">
+  <div class="container">
+    <span class="text-muted"
+      >©{{ year }} - Grupo Shemesh Administration S.A. de C.V.
+    </span>
+  </div>
+</footer>

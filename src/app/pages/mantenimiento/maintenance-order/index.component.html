@@ -1,0 +1,244 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  #dt
+  [(selection)]="data"
+  [autoLayout]="true"
+  [globalFilterFields]="['nameMachinery']"
+  [paginator]="true"
+  [responsive]="true"
+  [rowHover]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+  [showCurrentPageReport]="true"
+  [value]="data"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Ordenes de Mantenimiento'"
+      [showAdd]="false"
+      [dt]="dt"
+    ></app-table-header>
+    <hr />
+    <div class="row">
+      <div class="col-sm-1" *ngFor="let item of cb_Months">
+        <button
+          class="btn btn-sm btn-outline-info btn-block text-small"
+          [class.active]="item.value == month"
+          (click)="selectMonth(item.value)"
+        >
+          {{ item.label }}
+        </button>
+      </div>
+    </div>
+    <br />
+    <div class="row mt-1">
+      <div class="col-sm-2 p-fluid">
+        <div class="p-field">
+          <span class="p-float-label">
+            <p-inputMask
+              required
+              class="p-inputtext-sm"
+              mask="9999"
+              (change)="selectYear()"
+              [(ngModel)]="anio"
+              placeholder="Selecciona Año"
+            >
+            </p-inputMask>
+
+            <label for="inputtext">Ingresar año</label>
+          </span>
+        </div>
+      </div>
+      <div class="col-sm-1 p-fluid">
+        <div class="p-field">
+          <button
+            pButton
+            pRipple
+            (click)="makePDF()"
+            type="button"
+            icon="fas fa-file-pdf"
+            label="Informe"
+            class="p-button-danger p-button-sm"
+          ></button>
+        </div>
+      </div>
+      <div class="col-sm-2 p-fluid">
+        <div class="p-field">
+          <p class="mx-1 p-2 small" pSortableColumn="status">
+            Status
+            <p-sortIcon field="status"></p-sortIcon>
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-item id="content" #content>
+    <tr>
+      <div class="card m-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="progress" style="height: 20px">
+                <div
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 100%"
+                  [ngClass]="{
+                    'bg-danger': item.status == 0,
+                    'bg-success': item.status == 1,
+                    'bg-dark': item.status == 2
+                  }"
+                >
+                  {{ item.status | eStatus }}
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 p-fluid">
+              <div class="form-group">
+                <label class="font-italic">Equipo o Instalación</label>
+                <input
+                  pInputText
+                  class="p-inputtext-sm text-dark"
+                  readonly
+                  type="text"
+                  [(ngModel)]="item.equipoInstalacion"
+                />
+              </div>
+              <div class="form-group">
+                <label class="font-italic">Fecha de Solicitud</label>
+                <input
+                  pInputText
+                  class="p-inputtext-sm text-dark"
+                  readonly
+                  type="date"
+                  [(ngModel)]="item.requestDate"
+                  [ngModel]="item.requestDate | date: 'yyyy-MM-dd'"
+                />
+              </div>
+              <div class="form-group">
+                <label class="font-italic">Actividad</label>
+                <textarea
+                  pInputTextarea
+                  class="p-inputtext-sm text-justify"
+                  autoResize="autoResize"
+                  [(ngModel)]="item.activity"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="col-sm-4 p-fluid">
+              <div class="form-group">
+                <label class="font-italic">Fecha de Ejecución</label>
+                <input
+                  pInputText
+                  class="p-inputtext-sm text-dark"
+                  type="date"
+                  [(ngModel)]="item.executionDate"
+                  [ngModel]="item.executionDate | date: 'yyyy-MM-dd'"
+                />
+              </div>
+              <div class="form-group">
+                <label class="font-italic">Proveedor</label>
+                <p-dropdown
+                  class="p-inputtext-sm"
+                  [(ngModel)]="item.providerId"
+                  [options]="cb_Providers"
+                  optionLabel="label"
+                  optionValue="value"
+                  scrollHeight="800px"
+                  placeholder="--Selecciona una opción--"
+                ></p-dropdown>
+              </div>
+              <div class="form-group">
+                <label class="font-italic">Observaciones</label>
+                <textarea
+                  [(ngModel)]="item.observations"
+                  pInputTextarea
+                  class="p-inputtext-sm text-justify"
+                  autoResize="autoResize"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="col-sm-4 p-fluid">
+              <div class="form-group">
+                <label class="font-italic">Costo del Servicio</label>
+                <input
+                  pInputText
+                  class="p-inputtext-sm text-dark"
+                  type="number"
+                  [(ngModel)]="item.price"
+                />
+              </div>
+              <div class="form-group">
+                <label class="font-italic">Status</label>
+                <p-dropdown
+                  class="p-inputtext-sm"
+                  [(ngModel)]="item.status"
+                  [options]="cb_Status"
+                  [class.bg-danger]="item.status == 0"
+                  [class.bg-success]="item.status == 1"
+                  [class.bg-dark]="item.status == 2"
+                  optionLabel="label"
+                  optionValue="value"
+                  scrollHeight="300px"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div
+              class="col-sm-12"
+              *ngIf="Mantenimiento || SuperUsuario || Residente"
+            >
+              <div class="d-flex justify-content-end">
+                <!-- Actualizar Orden de Mantenimiento -->
+                <button
+                  pButton
+                  class="btn btn-sm m-1"
+                  pTooltip="Cargar Fotografias de Evidencia"
+                  tooltipPosition="top"
+                  icon="far fa-images"
+                  label="Cargar fotos"
+                  (click)="onModalFormUploadImg(item.id)"
+                ></button>
+                <button
+                  pButton
+                  class="btn btn-sm m-1"
+                  pTooltip="Actualizar"
+                  tooltipPosition="top"
+                  icon="pi pi-save"
+                  label="Guardar"
+                  (click)="update(item)"
+                ></button>
+                <!-- Actualizar Orden de Mantenimiento -->
+              </div>
+            </div>
+
+            <div
+              class="col-sm-3 card"
+              *ngFor="let img of item.ordenServicioFotografia"
+            >
+              <div class="card-body p-1">
+                <img [src]="urlImg + img.img" alt="img" class="img-fluid" />
+              </div>
+              <div class="card-footer">
+                <app-button-delete
+                  (OnConfirm)="deleteImg(img.id)"
+                ></app-button-delete>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

@@ -1,0 +1,82 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [(selection)]="data"
+    [autoLayout]="true"
+    [globalFilterFields]="['shortName', 'largeName']"
+    [paginator]="true"
+    [responsive]="true"
+    [rowHover]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Evaluaciones'"
+        (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="code">
+          Codigo <p-sortIcon field="code"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="shortName">
+          Nombre
+          <p-sortIcon field="shortName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="largeName">
+          Razón social<p-sortIcon field="largeName"></p-sortIcon>
+        </th>
+        <th scope="col" style="width: 5%">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title">
+          <small>
+            {{ item.code }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.shortName }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.largeName }}
+          </small>
+        </td>
+        <!-- Opciones -->
+        <td class="p-column-title">
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="
+                onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+              "
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.shortName"
+            ></app-button-delete>
+          </div>
+        </td>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Table PrimeNg -->

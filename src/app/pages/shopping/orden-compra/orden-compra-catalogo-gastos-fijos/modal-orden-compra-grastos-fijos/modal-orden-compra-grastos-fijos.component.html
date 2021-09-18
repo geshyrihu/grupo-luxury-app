@@ -1,0 +1,18 @@
+<p-tabView>
+  <p-tabPanel header="Datos principales">
+    <app-form-catalogo-gastos-fijos></app-form-catalogo-gastos-fijos>
+  </p-tabPanel>
+  <p-tabPanel
+    header="Productos o servicios"
+    *ngIf="catalogoGastosFijosService.getCatalogoGastosFijosId() !== 0"
+  >
+    <app-form-gastos-fijos-servicios></app-form-gastos-fijos-servicios>
+  </p-tabPanel>
+
+  <p-tabPanel
+    header="Cedula Presupuestal"
+    *ngIf="catalogoGastosFijosService.getCatalogoGastosFijosId() !== 0"
+  >
+    <app-form-gastos-fijos-presupuesto></app-form-gastos-fijos-presupuesto>
+  </p-tabPanel>
+</p-tabView>

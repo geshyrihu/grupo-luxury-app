@@ -1,0 +1,342 @@
+<!-- Lista de elementos  -->
+<p-table
+  [(selection)]="data"
+  [value]="data"
+  #dt
+  [globalFilterFields]="[
+    'observations',
+    'deliveryDate',
+    'title',
+    'requestService',
+    'responsibleArea.nameArea'
+  ]"
+>
+  <ng-template pTemplate="caption">
+    <div class="d-flex">
+      <p class="mx-1 p-2" pSortableColumn="responsibleArea.nameArea">
+        Responsable
+        <p-sortIcon field="responsibleArea.nameArea"></p-sortIcon>
+      </p>
+      <p class="mx-1 p-2" pSortableColumn="title">
+        Titulo
+        <p-sortIcon field="title"></p-sortIcon>
+      </p>
+      <p class="mx-1 p-2" pSortableColumn="deliveryDate">
+        Fecha de entrega
+        <p-sortIcon field="deliveryDate"></p-sortIcon>
+      </p>
+      <p class="mx-1 p-2" pSortableColumn="advance">
+        Avance
+        <p-sortIcon field="advance"></p-sortIcon>
+      </p>
+      <!-- boton agregar/cancelar asunto -->
+      <div class="col text-right">
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-sm p-button-info p-button-outlined"
+          label="Agregar Registro"
+          icon="fas fa-plus"
+          *ngIf="!addItem"
+          (click)="createForm()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-sm p-button-danger p-button-outlined"
+          label="Cancelar"
+          icon="fas fa-window-close"
+          *ngIf="addItem"
+          (click)="addItem = false"
+        ></button>
+      </div>
+      <!-- boton agregar/cancelar asunto -->
+      <span class="ml-auto">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"
+              ><span class="fas fa-search"></span
+            ></span>
+          </div>
+          <input
+            type="text"
+            (input)="dt.filterGlobal($event.target.value, 'contains')"
+            class="form-control"
+            placeholder="Buscar..."
+          />
+        </div>
+      </span>
+    </div>
+    <!-- Formulario para agregar nuevo asunto -->
+    <ng-container *ngIf="addItem">
+      <form autocomplete="off" (submit)="submit()" [formGroup]="form">
+        <div
+          class="border border-info p-2 m-1"
+          style="background-color: #eeeeee"
+        >
+          <div class="row">
+            <div class="col-sm-10"></div>
+            <div class="col-sm-2">
+              <select
+                class="form-control form-control-sm"
+                formControlName="advance"
+                [class.is-invalid]="
+                  advance.invalid && (advance.dirty || advance.touched)
+                "
+                [class.is-valid]="
+                  !advance.invalid && (advance.dirty || advance.touched)
+                "
+              >
+                <option
+                  [value]="valor.value"
+                  *ngFor="let valor of advancedList"
+                >
+                  {{ valor.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-1 mb-1">
+            <div class="col-sm-8">
+              <div class="form-group">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  formControlName="title"
+                  [class.is-invalid]="
+                    title.invalid && (title.dirty || title.touched)
+                  "
+                  [class.is-valid]="
+                    !title.invalid && (title.dirty || title.touched)
+                  "
+                />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input
+                  type="date"
+                  class="form-control form-control-sm"
+                  formControlName="deliveryDate"
+                  [class.is-invalid]="
+                    deliveryDate.invalid &&
+                    (deliveryDate.dirty || deliveryDate.touched)
+                  "
+                  [class.is-valid]="
+                    !deliveryDate.invalid &&
+                    (deliveryDate.dirty || deliveryDate.touched)
+                  "
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <textarea
+                  class="form-control form-control-sm text-justify"
+                  formControlName="requestService"
+                  [class.is-invalid]="
+                    requestService.invalid &&
+                    (requestService.dirty || requestService.touched)
+                  "
+                  [class.is-valid]="
+                    !requestService.invalid &&
+                    (requestService.dirty || requestService.touched)
+                  "
+                  rows="5"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <textarea
+                  class="form-control form-control-sm text-justify"
+                  formControlName="observations"
+                  rows="5"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-sm-4">
+              <select
+                class="form-control form-control-sm"
+                formControlName="responsibleAreaId"
+                [class.is-invalid]="
+                  responsibleAreaId.invalid &&
+                  (responsibleAreaId.dirty || responsibleAreaId.touched)
+                "
+                [class.is-valid]="
+                  !responsibleAreaId.invalid &&
+                  (responsibleAreaId.dirty || responsibleAreaId.touched)
+                "
+              >
+                <option value="">--Selecciona una opción--</option>
+                <option
+                  [value]="item.value"
+                  *ngFor="let item of cb_responsibleArea"
+                >
+                  {{ item.label }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-8 text-right">
+              <app-button-submit
+                [disabled]="this.form.invalid"
+              ></app-button-submit>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <!-- Formulario para agregar nuevo asunto -->
+  </ng-template>
+
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <div
+          class="border p-2 m-1 border-gray"
+          style="background-color: #eeeeee"
+        >
+          <div class="row">
+            <div class="col-sm-10">
+              <div class="form-group">
+                <div class="progress" *ngIf="item.advance == -1">
+                  <div
+                    class="progress-bar progress-bar-striped bg-dark"
+                    role="progressbar"
+                    style="width: 100%"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    No Autorizado
+                  </div>
+                </div>
+                <div class="progress" *ngIf="item.advance == 0">
+                  <div
+                    class="progress-bar progress-bar-striped bg-danger"
+                    role="progressbar"
+                    style="width: 100%"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    No Iniciado
+                  </div>
+                </div>
+                <div
+                  class="progress"
+                  *ngIf="item.advance != 0 && item.advance != -1"
+                >
+                  <div
+                    class="progress-bar progress-bar-striped bg-success"
+                    [ngClass]="{ 'bg-success': item.advance === 100 }"
+                    [ngClass]="{
+                      'bg-warning': item.advance > 0 && item.advance < 100
+                    }"
+                    role="progressbar"
+                    [style.width]="item.advance + '%'"
+                    aria-valuenow="100"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    {{ item.advance }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <select
+                class="form-control form-control-sm"
+                [(ngModel)]="item.advance"
+              >
+                <option
+                  [value]="valor.value"
+                  *ngFor="let valor of advancedList"
+                >
+                  {{ valor.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-1 mb-1">
+            <div class="col-sm-8">
+              <div class="form-group">
+                <input
+                  [(ngModel)]="item.title"
+                  class="form-control form-control-sm"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <input
+                  [(ngModel)]="item.deliveryDate"
+                  type="date"
+                  class="form-control form-control-sm"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <textarea
+                  class="form-control form-control-sm text-justify"
+                  [(ngModel)]="item.requestService"
+                  rows="5"
+                ></textarea>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <textarea
+                  class="form-control form-control-sm text-justify"
+                  [(ngModel)]="item.observations"
+                  rows="5"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-sm-4">
+              <select
+                class="form-control form-control-sm"
+                [(ngModel)]="item.responsibleAreaId"
+              >
+                <option value="">--Selecciona una opción--</option>
+                <option
+                  [value]="item.value"
+                  *ngFor="let item of cb_responsibleArea"
+                >
+                  {{ item.label }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-8 text-right">
+              <button
+                pButton
+                class="p-button-sm p-button-info mr-1"
+                label="Actualizar"
+                icon="fas fa-cloud-upload-alt"
+                (click)="onUpdate(item)"
+              ></button>
+
+              <app-button-delete
+                *ngIf="isInRoleSupervisor"
+                (OnConfirm)="onDelete(item.id)"
+                [nameItem]="item.title"
+              ></app-button-delete>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->
+<p-confirmPopup></p-confirmPopup>

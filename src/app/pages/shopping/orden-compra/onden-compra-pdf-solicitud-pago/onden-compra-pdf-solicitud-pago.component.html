@@ -1,0 +1,305 @@
+<ng-container *ngIf="model !== undefined">
+  <app-report-header></app-report-header>
+  <div class="row">
+    <div class="col-12">
+      <div class="text-center">
+        <h6 class="h6">Solicitud de pago</h6>
+        <br />
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <table class="table table-light table-sm">
+        <tbody>
+          <tr>
+            <td style="width: 40%" class="small font-weight-light">
+              Orden de Compra
+            </td>
+            <td style="width: 60%" class="small font-weight-light">
+              {{ model.folio }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Fecha de Solicitud
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.fechaSolicitud | date }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">Area</td>
+            <td style="width: 70%" class="small font-weight-light text-justify">
+              {{ model.equipoOInstalacion }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Justificación del gasto
+            </td>
+            <td style="width: 70%" class="small font-weight-light text-justify">
+              {{ model.justificacionGasto }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Revisado por Residente
+            </td>
+            <td style="width: 70%" class="small font-weight-light text-justify">
+              {{ model.ordenCompraAuth.revisadoPorResidente }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Revisado por Supervisor
+            </td>
+            <td style="width: 70%" class="small font-weight-light text-justify">
+              {{ model.ordenCompraAuth.applicationUserAuth }}
+              {{ model.ordenCompraAuth.fechaAutorizacion | date: "medium" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-4">
+      <table class="table table-light table-sm">
+        <tbody>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Proveedor
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.providerName }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light"></td>
+            <td style="width: 70%" class="small font-weight-light text-justify">
+              {{ model.ordenCompraDatosPago.providerAdreess }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light"></td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.providerPhoneOne }} -
+              {{ model.ordenCompraDatosPago.providerPhoneTwo }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Pago a nombre de
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.nameCheck }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">Banco</td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.bank }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Cuenta/Convenio
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.paymentAccount }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Clabe/Referencia:
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.interbankCode }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-4">
+      <table class="table table-light table-sm">
+        <tbody>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Uso de CFDI
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.usoCFDI }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Metodo de Pago
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.metodoDePago }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">
+              Forma de Pago
+            </td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraDatosPago.formaDePago }}
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%" class="small font-weight-light">Factura</td>
+            <td style="width: 70%" class="small font-weight-light">
+              {{ model.ordenCompraStatus.factura }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tabla Presupuesto -->
+  <hr />
+
+  <table class="table table-sm table-striped table-inverse">
+    <thead class="thead-dark font-weight-light">
+      <tr>
+        <th scope="col" colspan="2" style="width: 60%">Cuenta</th>
+        <th scope="col" style="width: 20%">Saldo Disponible</th>
+        <th scope="col" style="width: 20%">Monto a usar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of ordenCompraPresupuesto">
+        <td class="p-fluid">
+          <input
+            disabled
+            type="text"
+            pInputText
+            [(ngModel)]="item.cuenta"
+            class="p-inputtext-sm"
+          />
+        </td>
+        <td class="p-fluid">
+          <input
+            disabled
+            type="text"
+            pInputText
+            [(ngModel)]="item.numeroCuenta"
+            class="p-inputtext-sm"
+          />
+        </td>
+        <td
+          class="p-fluid"
+          [class.bg-danger]="item.presupuestoDisponible < item.dineroUsado"
+          [class.bg-success]="item.presupuestoDisponible >= item.dineroUsado"
+        >
+          <p-inputNumber
+            disabled
+            [(ngModel)]="item.presupuestoDisponible"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+        <td class="p-fluid">
+          <p-inputNumber
+            disabled
+            [(ngModel)]="item.dineroUsado"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+      </tr>
+      <!-- KKKKKKKKKKKKKKK -->
+      <tr>
+        <td colspan="2"></td>
+        <td>Subtotal</td>
+        <td class="p-fluid">
+          <p-inputNumber
+            [(ngModel)]="subtotal"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2"></td>
+        <td>IVA</td>
+        <td class="p-fluid">
+          <p-inputNumber
+            [(ngModel)]="iva"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+      </tr>
+      <tr *ngIf="retencionIva !== 0">
+        <td colspan="2"></td>
+        <td>Retención de IVA</td>
+        <td class="p-fluid">
+          <p-inputNumber
+            [(ngModel)]="retencionIva"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2"></td>
+        <td>Total a pagar</td>
+        <td class="p-fluid">
+          <p-inputNumber
+            [(ngModel)]="total"
+            mode="currency"
+            currency="USD"
+            locale="en-US"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </td>
+      </tr>
+
+      <!-- <tr>
+        <td colspan="2"></td>
+        <td>Total a pagar</td>
+        <td>{{ total | currency: "MXN" }}</td>
+      </tr> -->
+    </tbody>
+  </table>
+  <!-- Tabla Presupuesto -->
+  <br />
+  <br />
+  <br />
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-3 text-center">
+      <br />
+      <hr />
+      <p>
+        {{ model.ordenCompraAuth.revisadoPorResidente.valueOf().slice(0, -21) }}
+      </p>
+      <p>Pago Solicitado por</p>
+    </div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-3 text-center">
+      <br />
+      <hr />
+      <p>Matias Luis Abramoff</p>
+      <p>Pago Autorizado por</p>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</ng-container>

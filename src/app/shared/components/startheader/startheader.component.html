@@ -1,0 +1,49 @@
+<div class="alert alert-info" role="alert">
+  <h1 class="alert-heading">{{ title }}</h1>
+
+  <hr />
+  <div class="row">
+    <div class="text-left col-sm-3">
+      <input
+        (input)="searchItem(text.value)"
+        *ngIf="ToShowSearchInput"
+        #text
+        class="form-control form-control-sm mr-sm-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+    </div>
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6">
+      <div class="row d-flex flex-row-reverse bd-highlight">
+        <div class="col-sm-3 p-2" *ngIf="ToShowAddButton">
+          <button
+            [routerLink]="[PathAdd]"
+            class="btn btn-sm btn-primary btn-block"
+          >
+            <i class="fas fa-plus mr-2"></i>
+            Add
+          </button>
+        </div>
+        <div class="col-sm-3" *ngIf="ToShowToReturnButton">
+          <button
+            (click)="toReturnAction()"
+            class="btn btn-sm btn-danger btn-block"
+            [routerLink]="[PathToReturn]"
+          >
+            <i class="fas fa-long-arrow-alt-left ml-2"></i>
+            To Return
+          </button>
+        </div>
+        <div class="col-sm-3" *ngIf="ToShowSaveButton">
+          <button class="btn btn-sm btn-success btn-block" [routerLink]="['/']">
+            <i class="fas fa-save ml-2"></i>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

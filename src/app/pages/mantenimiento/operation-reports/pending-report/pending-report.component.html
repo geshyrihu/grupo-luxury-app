@@ -1,0 +1,156 @@
+<div class="container">
+  <app-report-header></app-report-header>
+  <h6>
+    <a class="bg-white" [routerLink]="['/maintenance/operationReport']">
+      <i class="fas fa-chevron-left"></i>
+    </a>
+    Reporte de Tareas Pendientes
+  </h6>
+  <ng-container *ngFor="let item of data">
+    <div class="alert alert-light p-1">
+      <h5 class="h5">
+        {{ item.key }}
+      </h5>
+    </div>
+    <table class="table table-sm">
+      <tr *ngFor="let detalles of item.weeklyReportPDFDTO">
+        <td style="width: 40%">
+          <img
+            [src]="urlImg + detalles.photoPathBefore"
+            alt=""
+            style="height: 300px"
+            width="450px"
+          />
+        </td>
+        <td style="width: 60%">
+          <div class="card-body">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td style="width: 30%"><small> Actividad</small></td>
+                  <td style="width: 70%">
+                    <small> {{ detalles.activity }}</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><small> Fecha de Solicitud </small></td>
+                  <td>
+                    <small>
+                      {{ detalles.dateRequest | date: "fullDate" }}
+                      {{ detalles.dateRequest | date: "shortTime" }}
+                    </small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><small> Reporta </small></td>
+                  <td>
+                    <small> {{ detalles.user }}</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><small> Responsable </small></td>
+                  <td>
+                    <small> {{ detalles.responsable }}</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><small> Fecha de Inicio </small></td>
+                  <td>
+                    <small>
+                      {{ detalles.fechaProgamacion | date: "medium" }}
+                      <!-- {{ detalles.fechaProgamacion | date: "fullDate" }}
+                      {{ detalles.fechaProgamacion | date: "shortTime" }} -->
+                    </small>
+                  </td>
+                </tr>
+                <tr>
+                  <td><small> Fecha de Término </small></td>
+                  <td>
+                    <small>
+                      {{ detalles.dateFinished | date: "fullDate" }}
+                      {{ detalles.dateFinished | date: "shortTime" }}
+                    </small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="form-group row">
+            <label class="col-sm-3 col-form-labelfont-weight-light"
+              ><small> Actividad</small></label
+            >
+            <div class="col-sm-9">
+              <textarea
+                class="form-control form-control-sm"
+                style="resize: none"
+                cols="30"
+                rows="2"
+                >{{ detalles.activity }}</textarea
+              >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-light"
+              ><small> Fecha de Solicitud</small></label
+            >
+            <div class="col-sm-9">
+              <input
+                class="form-control form-control-sm"
+                [value]="detalles.dateRequest | date"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-labelfont-weight-light"
+              ><small> Reporta</small></label
+            >
+            <div class="col-sm-9">
+              <input
+                class="form-control form-control-sm"
+                [value]="detalles.user"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-labelfont-weight-light"
+              ><small> Responsable</small></label
+            >
+            <div class="col-sm-9">
+              <input
+                class="form-control form-control-sm"
+                [value]="detalles.responsable"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-labelfont-weight-light"
+              ><small> Fecha de Inicio</small></label
+            >
+            <div class="col-sm-9">
+              <input
+                class="form-control form-control-sm"
+                [value]="detalles.fechaProgamacion | date: 'fullDate'"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-labelfont-weight-light"
+              ><small> Fecha de Término</small></label
+            >
+            <div class="col-sm-9">
+              <input
+                class="form-control form-control-sm"
+                [value]="detalles.dateFinished | date: 'fullDate'"
+                type="text"
+              />
+            </div>
+          </div> -->
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+</div>

@@ -1,0 +1,84 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Profesion -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Profesión</label>
+        <div class="col-sm-9 p-fluid">
+          <select
+            class="form-control form-control-sm"
+            formControlName="professionId"
+          >
+            <option value="">Selecciona una opción...</option>
+            <option
+              [value]="item.value"
+              *ngFor="let item of selectListProfession"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              professionId.invalid &&
+              (professionId.dirty || professionId.touched)
+            "
+          >
+            <span
+              *ngIf="professionId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Profesion -->
+
+      <!-- Nivel -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nivel</label>
+        <div class="col-sm-9 p-fluid">
+          <select
+            class="form-control form-control-sm"
+            formControlName="nivelCuestionario"
+          >
+            <option value="">Selecciona una opción...</option>
+            <option
+              [value]="item.value"
+              *ngFor="let item of selectListnivelCuestionario"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              nivelCuestionario.invalid &&
+              (nivelCuestionario.dirty || nivelCuestionario.touched)
+            "
+          >
+            <span
+              *ngIf="nivel.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Nivel -->
+      <app-button-submit
+        [disabled]="this.form.invalid || enviando"
+        [nameLabel]="labelButton"
+      ></app-button-submit>
+    </form>
+  </div>
+</div>

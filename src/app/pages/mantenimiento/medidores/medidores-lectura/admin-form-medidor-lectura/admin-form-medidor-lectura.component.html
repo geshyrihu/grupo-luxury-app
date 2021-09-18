@@ -1,0 +1,52 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row" hidden>
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Fecha de Registro </label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            type="datetime-local"
+            class="p-inputtext-sm"
+            formControlName="fechaRegistro"
+          />
+        </div>
+      </div>
+      <!-- Lectura -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Lectura</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            formControlName="lectura"
+            class="p-inputtext-sm"
+            placeholder="Ingrese la Lectura"
+            [class.p-invalid]="
+              lectura.invalid && (lectura.dirty || lectura.touched)
+            "
+            type="number"
+          />
+
+          <div *ngIf="lectura.invalid && (lectura.dirty || lectura.touched)">
+            <span
+              *ngIf="lectura.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Lectura -->
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

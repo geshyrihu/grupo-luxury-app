@@ -1,0 +1,81 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="['lectura']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Lectura'"
+      (add)="modalAddEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+    <div class="p-d-flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-file-o"
+        (click)="dt.exportCSV()"
+        class="p-mr-2"
+        pTooltip="CSV"
+        tooltipPosition="bottom"
+      ></button>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="fechaRegistro">
+        Fecha de Registro <p-sortIcon field="fechaRegistro"></p-sortIcon>
+      </th>
+      <th scope="col" pSortableColumn="lectura">
+        Lectura <p-sortIcon field="lectura"></p-sortIcon>
+      </th>
+
+      <th scope="col" style="width: 5%">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.fechaRegistro | date: "short" }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.lectura }}
+        </small>
+      </td>
+
+      <!-- Opciones -->
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            (edit)="modalAddEdit({ id: item.id, title: 'Editar Registro' })"
+          ></app-button-edit>
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.lectura"
+          ></app-button-delete>
+        </div>
+      </td>
+      <!-- Opciones -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

@@ -1,0 +1,143 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-table
+  #dt
+  dataKey="name"
+  [value]="data"
+  styleClass="p-datatable-sm p-datatable-striped"
+  [paginator]="true"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [rowsPerPageOptions]="[10, 25, 50, 75, 100]"
+  [globalFilterFields]="['nameMachinery', 'ubication', 'categorie']"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Inventario de Equipos e Instalaciones'"
+      (add)="showModalAddoreditMachineries({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+      [rolAuth]="Residente || SuperUsuario || Mantenimiento"
+    ></app-table-header>
+
+    <span class="p-buttonset">
+      <button
+        pButton
+        pRipple
+        label="Activos"
+        (click)="onSelectState(0)"
+        icon="pi pi-check-circle"
+        class="p-button-sm p-button-success"
+        [ngClass]="{ 'p-button-outlined': state == 1 }"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Inactivos"
+        (click)="onSelectState(1)"
+        icon="pi pi-times"
+        class="p-button-sm p-button-danger"
+        [ngClass]="{ 'p-button-outlined': state == 0 }"
+      ></button>
+    </span>
+  </ng-template>
+
+  <!-- Cabecera -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" style="width: 15%">Img</th>
+      <th scope="col" style="width: 30%" pSortableColumn="nameMachinery">
+        Nombre <p-sortIcon field="nameMachinery"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 25%" pSortableColumn="ubication">
+        Ubicación <p-sortIcon field="ubication"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 15%" pSortableColumn="categorie">
+        Categoria <p-sortIcon field="categorie"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 10%">Servicios</th>
+      <th scope="col" style="width: 10%">Opciones</th>
+    </tr>
+  </ng-template>
+  <!-- Cabecera -->
+
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td style="width: 15%" class="p-column-title">
+        <img
+          [src]="base_urlImg + item.photoPath"
+          alt="."
+          width="100"
+          class="p-shadow-4"
+        />
+      </td>
+      <td style="width: 30%" class="p-column-title">
+        <small> {{ item.nameMachinery }}</small>
+      </td>
+
+      <td style="width: 25%" class="p-column-title">
+        <small>{{ item.ubication }} </small>
+      </td>
+      <td style="width: 15%" class="p-column-title">
+        <small>{{ item.nameCotegory }} </small>
+      </td>
+
+      <td style="width: 10%" class="p-column-title text-center">
+        <span
+          *ngIf="Residente || SuperUsuario || Mantenimiento"
+          class="p-tag p-tag-info"
+          pTooltip="Explorar Servicios"
+          (click)="showModalListOrderService(item.id)"
+          >{{ item.maintenanceCalendars }}</span
+        >
+        <span
+          *ngIf="!Residente && !SuperUsuario && !Mantenimiento"
+          class="p-tag p-tag-info"
+          pTooltip="Explorar Servicios"
+          >{{ item.maintenanceCalendars }}</span
+        >
+      </td>
+
+      <td style="width: 10%" class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <!-- Bitacora -->
+          <button
+            pTooltip="Bitacora"
+            tooltipPosition="left"
+            class="btn btn-sm btn-default text-cyan m-1"
+            (click)="onBitacoraIndividual(item.id)"
+          >
+            <i class="fas fa-book"></i>
+          </button>
+          <!-- Bitacora -->
+          <!-- Editar Role -->
+
+          <app-button-edit
+            *ngIf="Mantenimiento || Residente || SuperUsuario"
+            (edit)="
+              showModalAddoreditMachineries({
+                id: item.id,
+                title: 'Editar regitro ' + item.id
+              })
+            "
+          ></app-button-edit>
+          <!-- Editar Role -->
+
+          <!-- Borrar -->
+
+          <app-button-delete
+            *ngIf="Mantenimiento || Residente || SuperUsuario"
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.name"
+          ></app-button-delete>
+
+          <!-- Borrar -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

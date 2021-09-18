@@ -1,0 +1,69 @@
+<app-login-title
+  title="Inicio de sesión"
+  [colorHeader]="'bg-light'"
+></app-login-title>
+<form autocomplete="off" (ngSubmit)="login()" [formGroup]="form">
+  <!-- Form Group -->
+
+  <!-- Correo electronioco -->
+  <div class="form-group">
+    <label class="col-form-label-sm font-weight-normal"
+      >Correo Electronico</label
+    >
+    <input
+      type="email"
+      class="form-control"
+      placeholder="Ingrese su correo electronico"
+      formControlName="email"
+      [class.is-invalid]="itemInvalid('email')"
+      [class.is-valid]="itemValid('email')"
+    />
+    <small
+      *ngIf="itemInvalid('email')"
+      class="text-danger animate__animated animate__fadeIn"
+    >
+      Dirección de correo electrónico no válida.</small
+    >
+  </div>
+  <!-- Correo electronioco -->
+  <!-- Contraseña -->
+  <div class="form-group">
+    <label class="col-form-label-sm font-weight-normal">Contraseña</label>
+    <input
+      type="password"
+      class="form-control"
+      placeholder="Ingrese su contraseña"
+      formControlName="password"
+      [class.is-invalid]="itemInvalid('password')"
+      [class.is-valid]="itemValid('password')"
+    />
+    <small
+      *ngIf="itemInvalid('password')"
+      class="text-danger animate__animated animate__fadeIn"
+      >Contraseña requerida.</small
+    >
+  </div>
+  <!-- Contraseña -->
+  <!-- Recordarme -->
+
+  <div class="form-group form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="remember"
+      formControlName="remember"
+    />
+    <label class="form-check-label" for="remember">Recordarme</label>
+  </div>
+  <!-- Recordarme -->
+
+  <!-- Boton Submin -->
+  <app-login-block-button
+    [name]="'Ingresar'"
+    [showrecoveryPassword]="'true'"
+    [showRegister]="'true'"
+  ></app-login-block-button>
+  <!-- Boton Submin -->
+  <hr />
+</form>
+<!-- Registro -->

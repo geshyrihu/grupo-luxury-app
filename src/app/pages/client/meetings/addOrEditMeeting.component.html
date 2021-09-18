@@ -1,0 +1,102 @@
+<!-- Formulario de minuta -->
+
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="row">
+    <div class="col">
+      <div class="form-group row" hidden>
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9">
+          <input class="form-control form-control-sm" formControlName="id" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Fecha</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            type="date"
+            class="p-inputtext-sm"
+            formControlName="date"
+            [class.p-invalid]="date.invalid && (date.dirty || date.touched)"
+          />
+          <div
+            *ngIf="date.invalid && (date.dirty || date.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="date.errors.required"> Campo requerido </small>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Tipo de Junta</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_typeMeeting"
+            formControlName="eTypeMeeting"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+          <div
+            *ngIf="
+              eTypeMeeting.invalid &&
+              (eTypeMeeting.dirty || eTypeMeeting.touched)
+            "
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="eTypeMeeting.errors.required">
+              Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="submit" [disabled]="form.invalid" class="btn btn-primary">
+        <span class="far fa-save"></span>
+      </button>
+    </div>
+  </div>
+
+  <hr />
+</form>
+<!-- Formulario de minuta -->
+<ng-container *ngIf="id === 0">
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+</ng-container>
+
+<ng-container *ngIf="id !== 0">
+  <div class="row">
+    <div class="col-sm-4">
+      <!-- Fomrulario comité -->
+      <app-form-comite
+        [meetingId]="id"
+        [customerId]="customerId"
+      ></app-form-comite>
+      <!-- Fomrulario comité -->
+    </div>
+    <div class="col-sm-4">
+      <!-- Formulario Administración -->
+      <app-form-administration
+        [meetingId]="id"
+        [customerId]="customerId"
+      ></app-form-administration>
+      <!-- Formulario Administración -->
+    </div>
+    <div class="col-sm-4">
+      <!-- Formulario Administración -->
+      <app-form-invited
+        [meetingId]="id"
+        [customerId]="customerId"
+      ></app-form-invited>
+      <!-- Formulario Administración -->
+    </div>
+  </div>
+</ng-container>

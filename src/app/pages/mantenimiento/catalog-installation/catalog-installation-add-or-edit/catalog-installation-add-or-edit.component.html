@@ -1,0 +1,53 @@
+<div class="p-card">
+  <div class="p-card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Nombre -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="nameInstallation"
+            placeholder="Ingrese el nombre"
+            [class.p-invalid]="
+              nameInstallation.invalid &&
+              (nameInstallation.dirty || nameInstallation.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nameInstallation.invalid &&
+              (nameInstallation.dirty || nameInstallation.touched)
+            "
+          >
+            <span
+              *ngIf="nameInstallation.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Nombre es reqerido.</span
+            >
+            <span
+              *ngIf="nameInstallation.errors.minlength"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo debe de tener minimo 4 caracteres.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Nombre -->
+      <!-- Razón social -->
+
+      <!-- Razón social -->
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

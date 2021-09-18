@@ -1,0 +1,164 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div class="card">
+  <p-table
+    *ngIf="data"
+    [(selection)]="data"
+    #dt
+    [responsive]="true"
+    styleClass="p-datatable-gridlines p-datatable-sm"
+    [value]="data"
+    [rows]="10"
+    [paginator]="true"
+    [rowHover]="true"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+    [globalFilterFields]="[
+      'producto',
+      'unidadDeMedida',
+      'existencia',
+      'stockMin',
+      'stockMax',
+      'compraRequerida'
+    ]"
+    [autoLayout]="true"
+    [value]="data"
+    sortField="category"
+    sortMode="single"
+    (onSort)="onSort()"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Inventario'"
+        (add)="addProductos({ id: 0, title: 'Editar Registro' })"
+        [dt]="dt"
+        [rolAuth]="Asistente || Residente || SuperUsuario || Mantenimiento"
+      ></app-table-header>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" class="small" pSortableColumn="producto.nombreProducto">
+          Producto
+          <p-sortIcon field="producto.nombreProducto"></p-sortIcon>
+        </th>
+        <th scope="col" class="small" pSortableColumn="existencia">
+          Existencia
+          <p-sortIcon field="existencia"></p-sortIcon>
+        </th>
+        <th
+          scope="col"
+          class="small"
+          pSortableColumn="unidadDeMedida.descripcion"
+        >
+          Unidad
+          <p-sortIcon field="unidadDeMedida.descripcion"></p-sortIcon>
+        </th>
+        <th scope="col" class="small" pSortableColumn="stockMin">
+          Stock Min
+          <p-sortIcon field="stockMin"></p-sortIcon>
+        </th>
+        <th scope="col" class="small" pSortableColumn="stockMax">
+          Stock Max
+          <p-sortIcon field="stockMax"></p-sortIcon>
+        </th>
+        <th scope="col" class="small" pSortableColumn="compraRequerida">
+          Compra Sugerida
+          <p-sortIcon field="compraRequerida"></p-sortIcon>
+        </th>
+        <th
+          *ngIf="Asistente || Residente || SuperUsuario || Mantenimiento"
+          scope="col"
+          class="small"
+        >
+          Opciones
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+      <tr *ngIf="rowGroupMetadata[item.category].index === rowIndex">
+        <td colspan="7">
+          <span class="p-text-bold p-ml-2"> {{ item.category }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <small
+            (click)="onModalTarjetaProducto(item.productoId)"
+            class="pointer"
+          >
+            <p-avatar
+              [image]="urlImgBase + item.urlImagen"
+              pBadge
+              value="4"
+              severity="danger"
+              styleClass="p-mr-2"
+              size="xlarge"
+            ></p-avatar>
+
+            {{ item.producto }}</small
+          >
+        </td>
+        <td>
+          <small> {{ item.existencia }}</small>
+        </td>
+        <td>
+          <small> {{ item.unidadDeMedida }}</small>
+        </td>
+        <td>
+          <small> {{ item.stockMin }}</small>
+        </td>
+        <td>
+          <small>{{ item.stockMax }} </small>
+        </td>
+        <td>
+          <small> {{ item.compraRequerida }}</small>
+        </td>
+        <td *ngIf="Asistente || Residente || SuperUsuario || Mantenimiento">
+          <div class="d-flex justify-content-center">
+            <p-button
+              *ngIf="Asistente || Residente || SuperUsuario || Mantenimiento"
+              pTooltip="Entrada de Productos"
+              tooltipPosition="left"
+              styleClass="p-button-sm text-white-50 ml-1 p-button-success"
+              icon="fas fa-plus text-white-50"
+              (click)="
+                onAddEntrada({
+                  id: 0,
+                  idProducto: item.productoId,
+                  nombreProducto: item.producto
+                })
+              "
+            >
+            </p-button>
+            <p-button
+              *ngIf="Asistente || Residente || SuperUsuario || Mantenimiento"
+              pTooltip="Salida de Productos"
+              tooltipPosition="left"
+              styleClass="p-button-sm text-white-50 ml-1 p-button-danger"
+              icon="fas fa-minus text-white-50"
+              (click)="
+                onAddSalida({
+                  id: 0,
+                  idInventarioProducto: item.id,
+                  idProducto: item.productoId,
+                  nombreProducto: item.producto
+                })
+              "
+            >
+            </p-button>
+            <app-button-edit
+              *ngIf="Asistente || Residente || SuperUsuario || Mantenimiento"
+              (edit)="editProductos({ id: item.id, title: 'Editar Registro' })"
+            ></app-button-edit>
+            <app-button-delete
+              *ngIf="Mantenimiento"
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.producto.nombreProducto"
+            ></app-button-delete>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

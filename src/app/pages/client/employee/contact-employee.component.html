@@ -1,0 +1,117 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div class="row mb-2">
+  <div class="col d-flex justify-content-end" *ngIf="!showButtonAddOrCancel">
+    <button
+      (click)="showButtonAddOrCancel = !showButtonAddOrCancel"
+      pButton
+      pRipple
+      type="button"
+      label="Agregar un contacto"
+      class="p-button-info p-button-sm"
+    ></button>
+  </div>
+  <div class="col d-flex justify-content-end" *ngIf="showButtonAddOrCancel">
+    <button
+      (click)="showButtonAddOrCancel = !showButtonAddOrCancel"
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      class="p-button-danger p-button-sm"
+    ></button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">Nombre</div>
+  <div class="col-sm-3">Relación</div>
+  <div class="col-sm-2">Télefono1</div>
+  <div class="col-sm-2">Télefono2</div>
+  <div class="col-sm-1">Opciones</div>
+</div>
+<form
+  *ngIf="showButtonAddOrCancel"
+  class="row mb-2"
+  autocomplete="off"
+  (submit)="onSubmit()"
+  [formGroup]="form"
+>
+  <div class="col-sm-4 p-fluid">
+    <input pInputText class="p-inputtext-sm" formControlName="name" />
+  </div>
+  <div class="col-sm-3 p-fluid">
+    <p-dropdown
+      placeholder="--Seleciona una opción--"
+      [options]="cb_contactEmployee"
+      formControlName="relacion"
+      optionLabel="label"
+      optionValue="value"
+      class="p-inputtext-sm"
+    ></p-dropdown>
+  </div>
+  <div class="col-sm-2 p-fluid">
+    <p-inputMask
+      mask="99-9999-9999"
+      formControlName="phoneOne"
+      class="p-inputtext-sm"
+      placeholder="99-9999-9999"
+    ></p-inputMask>
+  </div>
+  <div class="col-sm-2 p-fluid">
+    <p-inputMask
+      mask="99-9999-9999"
+      formControlName="phoneTwo"
+      class="p-inputtext-sm"
+      placeholder="99-9999-9999"
+    ></p-inputMask>
+  </div>
+  <div class="col-sm-1 p-fluid">
+    <p-button type="submit" label="Guardar" styleClass="p-button-sm"></p-button>
+  </div>
+</form>
+<hr />
+
+<div class="row" *ngFor="let item of data">
+  <div class="col-sm-4 p-fluid">
+    <input pInputText class="p-inputtext-sm" [(ngModel)]="item.name" />
+  </div>
+  <div class="col-sm-3 p-fluid">
+    <p-dropdown
+      placeholder="--Seleciona una opción--"
+      [options]="cb_contactEmployee"
+      [(ngModel)]="item.relacion"
+      optionLabel="label"
+      optionValue="value"
+      class="p-inputtext-sm"
+    ></p-dropdown>
+  </div>
+  <div class="col-sm-2 p-fluid">
+    <p-inputMask
+      mask="99-9999-9999"
+      [(ngModel)]="item.phoneOne"
+      class="p-inputtext-sm"
+      placeholder="99-9999-9999"
+    ></p-inputMask>
+  </div>
+  <div class="col-sm-2 p-fluid">
+    <p-inputMask
+      mask="99-9999-9999"
+      [(ngModel)]="item.phoneTwo"
+      class="p-inputtext-sm"
+      placeholder="99-9999-9999"
+    ></p-inputMask>
+  </div>
+
+  <div class="col-sm-1 p-fluid">
+    <div class="d-flex justify-content-center">
+      <app-button-edit (edit)="onUpdate(item)"></app-button-edit>
+      <button class="btn btn-sm m-1" (click)="onDelete(item)">
+        <span class="far fa-trash-alt text-danger"></span>
+      </button>
+    </div>
+  </div>
+</div>
+<br />
+<br />
+<br />
+<br />

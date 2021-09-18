@@ -1,0 +1,177 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="id"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Fecha de Entrada</label>
+        <div class="col-sm-9">
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            formControlName="fechaEntrada"
+            [class.invalid]="
+              fechaEntrada.invalid &&
+              (fechaEntrada.dirty || fechaEntrada.touched)
+            "
+          />
+          <div
+            *ngIf="
+              fechaEntrada.invalid &&
+              (fechaEntrada.dirty || fechaEntrada.touched)
+            "
+          >
+            <span
+              *ngIf="fechaEntrada.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Producto</label>
+        <div class="col-sm-9" *ngIf="mostrarProductos == false">
+          <input
+            hidden
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="productoId"
+          />
+          <input
+            readonly
+            [value]="nombreProducto"
+            type="text"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="col-sm-9" *ngIf="mostrarProductos == true">
+          <select
+            class="form-control form-control-sm"
+            formControlName="productoId"
+          >
+            <option value="">--Selecciona un producto--</option>
+            <option [value]="item.value" *ngFor="let item of cb_productos">
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Cantidad</label>
+        <div class="col-sm-9">
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            formControlName="cantidad"
+            [class.invalid]="
+              cantidad.invalid && (cantidad.dirty || cantidad.touched)
+            "
+          />
+          <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
+            <span
+              *ngIf="cantidad.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Unidad</label>
+        <div class="col-sm-9">
+          <select
+            class="form-control form-control-sm"
+            formControlName="unidadMedidaId"
+            [class.invalid]="
+              unidadMedidaId.invalid &&
+              (unidadMedidaId.dirty || unidadMedidaId.touched)
+            "
+          >
+            <option value="">--Selecciona una opcion--</option>
+            <option [value]="item.value" *ngFor="let item of cb_Unidad">
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              unidadMedidaId.invalid &&
+              (unidadMedidaId.dirty || unidadMedidaId.touched)
+            "
+          >
+            <span
+              *ngIf="unidadMedidaId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Proveedor</label>
+        <div class="col-sm-9">
+          <select
+            class="form-control form-control-sm"
+            formControlName="providerId"
+            [class.invalid]="
+              providerId.invalid && (providerId.dirty || providerId.touched)
+            "
+          >
+            <option value="">--Selecciona una opcion--</option>
+            <option [value]="item.value" *ngFor="let item of cb_Proveedor">
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              providerId.invalid && (providerId.dirty || providerId.touched)
+            "
+          >
+            <span
+              *ngIf="providerId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Factura</label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="numeroFactura"
+            [class.invalid]="
+              numeroFactura.invalid &&
+              (numeroFactura.dirty || numeroFactura.touched)
+            "
+          />
+          <div
+            *ngIf="
+              numeroFactura.invalid &&
+              (numeroFactura.dirty || numeroFactura.touched)
+            "
+          >
+            <span
+              *ngIf="numeroFactura.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

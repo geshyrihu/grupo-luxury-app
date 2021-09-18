@@ -1,0 +1,169 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input formControlName="id" class="p-inputtext-sm" pInputText />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Img -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Imagen</label>
+        <div class="col-sm-9">
+          <app-input-img
+            (fileSelected)="uploadFile($event)"
+            [urlImgCurrent]="urlBaseImg + model?.photoPath"
+            [contentHeight]="100"
+            [contentWidth]="100"
+          ></app-input-img>
+        </div>
+      </div>
+      <!-- Img -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            formControlName="nameCustomer"
+            pInputText
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              nameCustomer.invalid &&
+              (nameCustomer.dirty || nameCustomer.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nameCustomer.invalid &&
+              (nameCustomer.dirty || nameCustomer.touched)
+            "
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="nameCustomer.errors.required">
+              Campo requerido
+            </small>
+            <small *ngIf="nameCustomer.errors.minlength">
+              Minimo 5 caracteres
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">RFC</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            class="p-inputtext-sm"
+            pInputText
+            formControlName="rfc"
+            [class.p-invalid]="rfc.invalid && (rfc.dirty || rfc.touched)"
+          />
+          <div
+            *ngIf="rfc.invalid && (rfc.dirty || rfc.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="rfc.errors.required"> Campo requerido </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Télefono 1</label>
+        <div class="col-sm-9 p-fluid">
+          <p-inputMask
+            class="p-inputtext-sm"
+            mask="99-99999999"
+            formControlName="phoneOne"
+            placeholder="99-99999999"
+          ></p-inputMask>
+
+          <div
+            *ngIf="phoneOne.invalid && (phoneOne.dirty || phoneOne.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="phoneOne.errors.required"> Campo requerido </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Télefono 2</label>
+        <div class="col-sm-9 p-fluid">
+          <p-inputMask
+            class="p-inputtext-sm"
+            mask="99-99999999"
+            formControlName="phoneTwo"
+            placeholder="99-99999999"
+          ></p-inputMask>
+          <div
+            *ngIf="phoneTwo.invalid && (phoneTwo.dirty || phoneTwo.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="phoneTwo.errors.required"> Campo requerido </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Dirección</label>
+        <div class="col-sm-9 p-fluid">
+          <textarea
+            rows="3"
+            cols="30"
+            formControlName="adreess"
+            class="p-inputtext-sm text-justify"
+            pInputTextarea
+            autoResize="autoResize"
+            [class.p-invalid]="
+              adreess.invalid && (adreess.dirty || adreess.touched)
+            "
+          ></textarea>
+          <div
+            *ngIf="adreess.invalid && (adreess.dirty || adreess.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="adreess.errors.required"> Campo requerido </small>
+            <small *ngIf="adreess.errors.minlength">
+              Minimo 10 caracteres
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Registro</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            type="date"
+            class="p-inputtext-sm"
+            formControlName="register"
+            pInputText
+          />
+
+          <div
+            *ngIf="register.invalid && (register.dirty || register.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="register.errors.required"> Campo requerido </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Activo</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            [options]="optionActive"
+            formControlName="active"
+            class="p-inputtext-sm"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

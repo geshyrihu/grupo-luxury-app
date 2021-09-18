@@ -1,0 +1,56 @@
+<form autocomplete="off" (submit)="submit()" [formGroup]="form">
+  <!-- Id -->
+  <div class="p-fluid">
+    <div class="p-field">
+      <label class="font-weight-normal">Id</label>
+      <input pInputText class="p-inputtext-sm" formControlName="id" />
+    </div>
+  </div>
+  <!-- Id -->
+
+  <!-- Torre -->
+  <div class="p-fluid">
+    <div class="p-field">
+      <label class="font-weight-normal">Torre</label>
+      <input
+        formControlName="department"
+        class="p-inputtext-sm"
+        pInputText
+        [class.p-invalid]="
+          department.invalid && (department.dirty || department.touched)
+        "
+      />
+      <div
+        *ngIf="department.invalid && (department.dirty || department.touched)"
+        class="text-danger small animate__animated animate__fadeIn"
+      >
+        <small *ngIf="department.errors.required"> Campo requerido </small>
+        <small *ngIf="department.errors.minlength"> Minimo 5 caracteres </small>
+      </div>
+    </div>
+  </div>
+  <!-- Torre -->
+
+  <!-- Departamento -->
+
+  <div class="p-fluid">
+    <div class="p-field">
+      <label class="font-weight-normal">Departamento</label>
+      <input
+        formControlName="tower"
+        class="p-inputtext-sm"
+        pInputText
+        [class.p-invalid]="tower.invalid && (tower.dirty || tower.touched)"
+      />
+      <div
+        *ngIf="tower.invalid && (tower.dirty || tower.touched)"
+        class="text-danger small animate__animated animate__fadeIn"
+      >
+        <small *ngIf="tower.errors.required"> Campo requerido </small>
+        <small *ngIf="tower.errors.minlength"> Minimo 5 caracteres </small>
+      </div>
+    </div>
+  </div>
+  <!-- Departamento -->
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

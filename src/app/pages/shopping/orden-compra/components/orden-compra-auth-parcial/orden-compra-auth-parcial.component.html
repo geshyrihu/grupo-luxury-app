@@ -1,0 +1,121 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-4 p-fluid">
+        <!-- Boton Autorizar Supervision -->
+        <ng-container *ngIf="mostarBotonAutorizarSup">
+          <button
+            (click)="autorizarCompra()"
+            *ngIf="
+              ordenCompra.ordenCompraPresupuestoUtilizado.length > 0 &&
+              this.ordenCompraService.getTotalPorCubrir() === 0 &&
+              ordenCompra.ordenCompraAuth.revisadoPorResidente
+            "
+            pButton
+            pRipple
+            type="button"
+            label="Autorizar S."
+            class="p-button-info p-button-sm mb-2"
+          ></button>
+        </ng-container>
+        <!-- Boton Autorizar Supervision -->
+        <!-- Boton Autorizar por Residente -->
+        <ng-container *ngIf="mostarBotonAutorizarRes">
+          <button
+            (click)="autorizarCompra()"
+            *ngIf="
+              (isResidente &&
+                revisadaPorResidente &&
+                totalOrdenCompra < 2000.0 &&
+                this.ordenCompraService.getTotalPorCubrir() === 0.0 &&
+                totalRelacionadoConOtrasOrdenes <= 2000) ||
+              (esGastoFijo && isResidente && revisadaPorResidente)
+            "
+            pButton
+            pRipple
+            type="button"
+            label="Autorizar R."
+            class="p-button-success p-button-sm mb-2"
+          ></button>
+        </ng-container>
+
+        <!-- Boton Autorizar por Residente -->
+      </div>
+      <div class="col-4 p-fluid">
+        <ng-container class="p-fluid" *ngIf="mostarBotonRevocar">
+          <button
+            (click)="deautorizarCompra()"
+            [disabled]="!isSupervisionOperativa"
+            pButton
+            pRipple
+            type="button"
+            label="Revocar"
+            class="p-button-danger p-button-sm mb-2"
+          ></button>
+        </ng-container>
+      </div>
+      <div class="col-4 p-fluid">
+        <ng-container *ngIf="isSupervisionOperativa">
+          <button
+            (click)="onModalcompraNoAutorizada()"
+            [disabled]="!isSupervisionOperativa"
+            pButton
+            pRipple
+            type="button"
+            label="Denegar"
+            class="p-button-danger p-button-sm mb-2"
+          ></button>
+        </ng-container>
+      </div>
+    </div>
+    <!-- Botones -->
+
+    <!-- Botones -->
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Status
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{
+              ordenCompra.ordenCompraAuth.statusOrdenCompra | eStatusOrdenCompra
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Autorización
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraAuth.applicationUserAuth }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Fecha de Autorización
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraAuth.fechaAutorizacion | date: "medium" }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Residente que valido
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraAuth.revisadoPorResidente }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Observaciones
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraAuth.observaciones }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Observaciones</label>
+        <div class="col-sm-9 p-fluid">
+          <textarea
+            pInputTextarea
+            class="p-inputtext-sm text-justify"
+            formControlName="observaciones"
+            cols="30"
+            rows="5"
+            style="resize: none"
+            [class.p-invalid]="
+              observaciones.invalid &&
+              (observaciones.dirty || observaciones.touched)
+            "
+          ></textarea>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

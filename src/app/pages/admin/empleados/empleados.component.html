@@ -1,0 +1,115 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [(selection)]="data"
+    [autoLayout]="true"
+    [globalFilterFields]="['fullName', 'cellPhone', 'profession', 'customer']"
+    [paginator]="true"
+    [responsive]="true"
+    [rowHover]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Listado de Empleados'"
+        (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+      ></app-table-header>
+      <div class="text-center">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Activos"
+          class="p-button-raised p-button-sm p-button-success m-1"
+          (click)="onLoadData(true)"
+          (click)="terminoBusqueda = true"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Inactivos"
+          class="p-button-raised p-button-sm p-button-danger m-1"
+          (click)="onLoadData(false)"
+          (click)="terminoBusqueda = false"
+        ></button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="fullName">
+          Nombre <p-sortIcon field="fullName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="cellPhone">
+          Télefono <p-sortIcon field="cellPhone"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="customer">
+          Cliente <p-sortIcon field="customer"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="profession">
+          Profesión <p-sortIcon field="profession"></p-sortIcon>
+        </th>
+
+        <th scope="col" style="width: 5%">Opciones</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+      <tr>
+        <td class="p-column-title">
+          <img
+            [src]="
+              pahtBaseImg + item.customerId + '/employee/' + item.photoPath
+            "
+            width="50px"
+            height="50px"
+            class="img-avatar"
+            alt=""
+          />
+          <small>
+            {{ item.fullName }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.cellPhone }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.customer }}
+          </small>
+        </td>
+        <td class="p-column-title">
+          <small>
+            {{ item.profession }}
+          </small>
+        </td>
+        <!-- Opciones -->
+        <td class="p-column-title">
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="
+                onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+              "
+            ></app-button-edit>
+          </div>
+        </td>
+        <!-- Opciones -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Table PrimeNg -->

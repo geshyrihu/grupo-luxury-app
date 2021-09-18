@@ -1,0 +1,57 @@
+<div class="p-card">
+  <div class="p-card-body">
+    <div class="text-right">
+      <button
+        pButton
+        pRipple
+        (click)="onModalAddProvider()"
+        type="button"
+        label="Agregar Proveedor"
+        class="p-button-outlined p-button-info p-button-sm"
+      ></button>
+    </div>
+    <br />
+
+    <form autocomplete="off" (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3"
+          >Proveedor y/o Razón social
+        </label>
+        <div class="p-fluid col-sm-9">
+          <p-autoComplete
+            [(ngModel)]="proveedor"
+            [suggestions]="proveedorResult"
+            field="label"
+            (completeMethod)="filtrarProveedor($event)"
+            formControlName="providerId"
+            [forceSelection]="true"
+            [dropdown]="true"
+            inputStyleClass="p-inputtext-sm"
+          ></p-autoComplete>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Fecha de Cotización</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            type="date"
+            formControlName="fechaCotizacion"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Número de Cotización</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="numeroCotizacion"
+          />
+        </div>
+      </div>
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

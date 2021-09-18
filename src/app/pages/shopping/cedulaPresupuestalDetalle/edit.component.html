@@ -1,0 +1,35 @@
+<form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+  <div class="p-fluid">
+    <div class="p-field" hidden>
+      <label class="font-weight-normal">Id</label>
+      <input
+        class="p-inputtext-sm"
+        formControlName="id"
+        type="text"
+        pInputText
+      />
+    </div>
+    <div class="p-field">
+      <label class="font-weight-normal">Partida presupuestal</label>
+      <input
+        readonly
+        class="p-inputtext-sm"
+        type="text"
+        pInputText
+        [value]="descripcion"
+      />
+    </div>
+    <div class="p-field">
+      <label class="font-weight-normal">Presupuesto Mensual</label>
+      <p-inputNumber
+        class="p-inputtext-sm"
+        formControlName="presupuestoMensual"
+        mode="currency"
+        currency="MXN"
+        locale="en-ES"
+      >
+      </p-inputNumber>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

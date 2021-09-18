@@ -1,0 +1,42 @@
+<div class="p-card">
+  <div class="p-card-body">
+    <form (submit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Producto</label>
+        <div class="col-sm-9 p-fluid">
+          <p pInputText class="p-inputtext-sm" disabled>{{ nombreProducto }}</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Cantidad</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            class="p-inputtext-sm"
+            type="text"
+            formControlName="cantidad"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Unidad</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_unidadMedida"
+            formControlName="unidadMedidaId"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <app-button-submit (ngSubmit)="onSubmit()"></app-button-submit>
+    </form>
+  </div>
+  <br />
+  <br />
+  <br />
+</div>

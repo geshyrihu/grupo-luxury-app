@@ -1,0 +1,107 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="['eTypeMeeting.label', 'date']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Minutas de Juntas'"
+      (add)="showModalAddOrEditMeeting({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" style="width: 15%" pSortableColumn="date">
+        Fecha
+        <p-sortIcon field="date"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 10%" pSortableColumn="eTypeMeeting">
+        Tipo de Junta
+        <p-sortIcon field="eTypeMeeting"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 10%" pSortableColumn="issues">
+        Asuntos
+        <p-sortIcon field="issues"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 10%" pSortableColumn="pending">
+        Pendientes
+        <p-sortIcon field="pending"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 3%">.</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.date | date }}
+        </small>
+      </td>
+      <td class="p-column-title text-justify">
+        <small>
+          {{ item.eTypeMeeting | eeTypeMeeting }}
+        </small>
+      </td>
+      <td class="p-column-title text-center">
+        <span
+          class="p-tag p-tag-success pointer"
+          pTooltip="Revisar todos los asuntos"
+          (click)="showModalAddOrEditMeetingDetails(item.id, 'Asuntos')"
+        >
+          {{ item.issues }}
+        </span>
+      </td>
+      <td class="p-column-title text-center">
+        <span
+          class="p-tag p-tag-warning pointer"
+          pTooltip="Revisar Pendientes"
+          (click)="showModalAddOrEditMeetingDetails(item.id, 'Pendientes')"
+        >
+          {{ item.pending }}
+        </span>
+      </td>
+      <!-- Opciones -->
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-sm m-1" (click)="generetePDF(item.id)">
+            <span class="fas fa-file-pdf text-danger"></span>
+          </button>
+
+          <app-button-edit
+            (edit)="
+              showModalAddOrEditMeeting({
+                id: item.id,
+                title: 'Editar Registro'
+              })
+            "
+          ></app-button-edit>
+          <app-button-delete
+            *ngIf="authService.isSupervisor"
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.name"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

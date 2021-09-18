@@ -1,0 +1,26 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="form-group">
+    <label class="font-weight-light">Equipo o Instalación</label>
+    <div class="p-fluid">
+      <p-autoComplete
+        [(ngModel)]="maquinaria"
+        [suggestions]="results"
+        field="nameMachinery"
+        (completeMethod)="FiltrarMaquinaria($event)"
+        formControlName="id"
+        [forceSelection]="true"
+        [dropdown]="true"
+      ></p-autoComplete>
+    </div>
+  </div>
+
+  <app-button-submit [disabled]="form.invalid"></app-button-submit>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <hr />
+</form>
+<p-toast position="top-left" baseZIndex="99999"></p-toast>

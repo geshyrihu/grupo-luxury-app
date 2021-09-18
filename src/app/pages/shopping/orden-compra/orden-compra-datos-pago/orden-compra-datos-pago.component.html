@@ -1,0 +1,78 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Proveedor</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_provider"
+            formControlName="providerId"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Tipo de Gasto</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_tipoGasto"
+            formControlName="tipoGasto"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Uso de CFDI</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_usoCfdi"
+            formControlName="usoCFDIId"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Metodo de Pago</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_metodoPago"
+            formControlName="metodoDePagoId"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Forma de Pago</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_formaPago"
+            formControlName="formaDePagoId"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,186 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="id"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Fecha de Salida</label>
+        <div class="col-sm-9">
+          <input
+            type="date"
+            class="form-control form-control-sm"
+            formControlName="fechaSalida"
+            [class.invalid]="
+              fechaSalida.invalid && (fechaSalida.dirty || fechaSalida.touched)
+            "
+          />
+          <div
+            *ngIf="
+              fechaSalida.invalid && (fechaSalida.dirty || fechaSalida.touched)
+            "
+          >
+            <span
+              *ngIf="fechaSalida.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Hora de Salida</label>
+        <div class="col-sm-9">
+          <input
+            type="time"
+            class="form-control form-control-sm"
+            formControlName="horaSalida"
+            [class.invalid]="
+              horaSalida.invalid && (horaSalida.dirty || horaSalida.touched)
+            "
+          />
+          <div
+            *ngIf="
+              horaSalida.invalid && (horaSalida.dirty || horaSalida.touched)
+            "
+          >
+            <span
+              *ngIf="horaSalida.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Producto</label>
+        <div class="col-sm-9">
+          <input
+            hidden
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="productoId"
+          />
+          <input
+            readonly
+            [value]="nombreProducto"
+            type="text"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Cantidad</label>
+        <div class="col-sm-9">
+          <input
+            [max]="existenciaActual"
+            min="0"
+            type="number"
+            class="form-control form-control-sm"
+            formControlName="cantidad"
+            [class.invalid]="
+              cantidad.invalid && (cantidad.dirty || cantidad.touched)
+            "
+          />
+          <div>
+            <span class="text-danger small">{{ noHaystock }}</span>
+          </div>
+          <div *ngIf="cantidad.invalid && (cantidad.dirty || cantidad.touched)">
+            <span
+              *ngIf="cantidad.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Unidad</label>
+        <div class="col-sm-9">
+          <select
+            class="form-control form-control-sm"
+            formControlName="unidadMedidaId"
+            [class.invalid]="
+              unidadMedidaId.invalid &&
+              (unidadMedidaId.dirty || unidadMedidaId.touched)
+            "
+          >
+            <option value="">--Selecciona una opcion--</option>
+            <option [value]="item.value" *ngFor="let item of cb_Unidad">
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              unidadMedidaId.invalid &&
+              (unidadMedidaId.dirty || unidadMedidaId.touched)
+            "
+          >
+            <span
+              *ngIf="unidadMedidaId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Entregado a</label>
+        <div class="col-sm-9">
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            formControlName="quienUso"
+            [class.invalid]="
+              quienUso.invalid && (quienUso.dirty || quienUso.touched)
+            "
+          />
+          <div *ngIf="quienUso.invalid && (quienUso.dirty || quienUso.touched)">
+            <span
+              *ngIf="quienUso.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Uso</label>
+        <div class="col-sm-9">
+          <textarea
+            style="resize: none"
+            class="form-control form-control-sm"
+            formControlName="usoPrducto"
+            [class.invalid]="
+              usoPrducto.invalid && (usoPrducto.dirty || usoPrducto.touched)
+            "
+            cols="30"
+            rows="3"
+          >
+          </textarea>
+
+          <div
+            *ngIf="
+              usoPrducto.invalid && (usoPrducto.dirty || usoPrducto.touched)
+            "
+          >
+            <span
+              *ngIf="usoPrducto.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

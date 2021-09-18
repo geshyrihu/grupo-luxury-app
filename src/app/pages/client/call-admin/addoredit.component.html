@@ -1,0 +1,186 @@
+<form autocomplete="off" (submit)="submit()" [formGroup]="form">
+  <div class="row">
+    <div class="col-sm-6">
+      <!-- Id -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Id</label>
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+      <!-- Fecha de solicitud -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Fecha de solicitud</label>
+          <input
+            pInputText
+            type="date"
+            formControlName="dateRequest"
+            class="p-inputtext-sm"
+          />
+        </div>
+      </div>
+      <!-- Fecha de solicitud -->
+      <!-- Hora de solicitud -->
+
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Hora de solicitud</label>
+          <input
+            pInputText
+            formControlName="timeRequest"
+            class="p-inputtext-sm"
+            type="time"
+          />
+        </div>
+      </div>
+
+      <!-- Hora de solicitud -->
+      <!-- Departamento -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Departamento</label>
+
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_DirectoryCondominium"
+            formControlName="directoryCondominiumId"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            placeholder="Selecciona una opción"
+            [class.p-invalid]="
+              directoryCondominiumId.invalid &&
+              (directoryCondominiumId.dirty || directoryCondominiumId.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Departamento -->
+      <!-- Sercivio solicitado -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Servicio solicitada</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="requestService"
+            class="p-inputtext-sm"
+            autoResize="autoResize"
+            [class.p-invalid]="
+              requestService.invalid &&
+              (requestService.dirty || requestService.touched)
+            "
+          ></textarea>
+        </div>
+      </div>
+      <!-- Sercivio solicitado -->
+    </div>
+    <div class="col-sm-6">
+      <!-- Solicita -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Solicita</label>
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_Request"
+            formControlName="request"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            placeholder="Selecciona una opción"
+            [class.p-invalid]="
+              request.invalid && (request.dirty || request.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Solicita -->
+      <!-- Área responsable  -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Área responsable </label>
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_ResponsibleArea"
+            formControlName="responsibleAreaId"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            placeholder="Selecciona una opción"
+            [class.p-invalid]="
+              responsibleAreaId.invalid &&
+              (responsibleAreaId.dirty || responsibleAreaId.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Área responsable  -->
+
+      <!-- Responsable -->
+
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Responsable</label>
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_Employee"
+            formControlName="employeeId"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            placeholder="Selecciona una opción"
+            [class.p-invalid]="
+              employeeId.invalid && (employeeId.dirty || employeeId.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Responsable -->
+
+      <!-- Status -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Estatus</label>
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_Status"
+            formControlName="status"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            placeholder="Selecciona una opción"
+            [class.p-invalid]="
+              status.invalid && (status.dirty || status.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+      <!-- Status -->
+
+      <!-- Observaciones -->
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Observaciones</label>
+          <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            formControlName="observations"
+            class="p-inputtext-sm"
+            autoResize="autoResize"
+          ></textarea>
+        </div>
+      </div>
+      <!-- Observaciones -->
+    </div>
+  </div>
+
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

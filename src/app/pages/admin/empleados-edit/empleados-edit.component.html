@@ -1,0 +1,104 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Código -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Cliente</label>
+        <div class="col-sm-9 p-fluid">
+          <select
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="customerId"
+            [class.p-invalid]="
+              customerId.invalid && (customerId.dirty || customerId.touched)
+            "
+          >
+            <option
+              *ngFor="let item of customerSelectItem"
+              [value]="item.value"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              customerId.invalid && (customerId.dirty || customerId.touched)
+            "
+          >
+            <span
+              *ngIf="customerId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Código -->
+      <!-- Nombre -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Profesión</label>
+        <div class="col-sm-9 p-fluid">
+          <select
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="professionId"
+            [class.p-invalid]="
+              professionId.invalid &&
+              (professionId.dirty || professionId.touched)
+            "
+          >
+            <option
+              *ngFor="let item of professionSelectItem"
+              [value]="item.value"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+
+          <div
+            *ngIf="
+              professionId.invalid &&
+              (professionId.dirty || professionId.touched)
+            "
+          >
+            <span
+              *ngIf="professionId.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Nombre es reqerido.</span
+            >
+            <span
+              *ngIf="professionId.errors.minlength"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo debe de tener minimo 4 caracteres.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Nombre -->
+      <!-- Razón social -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">State</label>
+
+        <div class="col-sm-9 p-fluid">
+          <select pInputText class="p-inputtext-sm" formControlName="active">
+            <option [value]="true">Activo</option>
+            <option [value]="false">Inactivo</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Razón social -->
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

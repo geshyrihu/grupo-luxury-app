@@ -1,0 +1,58 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="row">
+    <div class="col-10">
+      <div class="p-fluid">
+        <div class="p-field">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_Administration"
+            formControlName="meetingPositionId"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="p-fluid">
+        <div class="p-field">
+          <p-dropdown
+            class="p-inputtext-sm"
+            [options]="cb_ParticipantAdministration"
+            formControlName="name"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="label"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="btn btn-sm btn-primary btn-block"
+      >
+        <span class="far fa-save"></span>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="list-group">
+  <p class="small list-group-item list-group-item-action active">
+    Administración
+  </p>
+
+  <small
+    *ngFor="let item of participantsList"
+    class="list-group-item list-group-item-action"
+  >
+    {{ item.meetingPosition }}-{{ item.name }}
+
+    <small class="close" (click)="onDelete(item.id)">
+      <span class="far fa-trash-alt text-danger"></span>
+    </small>
+  </small>
+</div>

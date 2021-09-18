@@ -1,0 +1,108 @@
+<ng-container *ngIf="data !== undefined">
+  <p-toast position="top-left" baseZIndex="99999"></p-toast>
+  <div class="card">
+    <p-table [value]="data.cuestionarioPregunta">
+      <ng-template pTemplate="caption">
+        <div class="row">
+          <div class="col-sm-6">
+            <h3 class="h3">{{ data.profession }}</h3>
+            <p class="card-text">
+              Nivel de examen: {{ data.nivelCuestionario }}
+            </p>
+          </div>
+          <div class="col-sm-6 text-right">
+            <button
+              pTooltip="Agregar nueva Pregunta"
+              tooltipPosition="left"
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-plus"
+              class="p-button-help p-button-sm"
+              (click)="
+                onModalAddOrEditPregunta({
+                  id: 0,
+                  idCuestionario: data.id,
+                  title: 'Agregar nueva Pregunta'
+                })
+              "
+            ></button>
+          </div></div
+      ></ng-template>
+      <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <tr [pContextMenuRow]="pregunta">
+          <td style="width: 5%">{{ i + 1 }}.-</td>
+          <td style="width: 80%">{{ item.pregunta }}</td>
+          <td style="width: 15%" class="text-center">
+            <button
+              [disabled]="item.preguntaRespuestas.length >= 3"
+              pTooltip="Agregar nueva Respuesta"
+              tooltipPosition="left"
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-plus"
+              class="p-button-help p-button-sm"
+              (click)="
+                onModalAddOrEditRespuesta({
+                  id: 0,
+                  cuestionarioPreguntaId: item.id,
+                  title: 'Agregar nueva Respuesta'
+                })
+              "
+            ></button>
+            <app-button-edit
+              (edit)="
+                onModalAddOrEditPregunta({
+                  id: item.id,
+                  idCuestionario: data.id,
+                  title: 'Editar Pregunta'
+                })
+              "
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDeletePregunta(item.id)"
+            ></app-button-delete>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="row">
+              <div
+                class="col-sm-4"
+                *ngFor="let resp of item.preguntaRespuestas"
+              >
+                <div class="card">
+                  <div class="card-body">
+                    <i
+                      *ngIf="!resp.correcta"
+                      class="text-danger fas fa-times"
+                    ></i>
+                    <i
+                      *ngIf="resp.correcta"
+                      class="text-success fas fa-check"
+                    ></i>
+                    {{ resp.respuesta }}
+                  </div>
+                  <div class="card-footer">
+                    <app-button-edit
+                      (edit)="
+                        onModalAddOrEditRespuesta({
+                          id: resp.id,
+                          title: 'Editar Respuesta'
+                        })
+                      "
+                    ></app-button-edit>
+                    <app-button-delete
+                      (OnConfirm)="onDeleteRespuesta(resp.id)"
+                    ></app-button-delete>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>

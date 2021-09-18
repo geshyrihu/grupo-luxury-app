@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="submit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9">
+          <input formControlName="id" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            formControlName="nameArea"
+            class="form-control"
+            [class.IS-invalid]="
+              nameArea.invalid && (nameArea.dirty || nameArea.touched)
+            "
+          />
+          <div *ngIf="nameArea.invalid && (nameArea.dirty || nameArea.touched)">
+            <span
+              *ngIf="nameArea.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Nombre es reqerido.</span
+            >
+            <span
+              *ngIf="nameArea.errors.minlength"
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              La longitud mínima del password es 5 caracteres.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Position</label>
+        <div class="col-sm-9 p-fluid">
+          <input formControlName="position" class="form-control" />
+        </div>
+      </div>
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

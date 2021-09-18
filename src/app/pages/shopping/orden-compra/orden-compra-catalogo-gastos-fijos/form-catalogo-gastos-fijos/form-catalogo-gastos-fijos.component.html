@@ -1,0 +1,188 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Equipo Area o Instalación</label>
+    <div class="col-sm-9 p-fluid">
+      <textarea
+        inputId="textarea"
+        rows="2"
+        cols="30"
+        pInputTextarea
+        formControlName="equipoOInstalacion"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            equipoOInstalacion.invalid &&
+            (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+        }"
+      ></textarea>
+      <div
+        *ngIf="
+          equipoOInstalacion.invalid &&
+          (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+        "
+      >
+        <span
+          *ngIf="equipoOInstalacion.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Justificación del Gasto</label>
+    <div class="col-sm-9 p-fluid">
+      <textarea
+        inputId="textarea"
+        rows="2"
+        cols="30"
+        pInputTextarea
+        formControlName="justificacionGasto"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            justificacionGasto.invalid &&
+            (justificacionGasto.dirty || justificacionGasto.touched)
+        }"
+      ></textarea>
+      <div
+        *ngIf="
+          justificacionGasto.invalid &&
+          (justificacionGasto.dirty || justificacionGasto.touched)
+        "
+      >
+        <span
+          *ngIf="justificacionGasto.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Proveedor</label>
+    <div class="col-sm-9 p-fluid">
+      <p-autoComplete
+        placeholder="Buscar proveedor..."
+        [(ngModel)]="proveedor"
+        [suggestions]="proveedorResult"
+        field="label"
+        (completeMethod)="filtrarProveedor($event)"
+        formControlName="providerId"
+        [forceSelection]="true"
+        [dropdown]="true"
+        value="value"
+        inputStyleClass="p-inputtext-sm"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            providerId.invalid && (providerId.dirty || providerId.touched)
+        }"
+      ></p-autoComplete>
+      <div
+        *ngIf="providerId.invalid && (providerId.dirty || providerId.touched)"
+      >
+        <span
+          *ngIf="providerId.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Uso de Cfdi</label>
+    <div class="col-sm-9 p-fluid">
+      <p-dropdown
+        class="p-inputtext-sm"
+        [options]="cb_usoCFDI"
+        optionLabel="label"
+        optionValue="value"
+        formControlName="usoCFDIId"
+        placeholder="Selecciona una opción"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            usoCFDIId.invalid && (usoCFDIId.dirty || usoCFDIId.touched)
+        }"
+      >
+      </p-dropdown>
+      <div *ngIf="usoCFDIId.invalid && (usoCFDIId.dirty || usoCFDIId.touched)">
+        <span
+          *ngIf="usoCFDIId.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Forma de pago</label>
+    <div class="col-sm-9 p-fluid">
+      <p-dropdown
+        class="p-inputtext-sm"
+        [options]="cb_formaDePago"
+        formControlName="formaDePagoId"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona una opción"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            formaDePagoId.invalid &&
+            (formaDePagoId.dirty || formaDePagoId.touched)
+        }"
+      >
+      </p-dropdown>
+      <div
+        *ngIf="
+          formaDePagoId.invalid &&
+          (formaDePagoId.dirty || formaDePagoId.touched)
+        "
+      >
+        <span
+          *ngIf="formaDePagoId.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-3 font-weight-normal">Metodo de Pago</label>
+    <div class="col-sm-9 p-fluid">
+      <p-dropdown
+        class="p-inputtext-sm"
+        [options]="cb_metodoDePago"
+        formControlName="metodoDePagoId"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona una opción"
+        [ngClass]="{
+          'ng-invalid ng-dirty':
+            metodoDePagoId.invalid &&
+            (metodoDePagoId.dirty || metodoDePagoId.touched)
+        }"
+      >
+      </p-dropdown>
+      <div
+        *ngIf="
+          metodoDePagoId.invalid &&
+          (metodoDePagoId.dirty || metodoDePagoId.touched)
+        "
+      >
+        <span
+          *ngIf="metodoDePagoId.errors.required"
+          class="text-danger small animate__animated animate__fadeIn"
+          >Este campo es requerido.</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+</form>

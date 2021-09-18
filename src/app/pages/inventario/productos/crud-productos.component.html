@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row" hidden>
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input formControlName="id" class="p-inputtext-sm" pInputText />
+        </div>
+      </div>
+      <!-- Id -->
+
+      <!-- Img -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Imagen</label>
+        <div class="col-sm-9">
+          <app-input-img
+            (fileSelected)="uploadFile($event)"
+            [urlImgCurrent]="urlBaseImg"
+            [contentHeight]="150"
+            [contentWidth]="250"
+          ></app-input-img>
+        </div>
+      </div>
+      <!-- Img -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Nombre</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            formControlName="nombreProducto"
+            pInputText
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              nombreProducto.invalid &&
+              (nombreProducto.dirty || nombreProducto.touched)
+            "
+          />
+          <div
+            *ngIf="
+              nombreProducto.invalid &&
+              (nombreProducto.dirty || nombreProducto.touched)
+            "
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="nombreProducto.errors.required">
+              Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Categoria</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            [options]="cb_category"
+            formControlName="categoryId"
+            class="p-inputtext-sm"
+            placeholder="--Selecciona una opción--"
+            optionLabel="label"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Clasificación</label>
+        <div class="col-sm-9 p-fluid">
+          <p-dropdown
+            [options]="cb_clasificacion"
+            formControlName="clasificacion"
+            class="p-inputtext-sm"
+            optionLabel="label"
+            optionValue="value"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Marca</label>
+        <div class="col-sm-9 p-fluid">
+          <input formControlName="marca" pInputText class="p-inputtext-sm" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Modelo</label>
+        <div class="col-sm-9 p-fluid">
+          <input formControlName="modelo" pInputText class="p-inputtext-sm" />
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

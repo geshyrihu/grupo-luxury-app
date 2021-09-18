@@ -1,0 +1,56 @@
+<form autocomplete="off" [formGroup]="form" (submit)="onSubmit()">
+  <div class="p-fluid">
+    <div class="p-field p-grid">
+      <label for="year" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Id</label>
+      <div class="p-col-12 p-md-10">
+        <input type="text" pInputText formControlName="id" />
+      </div>
+    </div>
+    <div class="p-field p-grid">
+      <label for="year" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Año</label>
+      <div class="p-col-12 p-md-10">
+        <p-inputMask
+          class="p-inputtext-sm"
+          id="year"
+          type="number"
+          formControlName="anio"
+          placeholder="9999"
+          mask="9999"
+        ></p-inputMask>
+        <small
+          *ngIf="anio?.errors?.required && (anio.dirty || anio.touched)"
+          class="p-invalid animate__animated animate__fadeIn"
+          >Campo requerido.</small
+        >
+      </div>
+    </div>
+    <div class="p-field p-grid">
+      <label for="customerId" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+        >Cliente</label
+      >
+      <div class="p-col-12 p-md-10">
+        <p-dropdown
+          [options]="cb_Customers"
+          [showClear]="true"
+          class="p-inputtext-sm"
+          formControlName="customerId"
+          id="customerId"
+          optionLabel="label"
+          placeholder="Selecciona el cliente"
+        ></p-dropdown>
+        <small
+          *ngIf="
+            customerId?.errors?.required &&
+            (customerId.dirty || customerId.touched)
+          "
+          class="p-invalid animate__animated animate__fadeIn"
+          >Campo requerido.</small
+        >
+      </div>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>
+<br />
+<br />
+<br />

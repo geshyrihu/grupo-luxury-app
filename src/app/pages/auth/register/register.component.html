@@ -1,0 +1,94 @@
+<app-login-title
+  title="Crear mi cuenta"
+  [colorHeader]="'bg-light'"
+></app-login-title>
+
+<form autocomplete="off" (ngSubmit)="register()" [formGroup]="form">
+  <div class="form-group">
+    <!-- Campo de correo electrónico -->
+    <label class="col-form-label-sm font-weight-normal"
+      >Correo electronico</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      type="email"
+      placeholder="Ingrese su correo electronico"
+      formControlName="email"
+      [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+      [class.is-valid]="!email.invalid && (email.dirty || email.touched)"
+    />
+    <div
+      *ngIf="email.invalid && (email.dirty || email.touched)"
+      class="text-danger small animate__animated animate__fadeIn"
+    >
+      <div *ngIf="email.errors.required">El campo correo es requerido</div>
+      <div *ngIf="email.errors.pattern">Correo electronico no valido</div>
+      <div *ngIf="email.errors.usernameUnico">
+        Ese nombre de usuario ya está en uso
+      </div>
+    </div>
+  </div>
+  <!-- Campo de correo electrónico -->
+
+  <!-- Campo ingresar contraseña -->
+  <div class="form-group">
+    <label class="col-form-label-sm font-weight-normal"
+      >Ingresar contraseña</label
+    >
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Ingrese su contraseña"
+      formControlName="password"
+      [class.is-invalid]="
+        password.invalid && (password.dirty || password.touched)
+      "
+      [class.is-valid]="
+        !password.invalid && (password.dirty || password.touched)
+      "
+    />
+
+    <div
+      *ngIf="password.invalid && (password.dirty || password.touched)"
+      class="text-danger small animate__animated animate__fadeIn"
+    >
+      <div *ngIf="password.errors.required">El password es requerido</div>
+      <div *ngIf="password.errors.minlength">
+        La longitud mínima del password es 4 caracteres
+      </div>
+      <div *ngIf="password.errors.passwordValidation">
+        {{ password.errors.passwordValidation.message }}
+      </div>
+    </div>
+  </div>
+  <!-- Campo ingresar contraseña -->
+  <!-- Campo Confirmar contraseña -->
+  <div class="form-group">
+    <label class="col-form-label-sm font-weight-normal"
+      >Confirmar contraseña</label
+    >
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Confirme su contraseña"
+      formControlName="passwordConfirm"
+      [class.is-invalid]="itemInvalid('passwordConfirm')"
+      [class.is-valid]="itemValid('email')"
+    />
+
+    <small
+      *ngIf="passwordNotValid()"
+      class="text-danger p-invalid animate__animated animate__fadeIn"
+      >La contraseña y la contraseña de confirmación no coinciden.</small
+    >
+  </div>
+  <!-- Campo Confirmar contraseña -->
+  <!-- Boton Submin -->
+  <app-login-block-button
+    [name]="'Registrarme'"
+    [showLogin]="'true'"
+  ></app-login-block-button>
+  <!-- Boton Submin -->
+  <hr />
+</form>

@@ -1,0 +1,118 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Folio</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            readonly
+            type="text"
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="folio"
+          />
+        </div>
+      </div> -->
+
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Fecha de Solicitud</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            type="date"
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="fechaSolicitud"
+            [class.p-invalid]="
+              fechaSolicitud.invalid &&
+              (fechaSolicitud.dirty || fechaSolicitud.touched)
+            "
+          />
+          <div
+            *ngIf="
+              fechaSolicitud.invalid &&
+              (fechaSolicitud.dirty || fechaSolicitud.touched)
+            "
+          >
+            <span
+              *ngIf="fechaSolicitud.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Area</label>
+        <div class="col-sm-9 p-fluid">
+          <textarea
+            rows="2"
+            cols="30"
+            class="p-inputtext-sm text-justify"
+            pInputTextarea
+            autoResize="autoResize"
+            formControlName="equipoOInstalacion"
+            [class.p-invalid]="
+              equipoOInstalacion.invalid &&
+              (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+            "
+          ></textarea>
+          <div
+            *ngIf="
+              equipoOInstalacion.invalid &&
+              (equipoOInstalacion.dirty || equipoOInstalacion.touched)
+            "
+          >
+            <span
+              *ngIf="equipoOInstalacion.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Justificación</label>
+        <div class="col-sm-9 p-fluid">
+          <textarea
+            rows="2"
+            cols="30"
+            class="p-inputtext-sm text-justify"
+            pInputTextarea
+            autoResize="autoResize"
+            formControlName="justificacionGasto"
+            [class.p-invalid]="
+              justificacionGasto.invalid &&
+              (justificacionGasto.dirty || justificacionGasto.touched)
+            "
+          ></textarea>
+          <div
+            *ngIf="
+              justificacionGasto.invalid &&
+              (justificacionGasto.dirty || justificacionGasto.touched)
+            "
+          >
+            <span
+              *ngIf="justificacionGasto.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >El campo Código es reqerido.</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="font-weight-light col-sm-3">Liga de Archivos</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            type="text"
+            pInputText
+            class="p-inputtext-sm"
+            formControlName="urlFile"
+          />
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

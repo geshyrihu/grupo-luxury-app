@@ -1,0 +1,176 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="[
+    'cellPhone',
+    'directoryCondominium',
+    'extencion',
+    'fixedPhone',
+    'habitant',
+    'mail',
+    'nameDirectoryCondominium'
+  ]"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Condominos'"
+      (add)="showModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+      [rolAuth]="Asistente || Residente || SuperUsuario"
+    ></app-table-header>
+    <div class="row">
+      <div class="col-sm-4"></div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        scope="col"
+        style="width: 7%"
+        class="text-small"
+        pSortableColumn="directoryCondominium"
+      >
+        <small>Departamento</small>
+        <p-sortIcon field="directoryCondominium"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="habitant"
+      >
+        <small>Habitante</small>
+        <p-sortIcon field="habitant"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="nameDirectoryCondominium"
+      >
+        <small>Nombre</small>
+        <p-sortIcon field="nameDirectoryCondominium"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="extencion"
+      >
+        <small>Extensión</small>
+        <p-sortIcon field="extencion"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="fixedPhone"
+      >
+        <small>Télefono fijo</small>
+        <p-sortIcon field="fixedPhone"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="cellPhone"
+      >
+        <small>Télefonos</small>
+        <p-sortIcon field="cellPhone"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        class="text-small"
+        pSortableColumn="mail"
+      >
+        <small>Emails</small>
+        <p-sortIcon field="mail"></p-sortIcon>
+      </th>
+      <th
+        *ngIf="Asistente || Residente || SuperUsuario"
+        scope="col"
+        style="width: 5%"
+        class="text-small"
+      >
+        Opciones
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td>
+        <small>
+          {{ item.directoryCondominium }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.habitant | eHabitant }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.nameDirectoryCondominium }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.extencion }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.fixedPhone }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.cellPhone }}
+        </small>
+      </td>
+      <td>
+        <small>
+          {{ item.mail }}
+        </small>
+      </td>
+
+      <td class="p-column-title" *ngIf="Asistente || Residente || SuperUsuario">
+        <div class="d-flex justify-content-center">
+          <!-- Componente editar registro -->
+          <app-button-edit
+            (edit)="
+              showModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+            "
+          ></app-button-edit>
+          <!-- Componente editar registro -->
+          <!-- Componente eliminar registro -->
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.id"
+          ></app-button-delete>
+          <!-- Componente eliminar registro -->
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

@@ -1,0 +1,13 @@
+<p-confirmDialog
+  header="Confirmar borrado!"
+  icon="pi pi-exclamation-triangle"
+></p-confirmDialog>
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<p-button
+  (click)="confirm($event)"
+  pTooltip="Eliminar"
+  tooltipPosition="left"
+  styleClass="p-button-sm text-white-50 ml-1 p-button-danger"
+  icon="far fa-trash-alt"
+>
+</p-button>

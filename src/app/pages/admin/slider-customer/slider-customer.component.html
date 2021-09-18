@@ -1,0 +1,37 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-dataView
+  #dv
+  [value]="data"
+  [paginator]="true"
+  [rows]="30"
+  [rowsPerPageOptions]="[30, 40, 50, 75, 100]"
+  filterBy="customer.nameCustomer"
+>
+  <ng-template pTemplate="header">
+    <app-table-header
+      [title]="'Imagenes para mostrar'"
+      [showAdd]="false"
+      [showSearch]="false"
+      [isDataView]="true"
+      [dt]="dv"
+    ></app-table-header>
+  </ng-template>
+  <ng-template let-item pTemplate="listItem">
+    <div class="p-col-12 p-md-3">
+      <div class="product-grid-item card pointer">
+        <div class="card-body">
+          <app-input-img
+            (fileSelected)="uploadFile($event, item.customerId, item.id)"
+            [urlImgCurrent]="urlImg + item.img"
+            [contentHeight]="150"
+            [contentWidth]="250"
+          ></app-input-img>
+          <div class="text-center">
+            {{ item.customer }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dataView>

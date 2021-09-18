@@ -1,0 +1,55 @@
+<!-- *ngIf="ordenCompra.ordenCompraAuth.statusOrdenCompra === 0" -->
+<ng-container *ngIf="mostrarTabla">
+  <div class="card">
+    <div class="card-body">
+      <div class="p-fluid">
+        <!-- [disabled]="ordenCompraPresupuestoUtilizado.length === 0" -->
+        <button
+          [disabled]="ordenCompraPresupuestoUtilizado"
+          (click)="onModalOrdenCompraStatus()"
+          pButton
+          pRipple
+          type="button"
+          label="Status de Compra"
+          class="p-button-info p-button-sm mb-2"
+        ></button>
+      </div>
+      <table class="table table-sm">
+        <tbody>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Pagado
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.sePago | eBoolText }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Entregado
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.seRecibio | eBoolText }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Recibido por
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.recibidoPor }}
+            </td>
+          </tr>
+          <tr>
+            <td class="small font-weight-light text-justify" style="width: 30%">
+              Factura
+            </td>
+            <td class="small font-weight-light" style="width: 70%">
+              {{ ordenCompra.ordenCompraStatus.factura }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-container>

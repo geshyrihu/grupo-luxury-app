@@ -1,0 +1,177 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <div class="row">
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Nombre</label>
+          <div class="p-fluid">
+            <input
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Nombre del Equipo"
+              formControlName="nameTool"
+              pInputText
+              [class.p-invalid]="
+                nameTool.invalid && (nameTool.dirty || nameTool.touched)
+              "
+            />
+          </div>
+          <div
+            *ngIf="nameTool.invalid && (nameTool.dirty || nameTool.touched)"
+            class="text-danger small animate__animated animate__fadeIn"
+          >
+            <small *ngIf="nameTool.errors.required"> Campo requerido </small>
+            <small *ngIf="nameTool.errors.minlength">
+              Minimo 5 caracteres
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Categoria</label>
+          <div class="p-fluid">
+            <p-dropdown
+              [options]="listCategories"
+              formControlName="categoryId"
+              class="p-inputtext-sm"
+              placeholder="Selecciona una categoria"
+              [showClear]="true"
+              [class.p-invalid]="
+                categoryId.invalid && (categoryId.dirty || categoryId.touched)
+              "
+            ></p-dropdown>
+            <div
+              *ngIf="
+                categoryId.invalid && (categoryId.dirty || categoryId.touched)
+              "
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              <small *ngIf="categoryId.errors.required">
+                Campo requerido
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Marca</label>
+          <div class="p-fluid">
+            <input
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Marca"
+              formControlName="brand"
+              pInputText
+              [class.p-invalid]="
+                brand.invalid && (brand.dirty || brand.touched)
+              "
+            />
+            <div
+              *ngIf="brand.invalid && (brand.dirty || brand.touched)"
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              <small *ngIf="brand.errors.required"> Campo requerido </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Modelo</label>
+          <div class="p-fluid">
+            <input
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Modelo"
+              formControlName="model"
+              pInputText
+            />
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Serie</label>
+          <div class="p-fluid">
+            <input
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Serie"
+              formControlName="serie"
+              pInputText
+            />
+          </div>
+        </div>
+
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Compra/Instalación</label>
+          <div class="p-fluid">
+            <input
+              type="date"
+              class="p-inputtext-sm"
+              formControlName="dateOfPurchase"
+              pInputText
+              [class.p-invalid]="
+                dateOfPurchase.invalid &&
+                (dateOfPurchase.dirty || dateOfPurchase.touched)
+              "
+            />
+            <div
+              *ngIf="
+                dateOfPurchase.invalid &&
+                (dateOfPurchase.dirty || dateOfPurchase.touched)
+              "
+              class="text-danger small animate__animated animate__fadeIn"
+            >
+              <small *ngIf="dateOfPurchase.errors.required">
+                Campo requerido
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Estado</label>
+          <div class="p-fluid">
+            <p-dropdown
+              [options]="optionActive"
+              formControlName="state"
+              class="p-inputtext-sm"
+            ></p-dropdown>
+          </div>
+        </div>
+        <!-- Img -->
+        <div class="form-group col-sm-4">
+          <label class="font-weight-normal">Imagen</label>
+          <app-input-img
+            (fileSelected)="uploadFile($event)"
+            [urlImgCurrent]="urlBaseImg"
+            [contentHeight]="100"
+            [contentWidth]="100"
+          ></app-input-img>
+        </div>
+        <!-- Img -->
+
+        <div class="form-group col-sm-6">
+          <label class="font-weight-normal">Especificaciones Técnicas</label>
+          <div class="p-fluid">
+            <textarea
+              rows="6"
+              cols="30"
+              pInputTextarea
+              autoResize="autoResize"
+              formControlName="technicalSpecifications"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+          <label class="font-weight-normal">Observaciones</label>
+          <div class="p-fluid">
+            <textarea
+              rows="6"
+              cols="30"
+              pInputTextarea
+              autoResize="autoResize"
+              formControlName="observations"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

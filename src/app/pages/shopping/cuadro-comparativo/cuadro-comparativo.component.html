@@ -1,0 +1,273 @@
+<p-confirmPopup></p-confirmPopup>
+
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<div class="row">
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label
+        class="form-control form-control-sm bg-light text-black-50 font-italic"
+        >Folio de cotización {{ folio }}</label
+      >
+    </div>
+  </div>
+
+  <div class="col-sm-9 text-right">
+    <button
+      *ngIf="cotizacionProveedor.length > 1"
+      pTooltip="Evaluar precion de manera individual"
+      [ngClass]="{ active: evaluarPrecioIndependiente }"
+      class="btn btn-warning btn-sm pointer p-mr-1"
+      (click)="evaluarPrecioIndependiente = !evaluarPrecioIndependiente"
+    >
+      Evaluar
+    </button>
+    <button
+      *ngIf="cotizacionProveedor.length !== 3"
+      pTooltip="Agregar Cotización"
+      class="btn btn-info btn-sm"
+      (click)="onModalAddProveedor()"
+      [disabled]="cotizacionProveedor.length === 3"
+    >
+      +
+    </button>
+  </div>
+</div>
+<div class="row" *ngIf="solicitudCompra">
+  <div class="col-sm-3 p-fluid">
+    <textarea
+      readonly
+      rows="2"
+      cols="30"
+      class="text-justify"
+      pInputTextarea
+      autoResize="autoResize"
+      >{{ solicitudCompra.equipoOInstalacion }}</textarea
+    >
+  </div>
+  <div class="col-sm-5 p-fluid">
+    <textarea
+      readonly
+      rows="2"
+      cols="30"
+      class="text-justify"
+      pInputTextarea
+      autoResize="autoResize"
+      >{{ solicitudCompra.justificacionGasto }}</textarea
+    >
+  </div>
+</div>
+
+<hr class="bg-dark" style="height: 4px" />
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-sm table table-striped table-bordered">
+      <caption></caption>
+      <thead class="thead-dark">
+        <tr style="height: 50px">
+          <th style="width: 30%" scope="col" class="font-weight-light small">
+            Descripción
+          </th>
+          <th style="width: 10%" scope="col" class="font-weight-light small">
+            Cantidad
+          </th>
+          <th style="width: 10%" scope="col" class="font-weight-light small">
+            Unidad
+          </th>
+          <th
+            scope="col"
+            [class.one]="cotizacionProveedor.length === 1"
+            [class.two]="cotizacionProveedor.length === 2"
+            [class.three]="cotizacionProveedor.length === 3"
+            class="font-weight-light text-center small pointer"
+            (click)="onEditCotizacion(1)"
+            pTooltip="Click para editar"
+            tooltipPosition="top"
+            *ngIf="provider1 !== undefined"
+          >
+            {{ provider1 }}
+          </th>
+          <th
+            [class.two]="cotizacionProveedor.length === 2"
+            [class.three]="cotizacionProveedor.length === 3"
+            scope="col"
+            class="font-weight-light text-center small pointer"
+            *ngIf="provider2 !== undefined"
+            (click)="onEditCotizacion(2)"
+            pTooltip="Click para editar"
+            tooltipPosition="top"
+          >
+            {{ provider2 }}
+          </th>
+          <th
+            [class.three]="cotizacionProveedor.length === 3"
+            scope="col"
+            class="font-weight-light text-center small pointer"
+            *ngIf="provider3 !== undefined"
+            (click)="onEditCotizacion(3)"
+            pTooltip="Click para editar"
+            tooltipPosition="top"
+          >
+            {{ provider3 }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of solicitudCompraDetalle">
+          <td class="font-weight-light small">
+            {{ item.producto }}
+          </td>
+          <td class="font-weight-light small">{{ item.cantidad }}</td>
+          <td class="font-weight-light small">
+            {{ item.unidadMedida }}
+          </td>
+          <!-- Total 1 -->
+
+          <td
+            [ngClass]="{
+              'bg-warning':
+                item.total < item.total2 &&
+                cotizacionProveedor.length === 2 &&
+                evaluarPrecioIndependiente
+            }"
+            [ngClass]="{
+              'bg-warning':
+                item.total < item.total2 &&
+                item.total < item.total3 &&
+                cotizacionProveedor.length === 3 &&
+                evaluarPrecioIndependiente
+            }"
+            class="font-weight-light small"
+            *ngIf="provider1 != undefined"
+          >
+            {{ item.total | currency: "MXN" }}
+          </td>
+
+          <!-- Total 1 -->
+          <!-- Total 2 -->
+          <td
+            [ngClass]="{
+              'bg-warning':
+                item.total2 < item.total &&
+                cotizacionProveedor.length === 2 &&
+                evaluarPrecioIndependiente
+            }"
+            [ngClass]="{
+              'bg-warning':
+                item.total2 < item.total &&
+                item.total2 < item.total3 &&
+                cotizacionProveedor.length === 3 &&
+                evaluarPrecioIndependiente
+            }"
+            class="font-weight-light small"
+            *ngIf="provider2 != undefined"
+          >
+            {{ item.total2 | currency: "MXN" }}
+          </td>
+       
+
+          <!-- Total 2 -->
+          <!-- Total 3 -->
+          <td
+            [ngClass]="{
+              'bg-warning':
+                item.total3 < item.total &&
+                item.total3 < item.total2 &&
+                evaluarPrecioIndependiente
+            }"
+            class="font-weight-light small"
+            *ngIf="provider3 != undefined"
+          >
+            {{ item.total3 | currency: "MXN" }}
+          </td>
+          <!-- Total 3 -->
+        </tr>
+      </tbody>
+      <!-- Totales: -->
+      <tr>
+        <td colspan="3"></td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider1 !== undefined"
+          [ngClass]="{
+            'bg-warning': amarilloTotal1
+          }"
+        >
+          {{ total1 | currency: "MXN" }}
+        </td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider2 !== undefined"
+          [ngClass]="{
+            'bg-warning': amarilloTotal2
+          }"
+        >
+          {{ total2 | currency: "MXN" }}
+        </td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider3 !== undefined"
+          [ngClass]="{
+            'bg-warning': amarilloTotal3
+          }"
+        >
+          {{ total3 | currency: "MXN" }}
+        </td>
+      </tr>
+      <!-- Totales: -->
+      <br />
+      <br />
+      <br />
+      <!-- Totales Mejor Opcion: -->
+      <tr *ngIf="evaluarPrecioIndependiente">
+        <td colspan="3"></td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider1 !== undefined"
+        >
+          {{ mejorPrecioTotal1 | currency: "MXN" }}
+        </td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider2 !== undefined"
+        >
+          {{ mejorPrecioTotal2 | currency: "MXN" }}
+        </td>
+        <td
+          (change)="onEvaluationPriceTotal()"
+          class="font-italic small"
+          *ngIf="provider3 !== undefined"
+        >
+          {{ mejorPrecioTotal3 | currency: "MXN" }}
+        </td>
+      </tr>
+      <tr *ngIf="evaluarPrecioIndependiente">
+        <td colspan="3"></td>
+        <td colspan="3" class="text-center font-italic small">
+          <p class="font-italic">
+            Total a gastar comprando lo mas barato a cada proveedor:
+          </p>
+          {{ totalMejorPrecioTotal | currency: "MXN" }}
+        </td>
+      </tr>
+
+      <!-- Totales Mejor Opcion: -->
+    </table>
+  </div>
+</div>
+
+<style>
+  .one {
+    width: 50%;
+  }
+  .two {
+    width: 25%;
+  }
+  .three {
+    width: 16.66%;
+  }
+</style>

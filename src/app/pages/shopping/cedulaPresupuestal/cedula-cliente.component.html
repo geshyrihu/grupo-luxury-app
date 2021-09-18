@@ -1,0 +1,202 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [globalFilterFields]="['cuenta.descripcion']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="titulo"
+      [showAdd]="false"
+      [dt]="dt"
+    ></app-table-header>
+    <br />
+    <div class="row">
+      <div class="col-sm-4 p-fluid">
+        <!-- Seleccion de año -->
+        <div class="input-group mb-3">
+          <input type="number" class="form-control" [(ngModel)]="anio" />
+          <span
+            (click)="onLoadData()"
+            class="input-group-text"
+            id="basic-addon1"
+            >Buscar</span
+          >
+        </div>
+        <!-- Seleccion de año -->
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="cuenta.descripcion"
+        rowspan="2"
+      >
+        Partida presupuestal
+        <p-sortIcon field="cuenta.descripcion"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoMensual"
+      >
+        Presupuesto Mensual
+        <p-sortIcon field="presupuestoMensual"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoEjercido"
+      >
+        Presupuesto ejercido
+        <p-sortIcon field="presupuestoEjercido"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoAcumulado"
+      >
+        Presupuesto Acumulado
+        <p-sortIcon field="presupuestoAcumulado"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoDisponible"
+      >
+        Presupuesto disponible
+        <p-sortIcon field="presupuestoDisponible"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoAnual"
+      >
+        Presupuesto Anual
+        <p-sortIcon field="presupuestoAnual"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoRestanteAnio"
+      >
+        Presupuesto a fin de año
+        <p-sortIcon field="presupuestoRestanteAnio"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoMensual | currency: "MXN":"symbol":".00" }}
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoEjercido | currency: "MXN":"symbol":".00" }}
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoAcumulado | currency: "MXN":"symbol":".00" }}
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoDisponible | currency: "MXN":"symbol":".00" }}
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoAnual | currency: "MXN":"symbol":".00" }}
+      </th>
+      <th
+        scope="col"
+        style="width: 10%"
+        [ngStyle]="{ backgroundColor: 'var(--blue-300)' }"
+      >
+        {{ presupuestoRestanteAnio | currency: "MXN":"symbol":".00" }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.cuenta.descripcion }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.presupuestoMensual | currency: "MXN":"symbol":".0" }}</small
+        >
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.presupuestoEjercido | currency: "MXN":"symbol":".0" }}</small
+        >
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.presupuestoAcumulado | currency: "MXN":"symbol":".0" }}</small
+        >
+      </td>
+      <td
+        class="p-column-title"
+        [class.bg-success]="item.presupuestoDisponible > 0"
+        [class.bg-danger]="item.presupuestoDisponible <= 0"
+      >
+        <small>
+          {{
+            item.presupuestoDisponible | currency: "MXN":"symbol":".0"
+          }}</small
+        >
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.presupuestoAnual | currency: "MXN":"symbol":".0" }}</small
+        >
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{
+            item.presupuestoRestanteAnio | currency: "MXN":"symbol":".0"
+          }}</small
+        >
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

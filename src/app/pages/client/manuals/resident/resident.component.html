@@ -1,0 +1,67 @@
+<app-startheader
+  [title]="'Residente Operativo!'"
+  [ToShowToReturnButton]="!mostrar"
+  [PathToReturn]="'/maintenance'"
+  (toReturnAction)="ToReturnAction()"
+></app-startheader>
+
+<div *ngIf="mostrar == true">
+  <div class="row">
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['position']" (click)="mostrar = !mostrar">
+        <div class="card bg-primary shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/resident/01.PNG"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['orderandcleanliness']" (click)="mostrar = !mostrar">
+        <div class="card text-white shadow" style="background-color: #d32dbb;">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/resident/02.PNG"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['workplan']" (click)="mostrar = !mostrar">
+        <div class="card text-white shadow" style="background-color: black;">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/resident/03.PNG"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['equipment']" (click)="mostrar = !mostrar">
+        <div class="card text-white shadow" style="background-color: #7030a0;">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/resident/04.PNG"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <a [routerLink]="['customersupport']" (click)="mostrar = !mostrar">
+        <div class="card text-white bg-secondary shadow">
+          <img
+            class="img-fluid p-1"
+            src="assets/img/Administration/manuals/resident/05.PNG"
+            alt=""
+          />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

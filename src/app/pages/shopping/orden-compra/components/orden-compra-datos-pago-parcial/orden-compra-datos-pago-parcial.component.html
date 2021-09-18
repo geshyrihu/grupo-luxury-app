@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="card-body">
+    <div class="p-fluid">
+      <button
+        (click)="onModalOrdenCompraDatosPago()"
+        [disabled]="bloqueada"
+        pButton
+        pRipple
+        type="button"
+        label="Datos de pago"
+        class="p-button-info p-button-sm mb-2"
+      ></button>
+    </div>
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Proveedor
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraDatosPago.provider }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Tipo de Gasto
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraDatosPago.tipoGasto | eTipoGasto }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Uso de CFDI
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraDatosPago.usoCFDI }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Metodo de Pago
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraDatosPago.metodoDePago }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 30%">
+            Forma de Pago
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.ordenCompraDatosPago.formaDePago }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

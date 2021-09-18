@@ -1,0 +1,251 @@
+<div class="row" *ngIf="model">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- categoria -->
+            <div class="form-group">
+              <label class="font-weight-normal small"> Categoria</label>
+              <input
+                disabled
+                class="form-control form-control-sm"
+                [(ngModel)]="model.category['nameCotegory']"
+              />
+            </div>
+            <!-- categoria -->
+            <!-- Razon Social -->
+            <div class="form-group">
+              <label class="font-weight-normal small"> Razón Social</label>
+              <input
+                disabled
+                [(ngModel)]="model.nameProvider"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <!-- Razon Social -->
+            <!-- RFC -->
+            <div class="form-group">
+              <label class="font-weight-normal small"> RFC</label>
+              <input
+                disabled
+                [(ngModel)]="model.rfc"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <!-- RFC -->
+          </div>
+
+          <div class="col-md-4">
+            <!-- Telefono fijo 1 -->
+            <div class="form-group">
+              <label class="font-weight-normal small"> Teléfono fijo 1</label>
+              <input
+                disabled
+                [(ngModel)]="model.phoneOne"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <!-- Telefono fijo 1 -->
+            <!-- Telefono fijo 2 -->
+            <div class="form-group">
+              <label class="font-weight-normal small">Teléfono fijo 2</label>
+              <input
+                disabled
+                [(ngModel)]="model.phoneTwo"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <!-- Telefono fijo 2 -->
+            <!-- Pagina Web -->
+            <div class="form-group">
+              <label class="font-weight-normal small">Página Web</label>
+              <input
+                disabled
+                [(ngModel)]="model.webPage"
+                class="form-control form-control-sm"
+              />
+            </div>
+            <!-- Pagina Web -->
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="font-weight-normal small"> Dirección</label>
+              <textarea
+                disabled
+                class="form-control form-control-sm"
+                style="resize: none"
+                rows="3"
+                [(ngModel)]="model.address"
+              ></textarea>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group form-check">
+                  <input
+                    disabled
+                    [(ngModel)]="model.sales"
+                    class="form-check-input"
+                    type="checkbox"
+                    id="sales"
+                  />
+                  <label class="form-check-label" for="sales"> Ventas </label>
+                </div>
+                <div class="form-group form-check">
+                  <input
+                    [(ngModel)]="model.repair"
+                    disabled
+                    class="form-check-input"
+                    type="checkbox"
+                    id="repair"
+                  />
+                  <label class="form-check-label" for="repair">
+                    Reparación
+                  </label>
+                </div>
+              </div>
+              <!-- Logo de porveedor -->
+              <div class="col-sm-6">
+                <div class="card">
+                  <img
+                    [src]="urlLogo"
+                    alt="noImg"
+                    class="img-fluid"
+                    width="100px"
+                    height="100px"
+                  />
+                </div>
+              </div>
+              <!-- Logo de porveedor -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="h6">Primer Contacto</h6>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="font-weight-normal small">Nombre de Contacto 1</label>
+          <input
+            disabled
+            [(ngModel)]="model.contactOne"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small">Puesto</label>
+          <input
+            disabled
+            [(ngModel)]="model.positionOne"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small">Teléfono Celular</label>
+          <input
+            disabled
+            [(ngModel)]="model.cellPhoneOne"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small">Correo Electronico</label>
+          <input
+            disabled
+            [(ngModel)]="model.emailOne"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="h6">Segundo Contacto</h6>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="font-weight-normal small">Nombre de Contacto 2</label>
+          <input
+            disabled
+            [(ngModel)]="model.contactTwo"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small">Puesto</label>
+          <input
+            disabled
+            [(ngModel)]="model.positionTwo"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small">Teléfono Celular</label>
+          <input
+            disabled
+            [(ngModel)]="model.cellPhoneTwo"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small"> Correo Electronico</label>
+          <input
+            disabled
+            [(ngModel)]="model.emailTwo"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Datos de Pago -->
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="h6">Datos de Pago</h6>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="font-weight-normal small"> Cheque a Nombre de...</label>
+          <input
+            disabled
+            [(ngModel)]="model.nameCheck"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small"> Banco</label>
+          <input
+            disabled
+            [(ngModel)]="model.bank.shortName"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small"> Numero de cuenta</label>
+          <input
+            disabled
+            [(ngModel)]="model.paymentAccount"
+            class="form-control form-control-sm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-weight-normal small"> clabe Interbancaria</label>
+          <input
+            disabled
+            [(ngModel)]="model.interbankCode"
+            class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

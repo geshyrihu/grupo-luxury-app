@@ -1,0 +1,19 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div class="row">
+  <div class="col-sm-3" *ngFor="let item of data">
+    <div class="card pointer">
+      <div class="card-body" (click)="onModalFormBiacora(item)">
+        <img [src]="urlImg + item.photoPath" class="img-fluid" alt="" />
+      </div>
+      <div class="card-footer text-muted">
+        <h6 class="card-subtitle mb-2 text-muted">{{ item.nameMachinery }}</h6>
+
+        <app-button-delete
+          *ngIf="isInRole"
+          (OnConfirm)="delete(item)"
+        ></app-button-delete>
+      </div>
+    </div>
+  </div>
+</div>

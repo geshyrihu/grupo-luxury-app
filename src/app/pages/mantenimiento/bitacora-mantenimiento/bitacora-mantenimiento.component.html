@@ -1,0 +1,103 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="50"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[50, 75, 100]"
+  [globalFilterFields]="['machinery', 'userName', 'descripcion']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Bitacora de Mantenimiento'"
+      (add)="onModalFormBiacora(0)"
+      [dt]="dt"
+    ></app-table-header>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-sm-7"></div>
+      <div class="col-sm-2 p-fluid">
+        <input
+          pInputText
+          class="p-inputtext-sm p-fluid"
+          type="date"
+          [(ngModel)]="fechaInicio"
+        />
+      </div>
+      <div class="col-sm-2 p-fluid">
+        <input
+          pInputText
+          class="p-inputtext-sm"
+          type="date"
+          [(ngModel)]="fechaTermino"
+        />
+      </div>
+      <div class="col-sm-1 p-fluid">
+        <button (click)="onFilter()" class="p-button-sm p-button p-button-info">
+          Buscar...
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <div class="row">
+          <div class="col">
+            <div class="card" style="background-color: palegoldenrod">
+              <div class="card-header">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p class="card-text">
+                      {{ item.fechaRegistro | date: "fullDate" }},
+                      {{ item.fechaRegistro | date: "shortTime" }}
+                    </p>
+                  </div>
+                  <div class="col-sm-6 text-right">
+                    <p *ngIf="item.emergencia">Emergencia</p>
+                    <app-button-delete
+                      *ngIf="authServide.isGerenteMantenimiento"
+                      (OnConfirm)="onDelte(item)"
+                    ></app-button-delete>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <p class="card-title font-weight-bold">{{ item.machinery }}</p>
+                <p class="card-text font-italic text-justify">
+                  {{ item.descripcion }}
+                </p>
+                <p
+                  class="text-right small font-weight-light"
+                  (click)="onUserCard(item.applicationUserId)"
+                >
+                  {{ item.userName }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

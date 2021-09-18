@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-body">
+    <div (click)="inputImg.click()">
+      <div class="card-image text-center">
+        <img
+          *ngIf="!imgUpload"
+          [src]="photoPath"
+          class="img-avatar img-thumbnail"
+          alt=""
+        />
+        <img
+          *ngIf="imgUpload"
+          [src]="imgTemp"
+          class="img-avatar img-thumbnail"
+          alt=""
+        />
+      </div>
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input
+            class="custom-file-input display-none"
+            type="file"
+            id="file"
+            #inputImg
+            aria-describedby="file"
+            (change)="changeImg($event.target.files[0])"
+            accept="image/png, .jpeg, .jpg"
+            class="custom-file-input"
+          />
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-end">
+      <!-- uploadImg -->
+      <p-button
+        type="button"
+        (click)="uploadImg()"
+        [disabled]="!imgUpload"
+        label="Guardar cambios"
+        icon="pi pi-check"
+        iconPos="right"
+        styleClass="p-button-sm"
+      ></p-button>
+      <!-- uploadImg -->
+    </div>
+  </div>
+</div>
+<style>
+  .img-avatar {
+    height: 200px;
+    width: 200px;
+  }
+</style>

@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <!-- Id -->
+      <div class="form-group row" hidden>
+        <label class="font-weight-normal col-sm-3">Id</label>
+        <div class="col-sm-9 p-fluid">
+          <input pInputText class="p-inputtext-sm" formControlName="id" />
+        </div>
+      </div>
+      <!-- Id -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Lectura anterior </label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            readonly
+            pInputText
+            class="p-inputtext-sm bg-secondary"
+            mode="decimal"
+            [value]="ultimaLectura"
+          />
+        </div>
+      </div>
+      <!-- Lectura -->
+      <div class="form-group row">
+        <label class="font-weight-normal col-sm-3">Lectura</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            pInputText
+            *ngIf="!seRegistroEsteDia"
+            (keyup)="evaluarLectura($event)"
+            formControlName="lectura"
+            class="p-inputtext-sm"
+            placeholder="Ingrese la Lectura"
+            [ngClass]="{ 'ng-invalid': laLecturaEsMenor }"
+            [class.p-invalid]="
+              lectura.invalid && (lectura.dirty || lectura.touched)
+            "
+            type="number"
+          />
+
+          <span
+            *ngIf="seRegistroEsteDia"
+            class="text-danger small animate__animated animate__fadeIn"
+            >{{ seRegistroEsteDiaMensaje }}</span
+          >
+          <div *ngIf="lectura.invalid && (lectura.dirty || lectura.touched)">
+            <span
+              *ngIf="lectura.errors.required"
+              class="text-danger small animate__animated animate__fadeIn"
+              >Campo reqerido.</span
+            >
+          </div>
+          <div *ngIf="laLecturaEsMenor">
+            <span class="text-danger small animate__animated animate__fadeIn"
+              >La lectura no puede ser menor.</span
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Lectura -->
+
+      <app-button-submit
+        [disabled]="this.form.invalid || laLecturaEsMenor"
+      ></app-button-submit>
+    </form>
+  </div>
+</div>

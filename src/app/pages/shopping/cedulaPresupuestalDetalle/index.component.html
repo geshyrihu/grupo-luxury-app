@@ -1,0 +1,142 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [globalFilterFields]="['cuenta.descripcion']"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Detalle de Cedula presupuestal'"
+      (add)="onModalAdd()"
+      [dt]="dt"
+      [rolAuth]="autorizado"
+    ></app-table-header>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="cuenta.descripcion"
+      >
+        Partida presupuestal
+        <p-sortIcon field="cuenta.descripcion"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoMensual"
+      >
+        Presupuesto Mensual
+        <p-sortIcon field="presupuestoMensual"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoEjercido"
+      >
+        Presupuesto ejercido
+        <p-sortIcon field="presupuestoEjercido"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoAcumulado"
+      >
+        Presupuesto Acumulado
+        <p-sortIcon field="presupuestoAcumulado"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoDisponible"
+      >
+        Presupuesto disponible
+        <p-sortIcon field="presupuestoDisponible"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoAnual"
+      >
+        Presupuesto Anual
+        <p-sortIcon field="presupuestoAnual"></p-sortIcon>
+      </th>
+      <th
+        class="small"
+        scope="col"
+        style="width: 10%"
+        pSortableColumn="presupuestoRestanteAnio"
+      >
+        Presupuesto a fin de año
+        <p-sortIcon field="presupuestoRestanteAnio"></p-sortIcon>
+      </th>
+      <th *ngIf="autorizado" class="small" scope="col" style="width: 10%">
+        Opciones
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <small>
+          {{ item.cuenta.descripcion }}
+        </small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.presupuestoMensual | currency: "MXN":"symbol" }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.presupuestoEjercido | currency: "MXN":"symbol" }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{
+          item.presupuestoAcumulado | currency: "MXN":"symbol"
+        }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{
+          item.presupuestoDisponible | currency: "MXN":"symbol"
+        }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{ item.presupuestoAnual | currency: "MXN":"symbol" }}</small>
+      </td>
+      <td class="p-column-title">
+        <small>{{
+          item.presupuestoRestanteAnio | currency: "MXN":"symbol"
+        }}</small>
+      </td>
+      <!-- Opciones -->
+      <div *ngIf="autorizado" class="d-flex justify-content-center">
+        <app-button-edit
+          (edit)="onModalEditar({ id: item.id, title: 'Editar Registro' })"
+        ></app-button-edit>
+        <app-button-delete
+          (OnConfirm)="onDelete(item)"
+          [nameItem]="item.cuenta.descripcion"
+        ></app-button-delete>
+      </div>
+      <!-- Opciones -->
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

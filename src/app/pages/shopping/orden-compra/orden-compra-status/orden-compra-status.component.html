@@ -1,0 +1,61 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">¿Pago Realizado?</label>
+        <div class="col-sm-9 p-fluid">
+          <div class="p-field-checkbox">
+            <p-checkbox
+              binary="true"
+              inputId="sePago"
+              formControlName="sePago"
+            ></p-checkbox>
+            <label for="sePago" class="font-italic">{{
+              form.get("sePago").value | eBoolText
+            }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">¿Compra recibido?</label>
+        <div class="col-sm-9 p-fluid">
+          <div class="p-field-checkbox">
+            <p-checkbox
+              binary="true"
+              inputId="seRecibio"
+              formControlName="seRecibio"
+            ></p-checkbox>
+            <label for="seRecibio" class="font-italic">{{
+              form.get("seRecibio").value | eBoolText
+            }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Recibido Por</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            type="text"
+            class="p-inputtext-sm"
+            pInputText
+            formControlName="recibidoPor"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3 font-weight-normal">Factura</label>
+        <div class="col-sm-9 p-fluid">
+          <input
+            type="text"
+            class="p-inputtext-sm"
+            pInputText
+            formControlName="factura"
+          />
+        </div>
+      </div>
+      <app-button-submit [disabled]="form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>

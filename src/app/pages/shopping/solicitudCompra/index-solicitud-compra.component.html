@@ -1,0 +1,181 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="10"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="[
+    'folio',
+    'fechaSolicitud',
+    'solicita',
+    'equipoOInstalacion',
+    'justificacionGasto'
+  ]"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Solicitudes de Materiales'"
+      (add)="onSolicitudCompra(0)"
+      [dt]="dt"
+      [rolAuth]="Asistente || Mantenimiento || Residente || SuperUsuario"
+    ></app-table-header>
+    <br />
+    <div class="row">
+      <div class="col-sm-4 p-fluid"></div>
+      <div class="col-sm-8 text-right">
+        <button
+          (click)="onSelectStatus(1)"
+          (click)="statusCompra = 1"
+          pButton
+          pRipple
+          label="Denegadas"
+          icon="pi pi-times"
+          [class.p-button-outlined]="statusCompra == 1"
+          class="p-button-sm p-button-secondary p-mx-1"
+        ></button>
+
+        <button
+          (click)="onSelectStatus(0)"
+          (click)="statusCompra = 0"
+          pButton
+          pRipple
+          label="Autorizadas"
+          icon="pi pi-check"
+          [class.p-button-outlined]="statusCompra == 0"
+          class="p-button-sm p-button-success p-mx-1"
+        ></button>
+
+        <button
+          (click)="onSelectStatus(2)"
+          (click)="statusCompra = 2"
+          pButton
+          pRipple
+          icon="pi pi-bookmark"
+          label="Pendientes"
+          [class.p-button-outlined]="statusCompra == 2"
+          class="p-button-sm p-button-danger p-ml-1"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th
+        scope="col"
+        style="width: 7%"
+        class="text-small"
+        pSortableColumn="folio"
+      >
+        Folio
+        <p-sortIcon field="folio"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 7%"
+        class="text-small"
+        pSortableColumn="fechaSolicitud"
+      >
+        Fecha
+        <p-sortIcon field="fechaSolicitud"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 16%"
+        class="text-small"
+        pSortableColumn="solicita"
+      >
+        Solicita
+        <p-sortIcon field="solicita"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 35%"
+        class="text-small"
+        pSortableColumn="equipoOInstalacion"
+      >
+        Área/Equipo/Instalación
+        <p-sortIcon field="equipoOInstalacion"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 35%"
+        class="text-small"
+        pSortableColumn="justificacionGasto"
+      >
+        Justificación
+        <p-sortIcon field="justificacionGasto"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 5%" class="text-small">Estatus</th>
+      <th scope="col" style="width: 5%" class="text-small">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td>
+        <small> {{ item.folio }} </small>
+      </td>
+      <td>
+        <small>{{ item.fechaSolicitud | date }}</small>
+      </td>
+      <td>
+        <small>{{ item.solicita }}</small>
+      </td>
+      <td>
+        <small>{{ item.equipoOInstalacion }}</small>
+      </td>
+      <td>
+        <small>{{ item.justificacionGasto }}</small>
+      </td>
+      <td class="text-center">
+        <p-tag
+          icon="pi pi-bookmark"
+          severity="danger"
+          [value]="item.estatus | eStatusOrdenCompra"
+          *ngIf="item.estatus == 2"
+        ></p-tag>
+        <p-tag
+          icon="pi pi-check"
+          severity="success"
+          [value]="item.estatus | eStatusOrdenCompra"
+          *ngIf="item.estatus == 0"
+        ></p-tag>
+        <p-tag
+          icon="pi pi-times"
+          severity="info"
+          [value]="item.estatus | eStatusOrdenCompra"
+          *ngIf="item.estatus == 1"
+        ></p-tag>
+      </td>
+
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            *ngIf="Asistente || Mantenimiento || Residente || SuperUsuario"
+            (edit)="onSolicitudCompra(item.id)"
+          ></app-button-edit>
+          <app-button-delete
+            *ngIf="SuperUsuario"
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.name"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

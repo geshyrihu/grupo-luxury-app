@@ -1,0 +1,103 @@
+<p class="text-danger">{{ messageError }}</p>
+<div class="border">
+  <form
+    class="row p-3"
+    autocomplete="off"
+    (submit)="onSubmit()"
+    [formGroup]="form"
+  >
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label class="font-weight-normal">Estatus</label>
+        <select class="form-control" formControlName="status">
+          <option [value]="null">Selecciona una opción...</option>
+          <option [value]="item.value" *ngFor="let item of cb_status">
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="font-weight-normal">Responsable</label>
+        <select class="form-control" formControlName="responsible">
+          <option value="">Seleccionar opcion...</option>
+          <option [value]="item.value" *ngFor="let item of cb_responsibleArea">
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="font-weight-normal">Folios de Reporte</label>
+        <select class="form-control" formControlName="folioReporte">
+          <option [value]="null">Seleccionar opcion...</option>
+          <option [value]="true">Si</option>
+          <option [value]="false">No</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <!-- Solicita -->
+      <div class="form-group">
+        <label class="font-weight-normal">Solicita</label>
+        <select class="form-control" formControlName="request">
+          <option value="">Seleccionar opcion...</option>
+          <option [value]="item.value" *ngFor="let item of cb_request">
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+      <!-- Solicita -->
+
+      <div class="form-group">
+        <label class="font-weight-normal">Prioridad</label>
+        <select class="form-control" formControlName="priority">
+          <option value="">Selecciona una opción...</option>
+          <option [value]="item.value" *ngFor="let item of cb_priority">
+            {{ item.label }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label class="font-weight-normal">Fecha de Solicitud desde</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="requestStart"
+        />
+      </div>
+      <div class="form-group">
+        <label class="font-weight-normal">Fecha de Termino desde</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="finishedStart"
+        />
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="form-group">
+        <label class="font-weight-normal">Fecha de Solicitud hasta</label>
+        <input type="date" class="form-control" formControlName="requestEnd" />
+      </div>
+      <div class="form-group">
+        <label class="font-weight-normal">Fecha de Termimo hasta</label>
+        <input type="date" class="form-control" formControlName="finishedEnd" />
+      </div>
+    </div>
+
+    <div class="col d-flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Filtrar"
+        type="submit"
+        class="mx-1 p-button-raised p-button-info p-button-text"
+      ></button>
+    </div>
+  </form>
+</div>
+<br />

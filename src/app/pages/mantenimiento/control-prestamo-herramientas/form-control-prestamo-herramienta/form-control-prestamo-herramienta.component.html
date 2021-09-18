@@ -1,0 +1,69 @@
+<form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+  <div class="form-group">
+    <label class="font-weight-normal">Hora/Fecha Salida</label>
+    <div class="p-fluid">
+      <input
+        pInputText
+        type="datetime-local"
+        class="p-inputtext-sm"
+        formControlName="fechaSalida"
+      />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="font-weight-normal">Herramienta</label>
+    <div class="p-fluid">
+      <p-autoComplete
+        [(ngModel)]="tool"
+        [suggestions]="toolResult"
+        field="label"
+        (completeMethod)="autocompleteTool($event)"
+        formControlName="toolId"
+        [forceSelection]="true"
+        [dropdown]="true"
+        class="p-inputtext-sm"
+      ></p-autoComplete>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="font-weight-normal">Empleado</label>
+    <div class="p-fluid">
+      <p-autoComplete
+        [(ngModel)]="employee"
+        [suggestions]="employeeResult"
+        (completeMethod)="autocompleteEmployee($event)"
+        formControlName="employeeId"
+        field="label"
+        [forceSelection]="true"
+        [dropdown]="true"
+        class="p-inputtext-sm"
+      >
+      </p-autoComplete>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="font-weight-normal">Hora/Fecha Regreso</label>
+    <div class="p-fluid">
+      <input
+        pInputText
+        type="datetime-local"
+        class="p-inputtext-sm"
+        formControlName="fechaRegreso"
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="font-weight-normal">Observaciones</label>
+    <div class="p-fluid">
+      <textarea
+        pInputTextarea
+        formControlName="observaciones"
+        class="p-inputtext-sm"
+        cols="30"
+        rows="5"
+      ></textarea>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>

@@ -1,0 +1,27 @@
+<div class="form-group">
+  <button class="btn btn-block btn-light text-indigo" type="submit">
+    {{ name }}
+  </button>
+</div>
+<hr />
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" *ngIf="showRegister">
+      <a [routerLink]="['/auth/register']" routerLinkActive="router-link-active"
+        >Registrarme</a
+      >
+    </li>
+    <li class="breadcrumb-item" *ngIf="showrecoveryPassword">
+      <a
+        [routerLink]="'/auth/recoverypassword'"
+        routerLinkActive="router-link-active"
+        >Recuperar mi contraseña</a
+      >
+    </li>
+    <li class="breadcrumb-item" *ngIf="showLogin">
+      <a [routerLink]="'/auth/login'" routerLinkActive="router-link-active"
+        >Iniciar Sesión</a
+      >
+    </li>
+  </ol>
+</nav>

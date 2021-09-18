@@ -1,0 +1,22 @@
+<div class="card">
+  <p-fileUpload
+    name="dto"
+    [url]="url"
+    (onUpload)="onUpload($event)"
+    multiple="multiple"
+    accept="image/*"
+    maxFileSize="30000000"
+    headers="uploadedFiles"
+    cancelLabel="Cancelar"
+    chooseLabel="Seleccionar Imagenes"
+    uploadLabel="Cargar Imagenes"
+  >
+    <ng-template pTemplate="content">
+      <ul *ngIf="uploadedFiles.length">
+        <li *ngFor="let file of uploadedFiles">
+          {{ file.name }} - {{ file.size }} bytes
+        </li>
+      </ul>
+    </ng-template>
+  </p-fileUpload>
+</div>

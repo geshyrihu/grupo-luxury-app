@@ -1,0 +1,103 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-table
+  #dt
+  [(selection)]="data"
+  [autoLayout]="true"
+  [globalFilterFields]="['nameCustomer']"
+  [paginator]="true"
+  [responsive]="true"
+  [rowHover]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+  [showCurrentPageReport]="true"
+  [value]="data"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Listado de Clientes'"
+      (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+      [dt]="dt"
+    ></app-table-header>
+    <div class="row">
+      <div class="col text-right">
+        <button
+          *ngIf="!state"
+          class="btn bg-gradient-success btn-flat"
+          (click)="onSortChange(true)"
+        >
+          <span class="fas fa-unlock-alt"></span>
+          Clientes Activos
+        </button>
+        <button
+          *ngIf="state"
+          class="btn bg-gradient-danger btn-flat"
+          (click)="onSortChange(false)"
+        >
+          <span class="fas fa-lock"></span>
+          Clientes Inactivos
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" pSortableColumn="nameProfession">Img</th>
+      <th scope="col" pSortableColumn="nameCustomer">
+        Nombre
+        <p-sortIcon field="nameCustomer"></p-sortIcon>
+      </th>
+      <th scope="col">Télefonos</th>
+      <th scope="col">Dirección</th>
+      <th scope="col" style="width: 5%">Opciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td class="p-column-title">
+        <!-- <img
+          [src]="urlBaseImg + item.photoPath"
+          alt="."
+          width="52"
+          class="img-circle"
+        /> -->
+        <p-avatar
+          [image]="urlBaseImg + item.photoPath"
+          styleClass="p-mr-2"
+          size="xlarge"
+        ></p-avatar>
+      </td>
+      <td class="p-column-title">
+        <small>
+          {{ item.nameCustomer }}
+        </small>
+      </td>
+
+      <td class="p-column-title">
+        <small> {{ item.phoneOne }} <br />{{ item.phoneTwo }} </small>
+      </td>
+
+      <td class="p-column-title">
+        <small> {{ item.adreess }} </small>
+      </td>
+
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            (edit)="onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })"
+          ></app-button-edit>
+          <app-button-delete
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.nameCustomer"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

@@ -1,0 +1,322 @@
+<div class="text-right">
+  <a
+    *ngIf="SupervisionOperativa"
+    class="btn btn-app"
+    [routerLink]="['/maintenance/reports-deleted']"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Reportes Elimiados"
+  >
+    <i class="fas fa-trash"></i>
+    Eliminados
+  </a>
+  <a
+    class="btn btn-app"
+    [routerLink]="['/maintenance/line-time-operation-report']"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Linea de tiempo"
+  >
+    <i class="far fa-calendar-alt"></i>
+    Line-Time
+  </a>
+  <a
+    class="btn btn-app"
+    (click)="showModalPanel()"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Usar filtro para buscar información"
+  >
+    <i class="fa fa-filter"></i>
+    Filtrar
+  </a>
+  <a
+    class="btn btn-app"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Agregar tarea terminada"
+    (click)="
+      showModalAddOrEdit({
+        id: 0,
+        title: 'Nuevo Registro',
+        status: 1
+      })
+    "
+  >
+    <i class="fas fa-check"></i> Terminado
+  </a>
+  <a
+    class="btn btn-app"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Agregar tarea pendiente"
+    (click)="
+      showModalAddOrEdit({
+        id: 0,
+        title: 'Nuevo Registro',
+        status: 0
+      })
+    "
+  >
+    <i class="fas fa-times"></i> Pendiente
+  </a>
+  <a
+    class="btn btn-app"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Generar Reporte Semanal"
+    [routerLink]="['/maintenance/operation-report']"
+  >
+    <!-- (click)="onGeneratePDF()" -->
+
+    <i class="fas fa-download"></i> Reporte
+  </a>
+  <a
+    class="btn btn-app"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Generar Reporte de Pendientes"
+    [routerLink]="['/maintenance/pending-report']"
+  >
+    <i class="fas fa-download"></i>
+    Pendientes
+  </a>
+</div>
+
+<div class="card">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+      <p-table
+        [value]="data"
+        sortField="responsibleArea"
+        sortMode="single"
+        (onSort)="onSort()"
+        [(selection)]="data"
+        #dt
+        [responsive]="true"
+        styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+        [rows]="100"
+        [paginator]="true"
+        [rowHover]="true"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+        [globalFilterFields]="[
+          'activity',
+          'observations',
+          'request',
+          'responsibleArea',
+          'priority',
+          'status'
+        ]"
+        [autoLayout]="true"
+      >
+        <ng-template pTemplate="caption">
+          <app-table-header
+            [title]="'Lista de Tareas'"
+            [dt]="dt"
+            [showAdd]="false"
+          ></app-table-header>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th colspan="2" scope="col" style="width: 10%">
+              <small>Fotos</small>
+            </th>
+            <th scope="col" style="width: 15%" pSortableColumn="activity">
+              <small>Actividad</small>
+              <p-sortIcon field="activity"></p-sortIcon>
+            </th>
+
+            <th scope="col" style="width: 6%" pSortableColumn="priority">
+              <small> Prioridad </small>
+              <p-sortIcon field="priority"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 6%" pSortableColumn="status">
+              <small>Estatus</small> <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 7%" pSortableColumn="responsableName">
+              <small>Responsable</small>
+              <p-sortIcon field="responsableName"></p-sortIcon>
+            </th>
+
+            <th scope="col" style="width: 16%" pSortableColumn="dateRequest">
+              <small> Solicitud </small>
+              <p-sortIcon field="dateRequest"></p-sortIcon>
+            </th>
+            <th
+              scope="col"
+              style="width: 16%"
+              pSortableColumn="fechaProgamacion"
+            >
+              <small> Planificación </small>
+              <p-sortIcon field="fechaProgamacion"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 16%" pSortableColumn="dateFinished">
+              <small>Termino</small>
+              <p-sortIcon field="dateFinished"></p-sortIcon>
+            </th>
+
+            <th scope="col" style="width: 5%" pSortableColumn="folioReporte">
+              <small>Check</small>
+              <p-sortIcon field="folioReporte"></p-sortIcon>
+            </th>
+            <th scope="col" style="width: 3%">
+              <small> Opciones </small>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr
+            class="bg-cyan"
+            *ngIf="rowGroupMetadata[item.responsibleArea].index === rowIndex"
+          >
+            <td colspan="12">
+              <h4 class="p-text-light p-ml-2">{{ item.responsibleArea }}</h4>
+            </td>
+          </tr>
+          <tr>
+            <!-- Img User -->
+            <td>
+              <img
+                (click)="onUserCard(item.userId)"
+                [src]="url + item.user"
+                alt="."
+                width="32"
+                class="img-circle"
+                style="cursor: pointer"
+              />
+            </td>
+            <!-- Img User -->
+            <td class="text-center">
+              <img
+                [src]="this.base_urlImg + item.photoPathBefore"
+                alt="noImg"
+                width="100"
+                class="p-shadow-4 mb-1"
+              />
+              <img
+                *ngIf="item.photoPathAfter"
+                [src]="this.base_urlImg + item.photoPathAfter"
+                alt="noImg"
+                width="100"
+                class="p-shadow-4"
+              />
+              <img
+                *ngIf="!item.photoPathAfter"
+                src="assets/img/noImg.jpg"
+                alt="noImg"
+                width="100"
+                class="p-shadow-4"
+              />
+            </td>
+            <td class="text-justify">
+              <small>
+                {{ item.activity }}
+              </small>
+              <hr />
+              <small>
+                {{ item.observations }}
+              </small>
+            </td>
+
+            <td class="text-center">
+              <i
+                class="fas fa-2x"
+                [ngClass]="{
+                  'text-danger fa-arrow-alt-circle-up': item.priority === 0,
+                  'text-success  fa-arrow-alt-circle-down': item.priority === 1
+                }"
+              ></i>
+            </td>
+            <td class="text-center">
+              <i
+                class="fas fa-circle fa-2x text-warning"
+                [ngClass]="{
+                  'text-danger': item.status === 0,
+                  'text-success': item.status === 1,
+                  'text-black': item.status === 2,
+                  'text-warning': item.status === 3
+                }"
+              ></i>
+            </td>
+            <td class="text-center">
+              <img
+                *ngIf="item.responsableId"
+                (click)="onUserCard(item.responsableId)"
+                [src]="url + item.responsablePhoto"
+                alt="."
+                width="32"
+                style="cursor: pointer"
+                class="img-circle"
+              />
+              <br />
+            </td>
+            <td>
+              <small>
+                {{ item.dateRequest | date: "fullDate" }},
+                {{ item.dateRequest | date: "shortTime" }} </small
+              ><br />
+            </td>
+            <td>
+              <small>
+                <i class="text-danger mr-1 fas fa-hourglass-start"></i
+                >{{ item.fechaProgamacion | date: "fullDate" }},
+                {{ item.fechaProgamacion | date: "shortTime" }}
+              </small>
+              <hr />
+              <small>
+                <i class="text-success mr-1 fas fa-hourglass"></i
+                >{{ item.fechaLimite | date: "fullDate" }},
+                {{ item.fechaLimite | date: "shortTime" }}
+              </small>
+            </td>
+            <td>
+              <small>
+                {{ item.dateFinished | date: "fullDate" }},
+                {{ item.dateFinished | date: "shortTime" }}
+              </small>
+            </td>
+
+            <td
+              *ngIf="SuperUsuario || Mantenimiento || Residente"
+              class="text-center"
+            >
+              <p-checkbox
+                [value]="item.folioReporte"
+                [binary]="true"
+                (onChange)="onMandarReporte(item)"
+                [(ngModel)]="item.folioReporte"
+              ></p-checkbox>
+            </td>
+            <!-- Opciones -->
+            <td>
+              <div class="d-flex justify-content-center">
+                <app-button-edit
+                  *ngIf="onValidateOptionEdit(item.responsableId)"
+                  (edit)="
+                    showModalAddOrEdit({
+                      id: item.id,
+                      title: 'Editar Registro'
+                    })
+                  "
+                ></app-button-edit>
+                <app-button-delete
+                  *ngIf="SuperUsuario || Mantenimiento || Residente"
+                  (OnConfirm)="onDelete(item)"
+                  [nameItem]="item.name"
+                ></app-button-delete>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+          <app-table-footer [data]="data"></app-table-footer>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

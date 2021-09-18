@@ -1,0 +1,80 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<p-dataView
+  #dv
+  [value]="data"
+  [paginator]="true"
+  [rows]="30"
+  [rowsPerPageOptions]="[30, 40, 50, 75, 100]"
+  filterBy="nombreCuadrante"
+>
+  <ng-template pTemplate="header">
+    <div class="alert alert-info" role="alert">
+      <div class="row">
+        <div class="col-sm-8">
+          <h4 class="alert-heading h4">Listado de Cuadrantes</h4>
+        </div>
+        <div class="col-sm-3 p-fluid">
+          <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+            <i class="pi pi-search"></i>
+            <input
+              type="search"
+              pInputText
+              placeholder="Buscar por nombre de cuadrante"
+              (input)="dv.filter($event.target.value)"
+              class="p-inputtext-sm"
+            />
+          </span>
+        </div>
+        <div class="col-sm-1 p-fluid">
+          <p-button
+            label="Nuevo"
+            icon="fas fa-plus"
+            styleClass="p-button-sm"
+            type="button"
+            (click)="modalAddEdit({ id: 0, title: 'Nuevo Registro' })"
+          >
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template let-item pTemplate="listItem">
+    <div class="p-col-12 p-md-3">
+      <div class="product-grid-item card">
+        <div
+          class="product-grid-item-top text-center pointer"
+          [routerLink]="['/maintenance/indexBitacoraCuadrantre/', item.id]"
+        >
+          <div class="alert alert-default-warning">
+            {{ item.nombreCuadrante }}
+          </div>
+        </div>
+
+        <div
+          class="product-grid-item-bottom"
+          *ngIf="authService.isMantenimiento"
+        >
+          <div class="d-flex justify-content-center">
+            <app-button-edit
+              (edit)="modalAddEdit({ id: item.id, title: 'Editar Registro' })"
+            ></app-button-edit>
+            <app-button-delete
+              (OnConfirm)="onDelete(item)"
+              [nameItem]="item.shortName"
+            ></app-button-delete>
+            <p-button
+              (click)="modalAddEditEquipos(item)"
+              pTooltip="Agregar equipos"
+              tooltipPosition="left"
+              styleClass="p-button-sm text-white-50 ml-1 p-button-info"
+              icon="fas fa-tools"
+            >
+            </p-button>
+          </div>
+          <br />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dataView>

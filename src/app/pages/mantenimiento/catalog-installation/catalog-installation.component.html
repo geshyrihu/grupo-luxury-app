@@ -1,0 +1,98 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<div class="p-card p-mb-5">
+  <p-table
+    #dt
+    [(selection)]="data"
+    [autoLayout]="true"
+    [globalFilterFields]="['nameInstallation']"
+    [paginator]="true"
+    [responsive]="true"
+    [rowHover]="true"
+    [rows]="50"
+    [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100, 200]"
+    [showCurrentPageReport]="true"
+    [value]="data"
+    currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+    styleClass="p-datatable-gridlines p-datatable-sm p-datatable-striped"
+  >
+    <ng-template pTemplate="caption">
+      <app-table-header
+        [title]="'Catalogo de instalaciones'"
+        [showAdd]="isInRoleSuperUsuario"
+        (add)="onModalAddOrEdit({ id: 0, title: 'Nuevo Registro' })"
+        [dt]="dt"
+      ></app-table-header>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="width: 5%">#</th>
+        <th
+          colspan="2"
+          style="width: 90%"
+          scope="col"
+          pSortableColumn="nameInstallation"
+        >
+          Instalación <p-sortIcon field="nameInstallation"></p-sortIcon>
+        </th>
+
+        <th scope="col" style="width: 5%" *ngIf="isInRoleSuperUsuario">
+          Opciones
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+      <tr class="bg-lightblue">
+        <td>{{ i + 1 }}</td>
+        <td colspan="2" class="p-column-title">
+          {{ item.nameInstallation }}
+        </td>
+
+        <!-- Opciones -->
+        <td class="p-column-title" *ngIf="isInRoleSuperUsuario">
+          <div class="d-flex justify-content-center">
+            <p-button
+              pTooltip="Check List"
+              tooltipPosition="left"
+              styleClass="p-button-sm text-white-50 ml-1 p-button-primary"
+              icon="fas fa-plus"
+              (click)="onAddCheckList(item.id)"
+            >
+            </p-button>
+
+            <app-button-edit
+              (edit)="
+                onModalAddOrEdit({ id: item.id, title: 'Editar Registro' })
+              "
+            ></app-button-edit>
+            <app-button-delete (OnConfirm)="onDelete(item)"></app-button-delete>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngFor="let item2 of item.catalogCheckList" class="table-striped">
+        <td></td>
+        <td style="width: 25%">
+          {{ item2.category }}
+        </td>
+        <td style="width: 65%">
+          {{ item2.description }}
+        </td>
+        <td *ngIf="isInRoleSuperUsuario">
+          <div class="d-flex justify-content-center">
+            <app-button-delete
+              (OnConfirm)="onDeleteCheckList(item.id, item2.id)"
+            ></app-button-delete>
+          </div>
+        </td>
+      </tr>
+      <!-- Opciones -->
+    </ng-template>
+    <ng-template pTemplate="paginatorleft">
+      <app-table-footer [data]="data"></app-table-footer>
+    </ng-template>
+  </p-table>
+</div>
+<!-- Table PrimeNg -->

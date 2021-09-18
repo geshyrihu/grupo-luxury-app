@@ -1,0 +1,72 @@
+<div class="card">
+  <div class="card-body">
+    <form autocomplete="off" (submit)="onSubmit()" [formGroup]="form">
+      <div class="form-group row">
+        <label class="col-sm-3">Fecha Inicial</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control"
+            type="date"
+            formControlName="fechaInicial"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3">Fecha Final</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control"
+            type="date"
+            formControlName="fechaFinal"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3">Cuenta</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" formControlName="cuenta" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3">Dato de Pago</label>
+        <div class="col-sm-9">
+          <input class="form-control" type="text" formControlName="datoPago" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3">Entregado Por</label>
+        <div class="col-sm-9">
+          <input
+            class="form-control"
+            type="text"
+            formControlName="entregadoPor"
+          />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-3">Tipo de Gasto</label>
+        <div class="col-sm-9">
+          <select class="form-control" formControlName="tipoGastoSelect">
+            <option [value]="item.value" *ngFor="let item of tipoGasto">
+              {{ item.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+    </form>
+  </div>
+</div>
+<div class="p-d-flex">
+  <button
+    type="button"
+    pButton
+    pRipple
+    icon="pi pi-file-excel"
+    (click)="exportExcel()"
+    class="p-button-success p-mr-2"
+    pTooltip="XLS"
+    tooltipPosition="bottom"
+  ></button>
+</div>

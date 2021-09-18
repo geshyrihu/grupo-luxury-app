@@ -1,0 +1,43 @@
+<div class="card" (click)="fileInput.click()" [style]="{ cursor: 'pointer' }">
+  <div class="card-header">
+    <span> {{ title }}</span>
+  </div>
+  <div class="card-body">
+    <img
+      *ngIf="imgBase64"
+      [src]="imgBase64"
+      alt=""
+      [ngStyle]="{
+        width: contentWidth + 'px',
+        height: contentHeight + 'px'
+      }"
+    />
+
+    <img
+      *ngIf="!imgBase64 && urlImgCurrent === null"
+      [src]="noImg"
+      alt=""
+      [ngStyle]="{
+        width: contentWidth + 'px',
+        height: contentHeight + 'px'
+      }"
+    />
+    <img
+      *ngIf="!imgBase64"
+      [src]="urlImgCurrent"
+      alt=""
+      [ngStyle]="{
+        width: contentWidth + 'px',
+        height: contentHeight + 'px'
+      }"
+    />
+  </div>
+</div>
+
+<input
+  type="file"
+  hidden
+  #fileInput
+  (change)="change($event)"
+  accept="image/png, .jpeg, .jpg"
+/>

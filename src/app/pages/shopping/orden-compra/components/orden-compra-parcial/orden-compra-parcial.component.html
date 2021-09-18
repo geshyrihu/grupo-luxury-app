@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="card-body">
+    <div class="p-fluid">
+      <button
+        [disabled]="bloqueada"
+        (click)="onModalOrdenCompra()"
+        pButton
+        pRipple
+        type="button "
+        label="Datos Cotización"
+        class="p-button-info p-button-sm mb-2"
+      ></button>
+    </div>
+    <table class="table table-sm">
+      <tbody>
+        <tr>
+          <td class="font-weight-light" style="width: 40%">
+            <small> Folio </small>
+          </td>
+          <td class="small font-weight-light" style="width: 60%">
+            {{ ordenCompra.folio }}
+          </td>
+        </tr>
+
+        <tr *ngIf="ordenCompra.folioSolicitudCompra">
+          <td class="font-weight-light" style="width: 40%">
+            <small> Solicitud Compra</small>
+          </td>
+          <td class="font-weight-light" style="width: 60%" class="pointer">
+            <small>
+              <a
+                [routerLink]="['/shopping/solicitudCompra/', solicitudCompraId]"
+              >
+                {{ ordenCompra.folioSolicitudCompra }}
+              </a>
+            </small>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="small font-weight-light" style="width: 40%">
+            Fecha de Solicitud
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.fechaSolicitud | date }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light" style="width: 40%">
+            Equipo o instalación
+          </td>
+          <td class="small font-weight-light" style="width: 70%">
+            {{ ordenCompra.equipoOInstalacion }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light text-justify" style="width: 40%">
+            Justificación del gasto
+          </td>
+          <td class="small font-weight-light text-justify" style="width: 70%">
+            {{ ordenCompra.justificacionGasto }}
+          </td>
+        </tr>
+        <tr>
+          <td class="small font-weight-light" style="width: 40%">Archivos</td>
+          <td class="small font-weight-light" style="width: 60%">
+            <a
+              [href]="ordenCompra.urlFile"
+              target="_blank"
+              *ngIf="ordenCompra.urlFile"
+              class="pointer"
+            >
+              <i class="text-dark fas fa-cloud"></i>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

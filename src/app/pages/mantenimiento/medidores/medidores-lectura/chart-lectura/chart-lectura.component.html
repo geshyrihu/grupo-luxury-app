@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="p-field col-sm-6 m-2">
+    <label for="monthpicker">Buscar por meses</label>
+    <br />
+    <p-calendar
+      [(ngModel)]="firstMonth"
+      view="month"
+      dateFormat="mm/yy"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      [readonlyInput]="true"
+      placeholder="Mes inicial"
+    ></p-calendar>
+    <p-calendar
+      [(ngModel)]="secondMonth"
+      view="month"
+      dateFormat="mm/yy"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      [readonlyInput]="true"
+      placeholder="Mes final"
+    ></p-calendar>
+    <p-button
+      label="Buscar"
+      [disabled]="!firstMonth || !secondMonth"
+      (onClick)="buscarPorMes()"
+    >
+    </p-button>
+  </div>
+  <div class="p-field col-sm-6 m-2">
+    <label for="monthpicker">Buscar por dias</label>
+    <br />
+    <p-calendar
+      [(ngModel)]="fechaInicial"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      [readonlyInput]="true"
+      r
+      placeholder="Fecha inicial"
+    ></p-calendar>
+    <p-calendar
+      [(ngModel)]="fechaFinal"
+      [yearNavigator]="true"
+      yearRange="2000:2030"
+      [readonlyInput]="true"
+      placeholder="Fecha final"
+    ></p-calendar>
+    <p-button
+      label="Buscar"
+      [disabled]="!fechaInicial || !fechaFinal"
+      (onClick)="onLoadData()"
+    >
+    </p-button>
+  </div>
+</div>
+<br />
+<!-- <div class="card">
+  <p-chart
+    type="bar"
+    [data]="data"
+    [options]="options"
+    [responsive]="true"
+  ></p-chart>
+</div> -->
+
+<div class="card card-success">
+  <div class="card-body">
+    <div class="chart">
+      <div class="chartjs-size-monitor">
+        <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+        <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+      </div>
+      <canvas
+        id="barChart"
+        style="
+          min-height: 250px;
+          height: 250px;
+          max-height: 250px;
+          max-width: 100%;
+          display: block;
+          width: 521px;
+        "
+        width="521"
+        height="250"
+        class="chartjs-render-monitor"
+      ></canvas>
+    </div>
+  </div>
+  <!-- /.card-body -->
+</div>

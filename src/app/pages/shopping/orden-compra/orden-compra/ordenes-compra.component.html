@@ -1,0 +1,183 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<!-- Table PrimeNg -->
+<p-table
+  [(selection)]="data"
+  #dt
+  [responsive]="true"
+  styleClass="p-datatable-gridlines p-datatable-sm"
+  [value]="data"
+  [rows]="30"
+  [paginator]="true"
+  [rowHover]="true"
+  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30, 40, 50, 75, 100]"
+  [globalFilterFields]="[
+    'fechaSolicitud',
+    'folio',
+    'proveedor',
+    'equipoOInstalacion',
+    'justificacionGasto',
+    'revisadoPorResidente'
+  ]"
+  [autoLayout]="true"
+>
+  <ng-template pTemplate="caption">
+    <app-table-header
+      [title]="'Ordenes de Compra'"
+      (add)="onModalAdd()"
+      [dt]="dt"
+      [rolAuth]="Asistente || Mantenimiento || Residente || SuperUsuario"
+    ></app-table-header>
+    <div class="row">
+      <div class="col text-left">
+        <button
+          *ngIf="Asistente || Residente"
+          (click)="onModalCaratula()"
+          pButton
+          pRipple
+          label="Caratula"
+          icon="pi pi-book"
+          class="p-button-sm p-button-warning p-mx-1"
+        ></button>
+      </div>
+      <div class="col text-right">
+        <button
+          (click)="selectStatus(1)"
+          pButton
+          pRipple
+          label="Denegadas"
+          icon="pi pi-times"
+          [class.p-button-outlined]="statusCompra == 1"
+          class="p-button-sm p-button-secondary p-mx-1"
+        ></button>
+
+        <button
+          (click)="selectStatus(0)"
+          pButton
+          pRipple
+          label="Autorizadas"
+          icon="pi pi-check"
+          [class.p-button-outlined]="statusCompra == 0"
+          class="p-button-sm p-button-success p-mx-1"
+        ></button>
+
+        <button
+          (click)="selectStatus(2)"
+          pButton
+          pRipple
+          icon="pi pi-bookmark"
+          label="Pendientes"
+          [class.p-button-outlined]="statusCompra == 2"
+          class="p-button-sm p-button-danger p-ml-1"
+        ></button>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col" style="width: 7%" pSortableColumn="folio">
+        <small>Folio</small>
+        <p-sortIcon field="folio"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 7%" pSortableColumn="fechaSolicitud">
+        <small>Solicitud </small>
+        <p-sortIcon field="fechaSolicitud"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 20%" pSortableColumn="equipoOInstalacion">
+        <small> Área, equipo o instalación </small>
+        <p-sortIcon field="equipoOInstalacion"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 20%" pSortableColumn="justificacionGasto">
+        <small> Justificación </small>
+        <p-sortIcon field="justificacionGasto"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 15%" pSortableColumn="proveedor">
+        <small> Proveedor </small>
+        <p-sortIcon field="proveedor"></p-sortIcon>
+      </th>
+      <th
+        scope="col"
+        style="width: 15%"
+        pSortableColumn="ordenCompraAuth.observaciones"
+        *ngIf="statusCompra === 1"
+      >
+        <small>Observaciones</small>
+        <p-sortIcon field="ordenCompraAuth.observaciones"></p-sortIcon>
+      </th>
+
+      <th
+        scope="col"
+        style="width: 15%"
+        *ngIf="this.statusCompra === 0"
+        pSortableColumn="ordenCompraAuth.fullName"
+      >
+        <small> Autoriza </small>
+        <p-sortIcon field="ordenCompraAuth.fullName"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 15%" pSortableColumn="revisadoPorResidente">
+        <small> Revisada por </small>
+        <p-sortIcon field="revisadoPorResidente"></p-sortIcon>
+      </th>
+      <th scope="col" style="width: 5%" class="text-small">
+        <small> Opciones </small>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td>
+        <small> {{ item.folio }} </small>
+      </td>
+      <td>
+        <small>{{ item.fechaSolicitud | date }}</small>
+      </td>
+      <td>
+        <small>{{ item.equipoOInstalacion }}</small>
+      </td>
+      <td>
+        <small>{{ item.justificacionGasto }}</small>
+      </td>
+      <td>
+        <small>{{ item.proveedor }}</small>
+      </td>
+      <td *ngIf="statusCompra === 1">
+        <small>{{ item.observaciones }}</small>
+      </td>
+
+      <td *ngIf="this.statusCompra === 0">
+        <small> {{ item.fullName }} </small><br />
+        <small>
+          {{ item.fechaAutorizacion | date: "short" }}
+        </small>
+      </td>
+
+      <td>
+        <small>
+          {{ item.revisadoPorResidente }}
+        </small>
+      </td>
+
+      <td class="p-column-title">
+        <div class="d-flex justify-content-center">
+          <app-button-edit
+            *ngIf="Asistente || Mantenimiento || Residente"
+            (edit)="onAddOrEdit(item.id)"
+          ></app-button-edit>
+          <app-button-delete
+            *ngIf="statusCompra === 2 && SuperUsuario"
+            (OnConfirm)="onDelete(item)"
+            [nameItem]="item.name"
+          ></app-button-delete>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="paginatorleft">
+    <app-table-footer [data]="data"></app-table-footer>
+  </ng-template>
+</p-table>
+<!-- Table PrimeNg -->

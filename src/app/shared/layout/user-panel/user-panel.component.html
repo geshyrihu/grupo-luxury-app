@@ -1,0 +1,44 @@
+<p-toast position="top-left" baseZIndex="99999"></p-toast>
+
+<div
+  class="user-panel mt-3 pb-3 mb-3 d-flex"
+  *ngIf="dataInfo.lastName.length !== 0"
+>
+  <div class="image">
+    <img
+      [src]="dataInfo.photoPath"
+      class="img-circle elevation-2"
+      alt="User Image"
+    />
+  </div>
+  <div class="info">
+    <a (click)="ShowModal()" class="d-block">
+      {{ dataInfo.firstName + " " + dataInfo.lastName | slice: 0:20
+      }}{{
+        [dataInfo.firstName.length + dataInfo.lastName.length] > 20 ? "..." : ""
+      }}
+    </a>
+  </div>
+</div>
+<div
+  class="user-panel mt-3 pb-3 mb-3 d-flex"
+  *ngIf="dataInfo.lastName.length === 0"
+>
+  <div class="image"></div>
+  <div class="info">
+    <a (click)="ShowModal()" class="d-block">
+      <i class="far fa-id-card"></i>
+      Editar mi Perfil
+    </a>
+  </div>
+</div>
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+  <div class="info">
+    <small class="text-white-50 small"
+      ><span class="fas fa-user-tie"></span> {{ dataInfo.profession }}</small
+    ><br />
+    <small class="text-white-50 small"
+      ><span class="far fa-building"></span> {{ dataInfo.customer }}</small
+    >
+  </div>
+</div>

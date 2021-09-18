@@ -1,0 +1,357 @@
+<form autocomplete="off" [formGroup]="form" (submit)="submit()">
+  <h6><strong>Datos Personales</strong></h6>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Nombre</label>
+          <input
+            pInputText
+            [class.p-invalid]="name.invalid && (name.dirty || name.touched)"
+            formControlName="name"
+            class="p-inputtext-sm"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Apellidos</label>
+          <input
+            pInputText
+            formControlName="lastName"
+            [class.p-invalid]="
+              lastName.invalid && (lastName.dirty || lastName.touched)
+            "
+            class="p-inputtext-sm"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Sexo</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_Sex"
+            formControlName="sex"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="sex.invalid && (sex.dirty || sex.touched)"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Cumpleaños</label>
+          <input
+            type="date"
+            pInputText
+            formControlName="birth"
+            class="p-inputtext-sm"
+            [class.p-invalid]="birth.invalid && (birth.dirty || birth.touched)"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Curp</label>
+          <p-inputMask
+            mask="****-******-*-**-***-**"
+            formControlName="curp"
+            type="text"
+            class="p-inputtext-sm"
+            [class.p-invalid]="curp.invalid && (curp.dirty || curp.touched)"
+            placeholder="MAER-860618-H-MC-RSC-08"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">RFC</label>
+          <p-inputMask
+            mask="****-******-***"
+            formControlName="rfc"
+            type="text"
+            class="p-inputtext-sm"
+            [class.p-invalid]="rfc.invalid && (rfc.dirty || rfc.touched)"
+            placeholder="JUMM-420313-PA9"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">NSS</label>
+          <p-inputMask
+            mask="99999999999"
+            formControlName="nss"
+            type="text"
+            class="p-inputtext-sm"
+            [class.p-invalid]="nss.invalid && (nss.dirty || nss.touched)"
+            placeholder="72795608040"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Tipo de Sangre</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_BloodType"
+            formControlName="bloodType"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              bloodType.invalid && (bloodType.dirty || bloodType.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-filed">
+          <label class="font-weight-normal">Télefono local</label>
+          <p-inputMask
+            mask="99-9999-9999"
+            formControlName="localPhone"
+            type="text"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              localPhone.invalid && (localPhone.dirty || localPhone.touched)
+            "
+            placeholder="99-999-9999"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-filed">
+          <label class="font-weight-normal">Celular</label>
+          <p-inputMask
+            mask="99-9999-9999"
+            formControlName="cellPhone"
+            type="text"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              cellPhone.invalid && (cellPhone.dirty || cellPhone.touched)
+            "
+            placeholder="99-9999-9999"
+          ></p-inputMask>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Estado civil</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_MaritalStatus"
+            formControlName="maritalStatus"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              maritalStatus.invalid &&
+              (maritalStatus.dirty || maritalStatus.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Nacionalidad</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_Nationality"
+            formControlName="nationality"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              nationality.invalid && (nationality.dirty || nationality.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Dirección</label>
+
+          <textarea
+            rows="3"
+            cols="30"
+            pInputTextarea
+            formControlName="address"
+            autoResize="autoResize"
+            class="p-inputtext-sm text-justify"
+            [class.p-invalid]="
+              address.invalid && (address.dirty || address.touched)
+            "
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Nivel Educativo</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_EducationLevel"
+            formControlName="educationLevel"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              educationLevel.invalid &&
+              (educationLevel.dirty || educationLevel.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Seleccionar foto</label>
+
+          <app-input-img
+            (fileSelected)="uploadFile($event)"
+            [urlImgCurrent]="urlBaseImg + model?.photoPath"
+          ></app-input-img>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h6><strong>Datos Laborales</strong></h6>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Tipo de Contrato</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_TypeContract"
+            formControlName="typeContract"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              typeContract.invalid &&
+              (typeContract.dirty || typeContract.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Fecha de Ingreso</label>
+          <input
+            type="date"
+            pInputText
+            formControlName="dateAdmission"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              dateAdmission.invalid &&
+              (dateAdmission.dirty || dateAdmission.touched)
+            "
+          />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Área</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_Area"
+            formControlName="area"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="area.invalid && (area.dirty || area.touched)"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Profesión</label>
+          <p-dropdown
+            placeholder="--Seleciona una opción--"
+            [options]="cb_Profession"
+            formControlName="professionId"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+            [class.p-invalid]="
+              professionId.invalid &&
+              (professionId.dirty || professionId.touched)
+            "
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Salario</label>
+          <p-inputNumber
+            formControlName="salary"
+            inputId="currency-es"
+            mode="currency"
+            currency="MXN"
+            locale="en-ES"
+            class="p-inputtext-sm"
+          >
+          </p-inputNumber>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label class="font-weight-normal">Activo</label>
+          <p-dropdown
+            [options]="cb_Boolean"
+            formControlName="active"
+            optionLabel="label"
+            optionValue="value"
+            class="p-inputtext-sm"
+          ></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-button-submit [disabled]="this.form.invalid"></app-button-submit>
+</form>
